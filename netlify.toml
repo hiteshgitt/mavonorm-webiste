@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next.js 16 requires Node 20.9+
+  NODE_VERSION = "22"
+
+# Serves the App Router (SSG pages, image optimization, next.config redirects)
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Fallback for the locale root redirect handled in next.config.ts, so "/"
+# always lands on the default Polish site even at the CDN edge.
+[[redirects]]
+  from = "/"
+  to = "/pl"
+  status = 302
