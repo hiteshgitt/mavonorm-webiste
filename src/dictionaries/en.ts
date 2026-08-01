@@ -289,12 +289,13 @@ export const en: typeof pl = {
     },
     details: {
       heading: "Contact details",
-      email: "hello@mavonorm.eu",
-      phone: "+48 61 000 00 00",
-      address: ["mavoNORM Sp. z o.o.", "ul. Produkcyjna 12", "62-080 Tarnowo Podgórne", "Poland"],
+      email: "lena@mavonorm.pl",
+      phone: "(+48) 504 315 440",
+      fax: "(+48) 61 642 72 19",
+      address: ["mavoNORM Sp. z o.o.", "ul. Rolna 16", "62-021 Paczkowo near Poznań", "Poland"],
       hours: "Mon–Fri, 8:00–17:00 CET",
     },
-    map: { label: "Production facility — Tarnowo Podgórne near Poznań, Poland" },
+    map: { label: "Production facility — Paczkowo near Poznań, Poland" },
     quickCta: { heading: "Need a quick quote?", body: "Send floor plans or a brief to", button: "Write to us" },
   },
   legal: {
@@ -302,11 +303,11 @@ export const en: typeof pl = {
     sections: [
       {
         title: "Privacy Policy",
-        body: "The controller of personal data submitted through forms on this website is mavoNORM Sp. z o.o., registered in Tarnowo Podgórne, Poland. We process data solely to handle enquiries and perform contracts. We do not sell data and do not share it with third parties other than trusted IT service providers.",
+        body: "The controller of personal data submitted through forms on this website is mavoNORM Sp. z o.o., registered in Paczkowo near Poznań, Poland. We process data solely to handle enquiries and perform contracts. We do not sell data and do not share it with third parties other than trusted IT service providers.",
       },
       {
         title: "GDPR",
-        body: "Under Regulation (EU) 2016/679 (GDPR) you have the right to access, rectify, erase, restrict processing and port your data. Requests should be sent to privacy@mavonorm.eu. We retain data only as long as necessary for the purposes it was collected for, and no longer than required by law.",
+        body: "Under Regulation (EU) 2016/679 (GDPR) you have the right to access, rectify, erase, restrict processing and port your data. Requests should be sent to lena@mavonorm.pl. We retain data only as long as necessary for the purposes it was collected for, and no longer than required by law.",
       },
       {
         title: "Cookie Policy",
@@ -318,7 +319,7 @@ export const en: typeof pl = {
       },
       {
         title: "Legal Notice",
-        body: "mavoNORM Sp. z o.o., ul. Produkcyjna 12, 62-080 Tarnowo Podgórne, Poland. KRS 0000000000, VAT ID PL000-000-00-00, REGON 000000000. Share capital: PLN 200,000.",
+        body: "mavoNORM Sp. z o.o., ul. Rolna 16, 62-021 Paczkowo near Poznań, Poland. KRS 0000000000, VAT ID PL000-000-00-00, REGON 000000000. Share capital: PLN 200,000.",
       },
     ],
   },

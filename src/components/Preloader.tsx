@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import Logo from "./Logo";
 
 export default function Preloader() {
   const [show, setShow] = useState(false);
@@ -56,8 +57,8 @@ export default function Preloader() {
   return (
     <div ref={rootRef} className="preloader" aria-hidden>
       <div className="flex flex-col items-center gap-6">
-        <div className="pre-mark h-display text-3xl md:text-4xl">
-          mavo<span className="text-copper">NORM</span>
+        <div className="pre-mark">
+          <Logo className="h-8 w-auto text-paper md:h-10" />
         </div>
         <div className="pre-num idx text-sm text-muted-dark tracking-[0.3em]">000</div>
       </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Dictionary, Locale } from "@/lib/i18n";
 import MagneticButton from "./MagneticButton";
+import Logo from "./Logo";
 
 export default function Header({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const pathname = usePathname();
@@ -61,10 +62,10 @@ export default function Header({ lang, dict }: { lang: Locale; dict: Dictionary 
         >
           <Link
             href={`/${lang}`}
-            className={`h-display mr-2 text-lg leading-none ${open ? "text-paper" : "text-ink"}`}
+            className={`mr-3 block ${open ? "text-paper" : "text-ink"}`}
             aria-label="mavoNORM"
           >
-            mavo<span className="text-copper">NORM</span>
+            <Logo className="h-5 w-auto" />
           </Link>
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
@@ -141,7 +142,10 @@ export default function Header({ lang, dict }: { lang: Locale; dict: Dictionary 
             </Link>
           ))}
         </nav>
-        <div className="mt-12 text-sm text-muted-dark">hello@mavonorm.eu</div>
+        <div className="mt-12 space-y-1 text-sm text-muted-dark">
+          <a href={`mailto:${dict.contact.details.email}`}>{dict.contact.details.email}</a>
+          <div>{dict.contact.details.phone}</div>
+        </div>
       </div>
     </>
   );

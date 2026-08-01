@@ -42,7 +42,13 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
               <a href={`mailto:${c.details.email}`} className="link-line mt-4 inline-block font-(family-name:--font-display) text-2xl">
                 {c.details.email}
               </a>
-              <div className="mt-2 font-(family-name:--font-display) text-xl text-muted">{c.details.phone}</div>
+              <a
+                href={`tel:${c.details.phone.replace(/[^+\d]/g, "")}`}
+                className="link-line mt-2 block font-(family-name:--font-display) text-xl text-muted"
+              >
+                {c.details.phone}
+              </a>
+              <div className="mt-1 font-(family-name:--font-display) text-sm text-muted">FAX {c.details.fax}</div>
               <address className="mt-6 space-y-1 text-sm not-italic leading-relaxed text-muted">
                 {c.details.address.map((l) => (
                   <div key={l}>{l}</div>

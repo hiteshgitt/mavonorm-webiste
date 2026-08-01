@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Dictionary, Locale } from "@/lib/i18n";
+import Logo from "./Logo";
 
 export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const year = new Date().getFullYear();
@@ -15,10 +16,8 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
     <footer className="dark-section relative overflow-hidden">
       <div className="mx-auto max-w-350 px-6 py-20 md:px-10">
         <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <div className="h-display text-3xl">
-              mavo<span className="text-copper">NORM</span>
-            </div>
+          <div className="md:col-span-4">
+            <Logo className="h-9 w-auto text-paper" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-dark">{dict.footer.tagline}</p>
             <a
               href={`mailto:${dict.contact.details.email}`}
@@ -41,13 +40,18 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
             </ul>
           </div>
 
-          <div className="md:col-span-2">
+          <div className="md:col-span-3">
             <div className="h-eyebrow text-muted-dark">{dict.footer.officeLabel}</div>
+            {/* the logo above already carries the company name — street onwards only */}
             <address className="mt-5 space-y-1 text-sm not-italic leading-relaxed">
-              {dict.contact.details.address.map((l) => (
+              {dict.contact.details.address.slice(1).map((l) => (
                 <div key={l}>{l}</div>
               ))}
-              <div className="pt-2 text-muted-dark">{dict.contact.details.phone}</div>
+              <div className="whitespace-nowrap pt-2 text-muted-dark">{dict.contact.details.phone}</div>
+              <div className="whitespace-nowrap text-muted-dark">FAX {dict.contact.details.fax}</div>
+              <a href={`mailto:${dict.contact.details.email}`} className="link-line inline-block pt-2">
+                {dict.contact.details.email}
+              </a>
             </address>
           </div>
 

@@ -287,12 +287,13 @@ export const pl = {
     },
     details: {
       heading: "Dane kontaktowe",
-      email: "hello@mavonorm.eu",
-      phone: "+48 61 000 00 00",
-      address: ["mavoNORM Sp. z o.o.", "ul. Produkcyjna 12", "62-080 Tarnowo Podgórne", "Polska"],
+      email: "lena@mavonorm.pl",
+      phone: "(+48) 504 315 440",
+      fax: "(+48) 61 642 72 19",
+      address: ["mavoNORM Sp. z o.o.", "ul. Rolna 16", "62-021 Paczkowo k. Poznania", "Polska"],
       hours: "Pon–Pt, 8:00–17:00 CET",
     },
-    map: { label: "Zakład produkcyjny — Tarnowo Podgórne k. Poznania" },
+    map: { label: "Zakład produkcyjny — Paczkowo k. Poznania" },
     quickCta: { heading: "Potrzebujesz szybkiej wyceny?", body: "Wyślij rzuty lub brief na", button: "Napisz do nas" },
   },
   legal: {
@@ -304,7 +305,7 @@ export const pl = {
       },
       {
         title: "RODO",
-        body: "Zgodnie z Rozporządzeniem (UE) 2016/679 (RODO) przysługuje Ci prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania oraz przenoszenia. Wnioski prosimy kierować na adres privacy@mavonorm.eu. Dane przechowujemy przez okres niezbędny do realizacji celów, dla których zostały zebrane, nie dłużej niż wymagają tego przepisy prawa.",
+        body: "Zgodnie z Rozporządzeniem (UE) 2016/679 (RODO) przysługuje Ci prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania oraz przenoszenia. Wnioski prosimy kierować na adres lena@mavonorm.pl. Dane przechowujemy przez okres niezbędny do realizacji celów, dla których zostały zebrane, nie dłużej niż wymagają tego przepisy prawa.",
       },
       {
         title: "Polityka cookies",
@@ -316,7 +317,7 @@ export const pl = {
       },
       {
         title: "Nota prawna",
-        body: "mavoNORM Sp. z o.o., ul. Produkcyjna 12, 62-080 Tarnowo Podgórne, Polska. KRS 0000000000, NIP 000-000-00-00, REGON 000000000. Kapitał zakładowy: 200 000 PLN.",
+        body: "mavoNORM Sp. z o.o., ul. Rolna 16, 62-021 Paczkowo k. Poznania, Polska. KRS 0000000000, NIP 000-000-00-00, REGON 000000000. Kapitał zakładowy: 200 000 PLN.",
       },
     ],
   },

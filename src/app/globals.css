@@ -299,26 +299,28 @@ img.duotone {
 
 .glass-nav {
   position: relative;
+  /* opaque white so the ink nav stays legible over any hero imagery;
+     the gradient keeps the liquid-glass sheen without costing contrast */
   background: linear-gradient(
     120deg,
-    rgba(255, 255, 255, 0.52),
-    rgba(255, 255, 255, 0.22) 45%,
-    rgba(255, 255, 255, 0.4)
+    rgba(255, 255, 255, 1),
+    rgba(252, 252, 251, 0.97) 45%,
+    rgba(255, 255, 255, 1)
   );
   -webkit-backdrop-filter: blur(20px) saturate(1.7);
   backdrop-filter: blur(20px) saturate(1.7);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
-    0 10px 40px rgba(20, 21, 23, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.65),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    0 10px 40px rgba(20, 21, 23, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(20, 21, 23, 0.05);
   transition: background 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
 }
 /* scrolled: settle into the solid paper tone */
 .glass-nav.is-solid {
-  background: rgba(244, 244, 242, 0.92);
+  background: rgba(255, 255, 255, 1);
   border-color: var(--color-line);
-  box-shadow: 0 12px 32px rgba(20, 21, 23, 0.1);
+  box-shadow: 0 12px 32px rgba(20, 21, 23, 0.12);
 }
 /* mobile overlay open: pill dissolves, leaving logo + controls on the dark menu */
 .glass-nav.is-ghost {
