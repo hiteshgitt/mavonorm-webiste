@@ -5,6 +5,7 @@ import { siteImage } from "@/lib/images";
 import { featuredProjects } from "@/lib/projects";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import SectorsList from "@/components/SectorsList";
+import ServicesFlow from "@/components/ServicesFlow";
 import RevealHeading from "@/components/RevealHeading";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import Testimonials from "@/components/Testimonials";
@@ -82,41 +83,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </div>
       </section>
 
-      {/* ---------- SERVICES OVERVIEW ---------- */}
-      <section className="border-t border-line bg-grey py-24 md:py-32">
-        <div className="mx-auto max-w-350 px-6 md:px-10">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div data-reveal-group>
-              <p className="h-eyebrow text-blue">{h.services.eyebrow}</p>
-              <RevealHeading className="mt-4 text-4xl md:text-6xl" lines={splitTwo(h.services.heading)} />
-            </div>
-            <Link href={`/${locale}/services`} className="link-line h-eyebrow !tracking-[0.18em]" data-reveal>
-              {h.services.link} →
-            </Link>
-          </div>
-
-          <div className="mt-16 grid border-t border-line md:grid-cols-2 lg:grid-cols-3">
-            {dict.servicesList.slice(0, 6).map((s, i) => (
-              <Link
-                key={s.slug}
-                href={`/${locale}/services#${s.slug}`}
-                className="group border-b border-line p-8 transition-colors hover:bg-ink hover:text-paper md:border-r md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
-                data-reveal
-                data-delay={`${(i % 3) * 0.1}`}
-              >
-                <div className="idx text-xs text-copper">{String(i + 1).padStart(2, "0")}</div>
-                <h3 className="h-display mt-6 text-2xl">{s.title}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-muted transition-colors group-hover:text-muted-dark">
-                  {s.short}
-                </p>
-                <span className="mt-6 inline-block text-copper opacity-0 transition-opacity group-hover:opacity-100" aria-hidden>
-                  →
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ---------- SERVICES OVERVIEW (stacked story scroll) ---------- */}
+      <ServicesFlow lang={locale} dict={dict} />
 
       {/* ---------- FEATURED PROJECTS ---------- */}
       <section className="overflow-hidden py-24 md:py-32">
