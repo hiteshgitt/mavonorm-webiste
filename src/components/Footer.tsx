@@ -42,9 +42,8 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
 
           <div className="md:col-span-3">
             <div className="h-eyebrow text-muted-dark">{dict.footer.officeLabel}</div>
-            {/* the logo above already carries the company name — street onwards only */}
             <address className="mt-5 space-y-1 text-sm not-italic leading-relaxed">
-              {dict.contact.details.address.slice(1).map((l) => (
+              {dict.contact.details.address.map((l) => (
                 <div key={l}>{l}</div>
               ))}
               <div className="whitespace-nowrap pt-2 text-muted-dark">{dict.contact.details.phone}</div>

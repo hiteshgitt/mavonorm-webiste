@@ -290,7 +290,7 @@ export const pl = {
       email: "lena@mavonorm.pl",
       phone: "(+48) 504 315 440",
       fax: "(+48) 61 642 72 19",
-      address: ["mavoNORM Sp. z o.o.", "ul. Rolna 16", "62-021 Paczkowo k. Poznania", "Polska"],
+      address: ["ul. Rolna 16", "62-021 Paczkowo k. Poznania", "Polska"],
       hours: "Pon–Pt, 8:00–17:00 CET",
     },
     map: { label: "Zakład produkcyjny — Paczkowo k. Poznania" },
@@ -301,7 +301,7 @@ export const pl = {
     sections: [
       {
         title: "Polityka prywatności",
-        body: "Administratorem danych osobowych przekazywanych za pośrednictwem formularzy na tej stronie jest mavoNORM Sp. z o.o. z siedzibą w Tarnowie Podgórnym. Dane przetwarzamy wyłącznie w celu obsługi zapytań ofertowych i realizacji umów. Nie sprzedajemy danych i nie przekazujemy ich podmiotom trzecim poza zaufanymi podwykonawcami usług IT.",
+        body: "Administratorem danych osobowych przekazywanych za pośrednictwem formularzy na tej stronie jest mavoNORM Sp. z o.o. z siedzibą w Paczkowie k. Poznania. Dane przetwarzamy wyłącznie w celu obsługi zapytań ofertowych i realizacji umów. Nie sprzedajemy danych i nie przekazujemy ich podmiotom trzecim poza zaufanymi podwykonawcami usług IT.",
       },
       {
         title: "RODO",

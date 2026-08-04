@@ -292,7 +292,7 @@ export const en: typeof pl = {
       email: "lena@mavonorm.pl",
       phone: "(+48) 504 315 440",
       fax: "(+48) 61 642 72 19",
-      address: ["mavoNORM Sp. z o.o.", "ul. Rolna 16", "62-021 Paczkowo near Poznań", "Poland"],
+      address: ["ul. Rolna 16", "62-021 Paczkowo near Poznań", "Poland"],
       hours: "Mon–Fri, 8:00–17:00 CET",
     },
     map: { label: "Production facility — Paczkowo near Poznań, Poland" },
