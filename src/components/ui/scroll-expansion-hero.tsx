@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -16,13 +16,47 @@ interface ScrollExpandMediaProps {
   date?: string;
   scrollToExpand?: string;
   textBlend?: boolean;
+  /**
+   * Frame rate of the source clip. Scrub seeks snap to these boundaries, so
+   * scrolling never asks the decoder for a frame that does not exist.
+   */
+  sourceFps?: number;
   children?: ReactNode;
 }
+
+/**
+ * Fraction of the clip consumed by the pinned scrub. Leaving headroom means
+ * playback has somewhere to go when it takes over after full expansion.
+ */
+const SCRUB_SPAN = 0.6;
+
+/** Per-frame easing toward the input target. Lower = heavier, more inertia. */
+const EASE = 0.15;
+
+/** Below this the eased value is close enough to snap to the target. */
+const EPSILON = 0.0004;
+
+/**
+ * Progress at which the hero commits to expanded. The ease approaches 1
+ * asymptotically, so waiting for a true 1 leaves the page pinned for most of a
+ * second after the user has already scrolled to the end.
+ */
+const EXPAND_AT = 0.99;
 
 /**
  * Scroll-expansion hero: the page stays pinned while the first scroll input
  * drives the media from a small card to (near) fullscreen; the title halves
  * slide apart as it grows. Once fully expanded, normal scrolling resumes.
+ *
+ * With `mediaType="video"` the pinned phase also scrubs the clip — scroll
+ * position is the playhead — and hands off to normal looping playback once
+ * expanded. The video sits under the same grade as the rest of the banner:
+ * desaturated and ink-tinted while small, resolving to full colour as it grows.
+ *
+ * Motion runs on a rAF loop that eases a rendered value toward the raw input
+ * target and writes styles straight to the DOM. Input events only move the
+ * target, so a mouse wheel's coarse notches become continuous motion and React
+ * re-renders only on the discrete state flips.
  *
  * Coordinates with Lenis via window.__lenis (paused while pinned) and is
  * skipped entirely for prefers-reduced-motion users, who get the expanded
@@ -39,25 +73,94 @@ const ScrollExpandMedia = ({
   date,
   scrollToExpand,
   textBlend,
+  sourceFps = 24,
   children,
 }: ScrollExpandMediaProps) => {
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [showContent, setShowContent] = useState<boolean>(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
-  const [touchStartY, setTouchStartY] = useState<number>(0);
-  const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
-  const sectionRef = useRef<HTMLDivElement | null>(null);
+  // motion state lives in refs — the rAF loop owns it, React never re-renders on it
+  const progressRef = useRef<number>(0);
+  const targetRef = useRef<number>(0);
+  const rafRef = useRef<number | null>(null);
+  const isMobileRef = useRef<boolean>(false);
+  const expandedRef = useRef<boolean>(false);
+  const showContentRef = useRef<boolean>(false);
+  const touchStartYRef = useRef<number>(0);
+
+  const durationRef = useRef<number>(0);
+  const lastFrameRef = useRef<number>(-1);
+
+  const boxRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const bgRef = useRef<HTMLDivElement | null>(null);
+  const scrimRef = useRef<HTMLDivElement | null>(null);
+  const washRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const imgScrimRef = useRef<HTMLDivElement | null>(null);
+  const leftRef = useRef<HTMLSpanElement | null>(null);
+  const rightRef = useRef<HTMLSpanElement | null>(null);
+  const dateRef = useRef<HTMLParagraphElement | null>(null);
+  const hintRef = useRef<HTMLParagraphElement | null>(null);
+
+  useEffect(() => {
+    expandedRef.current = mediaFullyExpanded;
+  }, [mediaFullyExpanded]);
+
+  /** Write one frame of the expansion to the DOM. */
+  const applyFrame = useCallback(
+    (p: number) => {
+      const mobile = isMobileRef.current;
+
+      if (boxRef.current) {
+        boxRef.current.style.width = `${300 + p * (mobile ? 650 : 1250)}px`;
+        boxRef.current.style.height = `${400 + p * (mobile ? 200 : 400)}px`;
+      }
+      if (bgRef.current) bgRef.current.style.opacity = `${1 - p}`;
+
+      const shift = p * (mobile ? 180 : 150);
+      if (leftRef.current) leftRef.current.style.transform = `translateX(-${shift}vw)`;
+      if (rightRef.current) rightRef.current.style.transform = `translateX(${shift}vw)`;
+      if (dateRef.current) dateRef.current.style.transform = `translateX(-${shift}vw)`;
+      if (hintRef.current) hintRef.current.style.transform = `translateX(${shift}vw)`;
+
+      // banner grade: desaturated + ink-tinted while small, resolving as it grows
+      if (videoRef.current) {
+        videoRef.current.style.filter = `grayscale(${1 - p * 0.85}) contrast(${1.08 + p * 0.04}) brightness(${0.9 + p * 0.14})`;
+      }
+      if (scrimRef.current) scrimRef.current.style.opacity = `${0.6 - p * 0.32}`;
+      if (washRef.current) washRef.current.style.opacity = `${0.55 - p * 0.25}`;
+      if (gridRef.current) gridRef.current.style.opacity = `${0.6 - p * 0.3}`;
+      if (imgScrimRef.current) imgScrimRef.current.style.opacity = `${0.7 - p * 0.3}`;
+
+      // scroll position is the playhead, until playback takes over
+      const video = videoRef.current;
+      const duration = durationRef.current;
+      if (video && duration && !expandedRef.current) {
+        const t = Math.min(duration * SCRUB_SPAN * p, duration - 0.05);
+        // quantise to source frames — seeking between them is a wasted decode
+        const frame = Math.round(t * sourceFps);
+        if (frame !== lastFrameRef.current) {
+          lastFrameRef.current = frame;
+          video.currentTime = frame / sourceFps;
+        }
+      }
+    },
+    [sourceFps],
+  );
 
   // reduced motion: skip the hijack, land on the expanded state
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setScrollProgress(1);
-      setMediaFullyExpanded(true);
-      setShowContent(true);
-    }
-  }, []);
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    targetRef.current = 1;
+    progressRef.current = 1;
+    expandedRef.current = true;
+    showContentRef.current = true;
+    applyFrame(1);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMediaFullyExpanded(true);
+    setShowContent(true);
+  }, [applyFrame]);
 
   // pause/resume Lenis so the smooth-scroller doesn't fight the pinned phase
   useEffect(() => {
@@ -69,65 +172,97 @@ const ScrollExpandMedia = ({
   }, [mediaFullyExpanded]);
 
   useEffect(() => {
+    const setMobile = () => {
+      isMobileRef.current = window.innerWidth < 768;
+      applyFrame(progressRef.current);
+    };
+    setMobile();
+    window.addEventListener("resize", setMobile);
+    return () => window.removeEventListener("resize", setMobile);
+  }, [applyFrame]);
+
+  // input only moves the target; the rAF loop does the animating
+  useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const applyProgress = (delta: number) => {
-      const newProgress = Math.min(Math.max(scrollProgress + delta, 0), 1);
-      setScrollProgress(newProgress);
-      if (newProgress >= 1) {
+    /** Ease the rendered value toward the input target, one frame at a time. */
+    const tick = () => {
+      const diff = targetRef.current - progressRef.current;
+      const next = Math.abs(diff) < EPSILON ? targetRef.current : progressRef.current + diff * EASE;
+
+      progressRef.current = next;
+      applyFrame(next);
+
+      // only touch React on the actual transitions — this loop runs every frame
+      if (next >= EXPAND_AT && !expandedRef.current) {
+        expandedRef.current = true;
+        showContentRef.current = true;
         setMediaFullyExpanded(true);
         setShowContent(true);
-      } else if (newProgress < 0.75) {
+      } else if (next < 0.75 && showContentRef.current) {
+        showContentRef.current = false;
         setShowContent(false);
       }
+
+      rafRef.current =
+        Math.abs(targetRef.current - next) >= EPSILON ? requestAnimationFrame(tick) : null;
+    };
+
+    const nudge = (delta: number) => {
+      targetRef.current = Math.min(Math.max(targetRef.current + delta, 0), 1);
+      if (rafRef.current === null) rafRef.current = requestAnimationFrame(tick);
     };
 
     const handleWheel = (e: globalThis.WheelEvent) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+      if (expandedRef.current && e.deltaY < 0 && window.scrollY <= 5) {
         setMediaFullyExpanded(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!expandedRef.current) {
         e.preventDefault();
-        applyProgress(e.deltaY * 0.0009);
+        nudge(e.deltaY * 0.0009);
       }
     };
 
     const handleTouchStart = (e: globalThis.TouchEvent) => {
-      setTouchStartY(e.touches[0].clientY);
+      touchStartYRef.current = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e: globalThis.TouchEvent) => {
-      if (!touchStartY) return;
+      if (!touchStartYRef.current) return;
       const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
+      const deltaY = touchStartYRef.current - touchY;
 
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
+      if (expandedRef.current && deltaY < -20 && window.scrollY <= 5) {
         setMediaFullyExpanded(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
+      } else if (!expandedRef.current) {
         e.preventDefault();
         // higher sensitivity for touch, more when scrolling back
-        applyProgress(deltaY * (deltaY < 0 ? 0.008 : 0.005));
-        setTouchStartY(touchY);
+        nudge(deltaY * (deltaY < 0 ? 0.008 : 0.005));
+        touchStartYRef.current = touchY;
       }
     };
 
-    const handleTouchEnd = () => setTouchStartY(0);
+    const handleTouchEnd = () => {
+      touchStartYRef.current = 0;
+    };
 
     // keyboard support so the pinned phase is not a trap
     const handleKey = (e: globalThis.KeyboardEvent) => {
-      if (mediaFullyExpanded) return;
+      if (expandedRef.current) return;
       if (["ArrowDown", "PageDown", " "].includes(e.key)) {
         e.preventDefault();
-        applyProgress(0.2);
+        nudge(0.2);
       } else if (["ArrowUp", "PageUp"].includes(e.key)) {
         e.preventDefault();
-        applyProgress(-0.2);
+        nudge(-0.2);
       }
     };
 
     const handleScroll = () => {
-      if (!mediaFullyExpanded) window.scrollTo(0, 0);
+      // only write when it actually drifted — an unconditional scrollTo in a
+      // scroll handler forces a reflow on every event
+      if (!expandedRef.current && window.scrollY !== 0) window.scrollTo(0, 0);
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -144,19 +279,47 @@ const ScrollExpandMedia = ({
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
       window.removeEventListener("keydown", handleKey);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [applyFrame]);
 
+  // metadata often lands before hydration, so check readyState as well as listening
   useEffect(() => {
-    const checkIfMobile = () => setIsMobileState(window.innerWidth < 768);
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
+    if (mediaType !== "video") return;
+    const video = videoRef.current;
+    if (!video) return;
 
-  const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
-  const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
-  const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
+    const onReady = () => {
+      durationRef.current = Number.isFinite(video.duration) ? video.duration : 0;
+      // prime the decoder so the first scrub seek actually paints (Safari/iOS)
+      void video
+        .play()
+        .then(() => {
+          if (!expandedRef.current) video.pause();
+        })
+        .catch(() => {});
+      applyFrame(progressRef.current);
+    };
+
+    if (video.readyState >= 1) onReady();
+    else video.addEventListener("loadedmetadata", onReady);
+    return () => video.removeEventListener("loadedmetadata", onReady);
+  }, [mediaType, applyFrame]);
+
+  // once expanded, playback takes over from where the scrub left off
+  useEffect(() => {
+    if (mediaType !== "video") return;
+    const video = videoRef.current;
+    if (!video) return;
+    if (mediaFullyExpanded) {
+      void video.play().catch(() => {});
+    } else {
+      video.pause();
+      // playback moved the playhead; forget the last scrubbed frame so the
+      // next seek is not skipped as a no-op
+      lastFrameRef.current = -1;
+    }
+  }, [mediaFullyExpanded, mediaType]);
 
   const words = title ? title.split(" ") : [];
   const mid = Math.ceil(words.length / 2);
@@ -164,15 +327,10 @@ const ScrollExpandMedia = ({
   const titleRight = titleRightProp ?? words.slice(mid).join(" ");
 
   return (
-    <div ref={sectionRef} className="dark-section overflow-x-hidden transition-colors duration-700 ease-in-out">
+    <div className="dark-section overflow-x-hidden transition-colors duration-700 ease-in-out">
       <section className="relative flex min-h-[100dvh] flex-col items-center justify-start">
         <div className="relative flex min-h-[100dvh] w-full flex-col items-center">
-          <motion.div
-            className="absolute inset-0 z-0 h-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 - scrollProgress }}
-            transition={{ duration: 0.1 }}
-          >
+          <div ref={bgRef} className="absolute inset-0 z-0 h-full" style={{ opacity: 1 }}>
             <Image
               src={bgImageSrc}
               alt=""
@@ -184,41 +342,58 @@ const ScrollExpandMedia = ({
             />
             <div className="blueprint-grid absolute inset-0" />
             <div className="absolute inset-0 bg-ink/60" />
-          </motion.div>
+          </div>
 
           <div className="relative z-10 mx-auto flex w-full max-w-350 flex-col items-center justify-start">
             <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center">
               <div
-                className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 transition-none"
+                ref={boxRef}
+                className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 transition-none will-change-[width,height]"
                 style={{
-                  width: `${mediaWidth}px`,
-                  height: `${mediaHeight}px`,
+                  width: "300px",
+                  height: "400px",
                   maxWidth: "95vw",
                   maxHeight: "85vh",
                   boxShadow: "0px 0px 50px rgba(0, 0, 0, 0.5)",
                 }}
               >
                 {mediaType === "video" ? (
-                  <div className="pointer-events-none relative h-full w-full">
+                  <div className="pointer-events-none relative h-full w-full overflow-hidden bg-ink">
                     <video
+                      ref={videoRef}
                       src={mediaSrc}
                       poster={posterSrc}
-                      autoPlay
                       muted
                       loop
                       playsInline
                       preload="auto"
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover transition-none"
+                      style={{ filter: "grayscale(1) contrast(1.08) brightness(0.9)" }}
                       controls={false}
                       disablePictureInPicture
                       disableRemotePlayback
                     />
-                    <motion.div
-                      className="absolute inset-0 bg-ink/40"
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
-                      transition={{ duration: 0.2 }}
+                    {/* ink scrim — heavy while the card is small, lifts as it fills the screen */}
+                    <div ref={scrimRef} className="absolute inset-0 bg-ink" style={{ opacity: 0.6 }} />
+                    {/* copper/blue wash to tie the footage to the palette */}
+                    <div
+                      ref={washRef}
+                      className="absolute inset-0 mix-blend-soft-light"
+                      style={{
+                        background:
+                          "linear-gradient(130deg, var(--color-blue) 0%, transparent 45%, var(--color-copper) 100%)",
+                        opacity: 0.55,
+                      }}
                     />
+                    <div ref={gridRef} className="blueprint-grid absolute inset-0" style={{ opacity: 0.6 }} />
+                    {/* vignette keeps the title legible over the moving frame */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: "radial-gradient(ellipse at center, transparent 35%, rgba(20,21,23,0.72) 100%)",
+                      }}
+                    />
+                    <div className="grain absolute inset-0" />
                   </div>
                 ) : (
                   <div className="relative h-full w-full">
@@ -230,28 +405,20 @@ const ScrollExpandMedia = ({
                       priority
                       className="h-full w-full object-cover"
                     />
-                    <motion.div
-                      className="absolute inset-0 bg-ink/50"
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.7 - scrollProgress * 0.3 }}
-                      transition={{ duration: 0.2 }}
-                    />
+                    <div ref={imgScrimRef} className="absolute inset-0 bg-ink/50" style={{ opacity: 0.7 }} />
                   </div>
                 )}
 
                 <div className="relative z-10 mt-5 flex flex-col items-center gap-2 text-center transition-none">
                   {date && (
-                    <p
-                      className="h-eyebrow text-copper"
-                      style={{ transform: `translateX(-${textTranslateX}vw)` }}
-                    >
+                    <p ref={dateRef} className="h-eyebrow text-copper">
                       {date}
                     </p>
                   )}
                   {scrollToExpand && (
                     <p
+                      ref={hintRef}
                       className="h-eyebrow flex items-center gap-3 !tracking-[0.3em] text-muted-dark"
-                      style={{ transform: `translateX(${textTranslateX}vw)` }}
                     >
                       <span className="inline-block h-6 w-px animate-pulse bg-copper" aria-hidden />
                       {scrollToExpand}
@@ -265,18 +432,18 @@ const ScrollExpandMedia = ({
                   textBlend ? "mix-blend-difference" : "mix-blend-normal"
                 }`}
               >
-                <motion.span
-                  className="h-display block text-5xl text-paper transition-none md:text-7xl xl:text-8xl"
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                <span
+                  ref={leftRef}
+                  className="h-display block text-5xl text-paper transition-none will-change-transform md:text-7xl xl:text-8xl"
                 >
                   {titleLeft}
-                </motion.span>
-                <motion.span
-                  className="h-display block text-5xl text-copper transition-none md:text-7xl xl:text-8xl"
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
+                </span>
+                <span
+                  ref={rightRef}
+                  className="h-display block text-5xl text-copper transition-none will-change-transform md:text-7xl xl:text-8xl"
                 >
                   {titleRight}
-                </motion.span>
+                </span>
               </h1>
             </div>
 
