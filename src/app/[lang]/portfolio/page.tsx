@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { getDictionary, type Locale } from "@/lib/i18n";
 import { projects } from "@/lib/projects";
-import { clientWork } from "@/lib/clientWork";
 import RevealHeading from "@/components/RevealHeading";
 import PortfolioGrid from "@/components/PortfolioGrid";
-import ClientWorkGallery from "@/components/ClientWorkGallery";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -37,21 +35,6 @@ export default async function PortfolioPage({ params }: { params: Promise<{ lang
         </div>
       </section>
 
-      {/* ---------- CLIENT WORK (photography only) ---------- */}
-      {clientWork.length > 0 && (
-        <section className="border-t border-line py-24 md:py-32">
-          <div className="mx-auto max-w-350 px-6 md:px-10">
-            <div className="mb-16 md:mb-20" data-reveal-group>
-              <p className="h-eyebrow text-copper">{dict.portfolio.clientWork.eyebrow}</p>
-              <RevealHeading className="mt-4 text-4xl md:text-6xl" lines={split(dict.portfolio.clientWork.heading)} />
-              <p className="mt-8 max-w-xl text-lg text-muted" data-reveal>
-                {dict.portfolio.clientWork.sub}
-              </p>
-            </div>
-            <ClientWorkGallery clients={clientWork} lang={locale} dict={dict} />
-          </div>
-        </section>
-      )}
     </>
   );
 }

@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { Locale } from "./i18n";
 
 type L<T = string> = Record<Locale, T>;
@@ -10,475 +12,341 @@ export interface Project {
   client?: string;
   category: ProjectCategory;
   industry: L;
-  location: string;
-  year: string;
-  area: string;
   featured?: boolean;
   excerpt: L;
   services: L<string[]>;
-  challenge: L;
-  solution: L;
+  /** What the stand does spatially — described from the photography. */
+  overview: L;
+  /** How it is built, from what the photography shows. */
   fabrication: L;
   materials: L<string[]>;
-  results: L;
   hero: string;
   gallery: string[];
+
+  /**
+   * Verifiable specifics we do not have yet. Left undefined rather than filled
+   * in: these are real, named clients, and publishing invented figures for them
+   * would be a fabricated claim about a real business. The detail page renders
+   * only the facts that are present, so entries stay correct while incomplete.
+   */
+  year?: string;
+  location?: string;
+  area?: string;
+  results?: L;
 }
 
-import { siteImage } from "./images";
+const CLIENT_DIR = path.join(process.cwd(), "public", "images", "client");
 
-// Generated imagery convention (public/images): portfolio-<key>-hero.png and
-// portfolio-<key>-1.png … -N.png. Files that exist are used; the rest fall
-// back to grayscale placeholders until they are generated.
-const heroImg = (key: string, seed: string) => siteImage(`portfolio-${key}-hero.png`, seed, 1800, 1100);
-const galleryImgs = (key: string, seed: string, n: number) =>
-  Array.from({ length: n }, (_, i) => siteImage(`portfolio-${key}-${i + 1}.png`, `${seed}-${i + 1}`));
+/** Photos for a client, in filename order. First is used as the hero. */
+function photos(key: string): string[] {
+  try {
+    return fs
+      .readdirSync(path.join(CLIENT_DIR, key))
+      .filter((f) => f.endsWith(".webp"))
+      .sort()
+      .map((f) => `/images/client/${key}/${f}`);
+  } catch {
+    return [];
+  }
+}
 
-export const projects: Project[] = [
+/** Services every stand here required by virtue of us having built it. */
+const CORE = {
+  pl: ["Produkcja", "Montaż", "Logistyka"],
+  en: ["Fabrication", "Installation", "Logistics"],
+};
+const withCore = (pl: string[] = [], en: string[] = []): L<string[]> => ({
+  pl: [...CORE.pl, ...pl],
+  en: [...CORE.en, ...en],
+});
+
+type Entry = Omit<Project, "hero" | "gallery"> & { key: string };
+
+const ENTRIES: Entry[] = [
   {
-    slug: "helion-automotive-iaa",
-    title: "Helion Automotive — IAA Mobility",
-    client: "Helion",
+    key: "dji",
+    slug: "dji-enterprise",
+    title: "DJI Enterprise",
+    client: "DJI / Epotronic",
     category: "exhibition",
-    industry: { pl: "Motoryzacja", en: "Automotive" },
-    location: "Monachium, DE",
-    year: "2025",
-    area: "420 m²",
+    industry: { pl: "Technologie i drony", en: "Technology & drones" },
     featured: true,
     excerpt: {
-      pl: "Dwupoziomowe stoisko z zawieszoną świetlną wstęgą i strefą premier produktowych.",
-      en: "A double-deck stand with a suspended light ribbon and a product premiere zone.",
+      pl: "Ciemna, kątowa zabudowa z podwieszonym fryzem i zamkniętą salą spotkań, zbudowana wokół ekspozycji dronów.",
+      en: "A dark, angular build with a suspended fascia and an enclosed meeting room, arranged around a drone display.",
     },
-    services: {
-      pl: ["Projekt koncepcyjny", "Inżynieria", "Produkcja", "Montaż", "Logistyka"],
-      en: ["Concept design", "Engineering", "Fabrication", "Installation", "Logistics"],
-    },
-    challenge: {
-      pl: "Klient potrzebował przestrzeni, która pomieści premierę dwóch pojazdów, strefę B2B na piętrze i zaplecze gastronomiczne — na planie z trzema słupami konstrukcyjnymi hali.",
-      en: "The client needed a space hosting two vehicle premieres, an upstairs B2B lounge and full catering facilities — on a floor plan interrupted by three structural columns of the hall.",
-    },
-    solution: {
-      pl: "Słupy wchłonęła rzeźbiarska zabudowa centralna, wokół której poprowadziliśmy 36-metrową podświetlaną wstęgę. Piętro o konstrukcji stalowej pomieściło osiem sal spotkań.",
-      en: "The columns were absorbed into a sculptural central volume, wrapped by a 36-metre illuminated ribbon. A steel-framed upper deck housed eight meeting rooms.",
+    overview: {
+      pl: "Stoisko narożne otwarte z dwóch stron. Podwieszony fryz niesie logotypy ponad ruchem w alejce, a czarna bryła z grafiką w formie chevronu zamyka tło ekspozycji. Białe lady i stoliki tworzą jasny kontrapunkt, a przeszklona sala spotkań daje zaplecze rozmów handlowych bez wychodzenia ze stoiska.",
+      en: "A corner stand open on two sides. A suspended fascia carries the logos above aisle traffic, while a black volume with chevron graphics closes the back of the display. White counters and tables give a light counterpoint, and a glazed meeting room keeps sales conversations on the stand.",
     },
     fabrication: {
-      pl: "Konstrukcja stalowa z certyfikowaną statyką, panele gięte CNC z MDF, lakier natryskowy w macie, 140 m² grafik napinanych i zintegrowane oświetlenie liniowe.",
-      en: "Certified steel structure, CNC-formed MDF panels, matte spray finish, 140 m² of tension fabric graphics and integrated linear lighting.",
+      pl: "Konstrukcja podwieszana z zabudową płytową, elementy lakierowane na czerń w macie, wielkoformatowe grafiki, wbudowane ekrany i oświetlenie liniowe w suficie oraz podłoga podniesiona z wykładziną.",
+      en: "A suspended structure over panel construction, matte black lacquered elements, large-format graphics, integrated screens, linear ceiling lighting and a raised floor with carpet.",
     },
     materials: {
-      pl: ["Stal certyfikowana", "MDF frezowany CNC", "Lakier PU mat", "Tkaniny napinane", "LED liniowy"],
-      en: ["Certified steel", "CNC-milled MDF", "Matte PU lacquer", "Tension fabric", "Linear LED"],
+      pl: ["Płyta lakierowana", "Konstrukcja aluminiowa", "Grafika wielkoformatowa", "Szkło", "LED liniowy"],
+      en: ["Lacquered panel", "Aluminium structure", "Large-format graphics", "Glass", "Linear LED"],
     },
-    results: {
-      pl: "Najczęściej fotografowane stoisko sektora dostawców. 2 400 zeskanowanych kontaktów w 5 dni targów.",
-      en: "The most photographed stand in the supplier sector. 2,400 scanned leads across 5 show days.",
-    },
-    hero: heroImg("helion", "mavo-iaa"),
-    gallery: galleryImgs("helion", "mavo-iaa", 4),
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
   },
   {
-    slug: "nordicware-ism-cologne",
-    title: "Nordicware — ISM Cologne",
-    client: "Nordicware",
+    key: "master-lock",
+    slug: "master-lock",
+    title: "Master Lock — The Vault",
+    client: "Master Lock",
     category: "exhibition",
-    industry: { pl: "FMCG", en: "FMCG" },
-    location: "Kolonia, DE",
-    year: "2025",
-    area: "180 m²",
+    industry: { pl: "Zabezpieczenia", en: "Security products" },
     featured: true,
     excerpt: {
-      pl: "Skandynawski minimalizm: jesion, biel i światło dzienne w hali targowej.",
-      en: "Scandinavian minimalism: ash wood, white surfaces and daylight inside a trade hall.",
+      pl: "Otwarta zabudowa handlowa ze strefą „The Vault” — kratownicową klatką prezentującą produkt jak w skarbcu.",
+      en: "An open retail-style build with a \"The Vault\" feature — a barred cage presenting product like a strongroom.",
     },
-    services: {
-      pl: ["Projekt koncepcyjny", "Produkcja", "Montaż", "Magazynowanie"],
-      en: ["Concept design", "Fabrication", "Installation", "Storage"],
-    },
-    challenge: {
-      pl: "Marka chciała odtworzyć atmosferę swojego flagowego showroomu w Sztokholmie — w przestrzeni budowanej na trzy dni i rozbieranej w jeden wieczór.",
-      en: "The brand wanted to recreate the atmosphere of its flagship Stockholm showroom — in a space built in three days and dismantled in one evening.",
-    },
-    solution: {
-      pl: "Modułowa zabudowa z litego jesionu z systemem szybkozłączy, sufit świetlny imitujący światło dzienne i ekspozytory produktowe na wymiar.",
-      en: "A modular solid-ash construction with quick-lock joints, a luminous ceiling imitating daylight and made-to-measure product displays.",
+    overview: {
+      pl: "Układ sklepowy: ściany produktowe z ekspozytorami, lada z ekranem i wydzielona strefa demonstracyjna z nawierzchnią trawiastą dla rowerów i hulajnóg. Centralnym punktem jest klatka „The Vault” ze stalowych prętów, która zatrzymuje ruch w alejce i tłumaczy kategorię produktu bez słów.",
+      en: "A retail layout: product walls with display hooks, a counter with screen, and a separate demo zone on artificial turf for bikes and scooters. The centrepiece is \"The Vault\", a steel-barred cage that stops aisle traffic and explains the product category without words.",
     },
     fabrication: {
-      pl: "Lite drewno jesionowe olejowane, ramy aluminiowe, sufit napinany z podświetleniem 6500K, frezowane logotypy 3D.",
-      en: "Oiled solid ash, aluminium frames, backlit stretch ceiling at 6500K, CNC-milled 3D logotypes.",
+      pl: "Zabudowa płytowa z okleiną drewnopodobną i lakierem białym, sufit podwieszany z logotypami, klatka ze stalowych prętów na cokole, systemowe ściany ekspozycyjne oraz podłoga z paneli i sztucznej trawy.",
+      en: "Panel construction in wood-effect laminate and white lacquer, a suspended ceiling carrying the logos, a steel-bar cage on a plinth, systemised display walls, and flooring in panels and artificial turf.",
     },
     materials: {
-      pl: ["Jesion lity olejowany", "Aluminium", "Sufit napinany", "Szkło hartowane"],
-      en: ["Oiled solid ash", "Aluminium", "Stretch ceiling", "Tempered glass"],
+      pl: ["Płyta laminowana", "Lakier biały", "Pręt stalowy", "Panel podłogowy", "Trawa syntetyczna"],
+      en: ["Laminated panel", "White lacquer", "Steel bar", "Floor panel", "Artificial turf"],
     },
-    results: {
-      pl: "Zabudowa użyta ponownie na czterech kolejnych targach — koszt jednostkowy wydarzenia spadł o 46%.",
-      en: "The build was reused at four further fairs — cutting the per-event cost by 46%.",
-    },
-    hero: heroImg("nordicware", "mavo-ism"),
-    gallery: galleryImgs("nordicware", "mavo-ism", 3),
+    services: withCore(["Grafika", "Elementy specjalne"], ["Graphics", "Feature elements"]),
   },
   {
-    slug: "vantum-medica",
-    title: "Vantum — MEDICA Düsseldorf",
-    client: "Vantum",
+    key: "american-orthodontics",
+    slug: "american-orthodontics",
+    title: "American Orthodontics",
+    client: "American Orthodontics",
     category: "exhibition",
-    industry: { pl: "Medycyna i farmacja", en: "Medical & Pharma" },
-    location: "Düsseldorf, DE",
-    year: "2024",
-    area: "240 m²",
+    industry: { pl: "Medycyna i ortodoncja", en: "Medical & orthodontics" },
     featured: true,
     excerpt: {
-      pl: "Sterylna precyzja: stoisko-laboratorium z demonstracjami urządzeń na żywo.",
-      en: "Sterile precision: a laboratory-like stand with live device demonstrations.",
+      pl: "Jasna zabudowa z podświetlanymi gablotami i strefami konsultacji, realizowana na kolejnych edycjach targów.",
+      en: "A light build with illuminated vitrines and consultation zones, delivered across successive show editions.",
     },
-    services: {
-      pl: ["Projekt koncepcyjny", "Inżynieria", "Produkcja", "Montaż", "Serwis"],
-      en: ["Concept design", "Engineering", "Fabrication", "Installation", "Maintenance"],
-    },
-    challenge: {
-      pl: "Prezentacja urządzeń diagnostycznych wymagała warunków zbliżonych do laboratoryjnych: stabilnego zasilania, wentylacji i powierzchni odpornych na dezynfekcję.",
-      en: "Presenting diagnostic devices required near-laboratory conditions: stable power, ventilation and disinfection-proof surfaces.",
-    },
-    solution: {
-      pl: "Zabudowa z kompozytu mineralnego z bezspoinowymi blatami, dedykowana instalacja elektryczna 63A i przeszklone boksy demonstracyjne z wyciszeniem.",
-      en: "A mineral composite build with seamless worktops, a dedicated 63A electrical installation and glazed, acoustically damped demo boxes.",
+    overview: {
+      pl: "Stoisko porządkuje mały, techniczny produkt: podświetlane gabloty i niskie lady prowadzą zwiedzającego wzdłuż ekspozycji, a wysokie bryły z logotypem trzymają markę ponad poziomem wzroku. Strefy siedzące i zaplecze socjalne pozwalają prowadzić dłuższe rozmowy z lekarzami.",
+      en: "The stand organises a small, technical product: illuminated vitrines and low counters walk visitors along the display, while tall logo volumes hold the brand above eye level. Seating zones and a back-of-house area support longer conversations with clinicians.",
     },
     fabrication: {
-      pl: "Kompozyt mineralny klejony bezspoinowo, profile stalowe malowane proszkowo, szkło laminowane, posadzka techniczna podniesiona.",
-      en: "Seamlessly bonded mineral composite, powder-coated steel profiles, laminated glass, raised technical flooring.",
+      pl: "Zabudowa płytowa lakierowana na biel z okleiną drewnopodobną, podświetlane gabloty ze szkłem, litery przestrzenne, wbudowane ekrany oraz oświetlenie punktowe na szynach.",
+      en: "White-lacquered panel construction with wood-effect laminate, glazed illuminated vitrines, dimensional lettering, integrated screens and track-mounted spotlights.",
     },
     materials: {
-      pl: ["Kompozyt mineralny", "Stal malowana proszkowo", "Szkło laminowane", "Podłoga techniczna"],
-      en: ["Mineral composite", "Powder-coated steel", "Laminated glass", "Raised floor"],
+      pl: ["Płyta lakierowana", "Okleina drewnopodobna", "Szkło hartowane", "Litery przestrzenne", "Oświetlenie LED"],
+      en: ["Lacquered panel", "Wood-effect laminate", "Toughened glass", "Dimensional lettering", "LED lighting"],
     },
-    results: {
-      pl: "87 umówionych prezentacji produktowych. Klient przedłużył współpracę na kolejne trzy edycje.",
-      en: "87 scheduled product demos. The client extended the partnership for the next three editions.",
-    },
-    hero: heroImg("vantum", "mavo-medica"),
-    gallery: galleryImgs("vantum", "mavo-medica", 3),
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
   },
   {
-    slug: "arcline-showroom",
-    title: "Arcline — Showroom w Warszawie",
-    client: "Arcline",
-    category: "interior",
-    industry: { pl: "Meble i design", en: "Furniture & Design" },
-    location: "Warszawa, PL",
-    year: "2025",
-    area: "310 m²",
-    featured: true,
-    excerpt: {
-      pl: "Showroom-galeria: beton, dąb i reżyserowane światło dla marki premium.",
-      en: "A gallery-like showroom: concrete, oak and choreographed light for a premium brand.",
-    },
-    services: {
-      pl: ["Projekt wnętrza", "Produkcja mebli", "Montaż", "Oświetlenie"],
-      en: ["Interior design", "Furniture production", "Installation", "Lighting"],
-    },
-    challenge: {
-      pl: "Postindustrialna przestrzeń o wysokości 5,2 m miała stać się intymną galerią mebli — bez zabudowywania charakteru oryginalnej architektury.",
-      en: "A post-industrial space with a 5.2 m ceiling had to become an intimate furniture gallery — without erasing the character of the original architecture.",
-    },
-    solution: {
-      pl: "Wolnostojące kubiki ekspozycyjne z dębu, kurtyny akustyczne i system szyn świetlnych pozwalający zmieniać scenografię w jeden dzień.",
-      en: "Free-standing oak display volumes, acoustic curtains and a lighting track system that lets the scenography change within a day.",
-    },
-    fabrication: {
-      pl: "Fornir dębowy na płycie, mikrocement, kurtyny wełniane, szyny magnetyczne z reflektorami 2700K.",
-      en: "Oak veneer on board, microcement, wool curtains, magnetic tracks with 2700K spotlights.",
-    },
-    materials: {
-      pl: ["Fornir dębowy", "Mikrocement", "Wełna akustyczna", "Oświetlenie magnetyczne"],
-      en: ["Oak veneer", "Microcement", "Acoustic wool", "Magnetic lighting"],
-    },
-    results: {
-      pl: "Sprzedaż w showroomie wzrosła o 31% w pierwszym kwartale po otwarciu.",
-      en: "Showroom sales grew 31% in the first quarter after opening.",
-    },
-    hero: heroImg("arcline", "mavo-arcline"),
-    gallery: galleryImgs("arcline", "mavo-arcline", 3),
-  },
-  {
-    slug: "gridpower-enlit",
-    title: "GridPower — Enlit Europe",
-    client: "GridPower",
+    key: "natural",
+    slug: "natural-functional-ingredients",
+    title: "Natural — Functional Ingredients",
+    client: "Natural",
     category: "exhibition",
-    industry: { pl: "Energetyka", en: "Energy" },
-    location: "Paryż, FR",
-    year: "2024",
-    area: "150 m²",
+    industry: { pl: "Składniki spożywcze", en: "Food ingredients" },
     excerpt: {
-      pl: "Kinetyczna ściana LED i strefa rozmów w wyciszonych boksach.",
-      en: "A kinetic LED wall and hushed meeting boxes for focused conversations.",
+      pl: "Zabudowa z podwieszonym kubikiem, ścianą z lameli i wielkoformatowym podświetlanym kadrem plantacji.",
+      en: "A build with a suspended cube, a slatted timber wall and a large backlit plantation lightbox.",
     },
-    services: {
-      pl: ["Projekt koncepcyjny", "Produkcja", "Montaż", "Multimedia"],
-      en: ["Concept design", "Fabrication", "Installation", "Multimedia"],
-    },
-    challenge: {
-      pl: "Marka z sektora infrastruktury chciała opowiedzieć o niewidzialnym produkcie — przesyle energii — w sposób zmysłowy i zrozumiały.",
-      en: "An infrastructure brand wanted to tell the story of an invisible product — energy transmission — in a sensory, understandable way.",
-    },
-    solution: {
-      pl: "Dziewięciometrowa ściana LED o łamanej geometrii wizualizująca przepływy sieci w czasie rzeczywistym, zestawiona z ciepłą strefą rozmów.",
-      en: "A nine-metre LED wall with folded geometry visualising grid flows in real time, contrasted with a warm meeting zone.",
+    overview: {
+      pl: "Otwarta zabudowa z podwieszonym, podświetlanym kubikiem, który niesie logotyp ponad halą. Wnętrze prowadzą pionowe lamele i duży kadr podświetlany z fotografią plantacji — tło dla rozmów przy wysokich stolikach. Lada powitalna wysunięta jest w stronę alejki.",
+      en: "An open build with a suspended illuminated cube carrying the logo above the hall. Vertical timber slats and a large backlit plantation image lead the interior, giving a backdrop to conversations at high tables. The welcome counter sits forward toward the aisle.",
     },
     fabrication: {
-      pl: "Podkonstrukcja stalowa pod panele LED P2.6, okładziny z płyt akustycznych, stolarka na wymiar, sterowanie treścią show-control.",
-      en: "Steel substructure for P2.6 LED panels, acoustic board cladding, custom joinery, show-control content system.",
+      pl: "Podwieszany kubik z napinaną tkaniną, ściany z lameli drewnianych na konstrukcji płytowej, kaseton podświetlany LED, lakier biały mat oraz podłoga panelowa.",
+      en: "A suspended fabric-faced cube, timber slat walls on panel construction, an LED-backlit lightbox, matte white lacquer and panel flooring.",
     },
     materials: {
-      pl: ["Panele LED P2.6", "Stal", "Płyty akustyczne", "Dąb bielony"],
-      en: ["P2.6 LED panels", "Steel", "Acoustic board", "Bleached oak"],
+      pl: ["Lamele drewniane", "Tkanina napinana", "Płyta lakierowana", "Kaseton LED", "Panel podłogowy"],
+      en: ["Timber slats", "Tension fabric", "Lacquered panel", "LED lightbox", "Floor panel"],
     },
-    results: {
-      pl: "Średni czas wizyty na stoisku: 9 minut — trzykrotnie powyżej średniej targowej.",
-      en: "Average dwell time: 9 minutes — three times the show average.",
-    },
-    hero: heroImg("gridpower", "mavo-enlit"),
-    gallery: galleryImgs("gridpower", "mavo-enlit", 3),
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
   },
   {
-    slug: "atlas-hq-office",
-    title: "Atlas Robotics — biuro i strefa demo",
-    client: "Atlas Robotics",
-    category: "interior",
-    industry: { pl: "Technologia", en: "Technology" },
-    location: "Poznań, PL",
-    year: "2024",
-    area: "540 m²",
+    key: "botanicall",
+    slug: "botanicall",
+    title: "Botanic'all",
+    client: "Botanic'all",
+    category: "exhibition",
+    industry: { pl: "Ekstrakty roślinne", en: "Plant extracts" },
     excerpt: {
-      pl: "Fit-out biura R&D ze strefą demonstracji robotów dla klientów.",
-      en: "An R&D office fit-out with a client-facing robot demonstration zone.",
+      pl: "Miękkie, zaokrąglone bryły z wycięciami wypełnionymi zielenią stabilizowaną i konturem świetlnym.",
+      en: "Soft, rounded volumes with cut-outs filled with preserved greenery and a lit copper reveal.",
     },
-    services: {
-      pl: ["Projekt wnętrza", "Fit-out", "Meble na wymiar", "Akustyka"],
-      en: ["Interior design", "Fit-out", "Custom furniture", "Acoustics"],
-    },
-    challenge: {
-      pl: "Połączenie w jednej przestrzeni warsztatu prototypowni, biura inżynierskiego i reprezentacyjnej strefy demo dla klientów enterprise.",
-      en: "Combining a prototyping workshop, an engineering office and a representative enterprise demo zone in a single space.",
-    },
-    solution: {
-      pl: "Strefowanie przez posadzki i akustykę: żywica w warsztacie, wykładzina i sufity akustyczne w biurze, czarny boks demo z trybuną.",
-      en: "Zoning through flooring and acoustics: resin in the workshop, carpet and acoustic ceilings in the office, a black demo box with tiered seating.",
+    overview: {
+      pl: "Zabudowa zbudowana z zaokrąglonych brył, w których wycięto organiczne kształty wypełnione zielenią stabilizowaną — produkt firmy przełożony wprost na formę stoiska. Ciepły kontur świetlny obrysowuje wycięcia, a bulaj w drzwiach zaplecza domyka detal. Wnętrze mieści stoliki spotkań.",
+      en: "The build is made of rounded volumes cut with organic openings filled with preserved greenery — the company's product translated directly into the form of the stand. A warm lit reveal outlines each opening, and a porthole in the back-of-house door closes the detail. The interior holds meeting tables.",
     },
     fabrication: {
-      pl: "Ściany mobilne na kołach, meble warsztatowe ze sklejki z blatami HPL, trybuna z frezowanych elementów CNC.",
-      en: "Mobile walls on casters, plywood workshop furniture with HPL tops, a tiered stand from CNC-milled components.",
+      pl: "Bryły gięte na frezowanej konstrukcji płytowej, szpachlowane i lakierowane na biel, wycięcia z zielenią stabilizowaną, taśma LED w kontrze oraz drzwi z bulajem.",
+      en: "Curved volumes over CNC-milled panel construction, filled, sanded and lacquered white, cut-outs planted with preserved greenery, concealed LED tape and a porthole door.",
     },
     materials: {
-      pl: ["Sklejka brzozowa", "HPL", "Żywica epoksydowa", "Panele akustyczne PET"],
-      en: ["Birch plywood", "HPL", "Epoxy resin", "PET acoustic panels"],
+      pl: ["Płyta frezowana CNC", "Lakier biały", "Zieleń stabilizowana", "Taśma LED", "Okleina drewnopodobna"],
+      en: ["CNC-milled panel", "White lacquer", "Preserved greenery", "LED tape", "Wood-effect laminate"],
     },
-    results: {
-      pl: "Przestrzeń obsługuje 20+ wizyt klienckich miesięcznie bez zakłócania pracy zespołu R&D.",
-      en: "The space hosts 20+ client visits monthly without disrupting the R&D team's work.",
-    },
-    hero: heroImg("atlas", "mavo-atlas"),
-    gallery: galleryImgs("atlas", "mavo-atlas", 3),
+    services: withCore(["Frezowanie CNC", "Zieleń"], ["CNC milling", "Planting"]),
   },
   {
-    slug: "parametric-facade",
-    title: "Fasada parametryczna — hotel Verte",
-    client: "Verte Hotel",
-    category: "cnc",
-    industry: { pl: "Architektura", en: "Architecture" },
-    location: "Gdańsk, PL",
-    year: "2025",
-    area: "260 m²",
+    key: "atelier-emocio",
+    slug: "atelier-emocio",
+    title: "Atelier Emocio",
+    client: "Atelier Emocio",
+    category: "exhibition",
+    industry: { pl: "Projektowanie atrakcji", en: "Themed entertainment" },
     excerpt: {
-      pl: "1 840 unikalnych paneli frezowanych CNC dla wnętrza lobby hotelowego.",
-      en: "1,840 unique CNC-milled panels for a hotel lobby interior.",
+      pl: "Zabudowa z łukowym przejściem i wnętrzem urządzonym jak pokój — dla studia projektującego atrakcje.",
+      en: "An arched opening onto a room-like interior, for a studio that designs themed attractions.",
     },
-    services: {
-      pl: ["Inżynieria", "Produkcja CNC", "Montaż"],
-      en: ["Engineering", "CNC production", "Installation"],
-    },
-    challenge: {
-      pl: "Projekt pracowni architektonicznej zakładał falującą ścianę z paneli, z których żaden nie powtarza się ani razu — przy zachowaniu rygoru budżetu.",
-      en: "The architects' design called for an undulating wall of panels where not a single one repeats — within a strict budget.",
-    },
-    solution: {
-      pl: "Parametryczny model produkcyjny generujący pliki CNC bezpośrednio z modelu architektów, nesting minimalizujący odpad do 7%.",
-      en: "A parametric production model generating CNC files directly from the architects' model, with nesting that cut waste to 7%.",
+    overview: {
+      pl: "Stoisko odwraca konwencję targową: zamiast lady i witryn dostajemy wnętrze urządzone jak salon — boazeria, dywan, telewizor w retro obudowie i lampy. Zielona bryła z białym łukiem kadruje wejście, a podwieszony koralowy krąg z hasłem marki wyprowadza komunikat ponad halę.",
+      en: "The stand inverts the trade-show convention: instead of counters and vitrines it offers a room — panelling, rug, a retro-cased television and lamps. A green volume with a white arch frames the entrance, and a suspended coral ring carries the brand line above the hall.",
     },
     fabrication: {
-      pl: "Frezowanie 5-osiowe w MDF-ie barwionym w masie, montaż na podkonstrukcji aluminiowej z ukrytym mocowaniem.",
-      en: "5-axis milling in through-dyed MDF, mounted on an aluminium substructure with concealed fixings.",
+      pl: "Zabudowa płytowa lakierowana w kolorze, łuk frezowany CNC, boazeria z okleiny drewnopodobnej, podwieszany krąg z nadrukiem, grafiki aplikowane oraz elementy scenograficzne.",
+      en: "Colour-lacquered panel construction, a CNC-milled arch, wood-effect panelling, a printed suspended ring, applied graphics and set-dressing elements.",
     },
     materials: {
-      pl: ["MDF barwiony w masie", "Aluminium", "Lakier bezbarwny"],
-      en: ["Through-dyed MDF", "Aluminium", "Clear lacquer"],
+      pl: ["Płyta lakierowana", "Frez CNC", "Okleina drewnopodobna", "Grafika aplikowana", "Elementy scenograficzne"],
+      en: ["Lacquered panel", "CNC milling", "Wood-effect laminate", "Applied graphics", "Set dressing"],
     },
-    results: {
-      pl: "Realizacja nominowana do nagrody wnętrzarskiej; odpad produkcyjny niższy o 60% od założeń.",
-      en: "Nominated for an interior design award; production waste 60% below assumptions.",
-    },
-    hero: heroImg("facade", "mavo-facade"),
-    gallery: galleryImgs("facade", "mavo-facade", 3),
+    services: withCore(["Frezowanie CNC", "Scenografia"], ["CNC milling", "Set dressing"]),
   },
   {
-    slug: "kform-popup-retail",
-    title: "KORM — sieć pop-up retail",
-    client: "KORM",
+    key: "lg-chem",
+    slug: "lg-chem",
+    title: "LG Chem — ceremonia wmurowania",
+    client: "LG Chem",
     category: "custom",
-    industry: { pl: "FMCG", en: "FMCG" },
-    location: "Berlin / Praga / Wiedeń",
-    year: "2024",
-    area: "12 × 40 m²",
+    industry: { pl: "Chemia i baterie", en: "Chemicals & batteries" },
     excerpt: {
-      pl: "Dwanaście identycznych pop-upów rozstawianych w galeriach handlowych w 6 godzin.",
-      en: "Twelve identical pop-ups deployed in shopping malls within 6 hours each.",
+      pl: "Ściana ekspozycyjna na ceremonię wmurowania kamienia węgielnego pod zakład w Polsce, zbudowana w hali namiotowej.",
+      en: "An exhibition wall for the groundbreaking ceremony of the company's plant in Poland, built inside a marquee.",
     },
-    services: {
-      pl: ["Projekt", "Prototypowanie", "Produkcja seryjna", "Logistyka"],
-      en: ["Design", "Prototyping", "Serial production", "Logistics"],
-    },
-    challenge: {
-      pl: "Kampania produktowa wymagała jednoczesnej obecności w trzech krajach — z identyczną jakością i błyskawicznym montażem bez narzędzi.",
-      en: "A product campaign required simultaneous presence in three countries — with identical quality and rapid tool-free assembly.",
-    },
-    solution: {
-      pl: "System modułów na zatrzaskach z wbudowanym oświetleniem i okablowaniem, pakowany w dedykowane skrzynie flight case.",
-      en: "A snap-fit module system with built-in lighting and wiring, packed in dedicated flight cases.",
+    overview: {
+      pl: "Liniowa ściana ekspozycyjna zbudowana pod jednorazowe wydarzenie. Lewa część niesie narrację o inwestycji — mapę zakładów i ekran; prawa porządkuje ofertę na półkach: ogniwa, moduły i pakiety baterii z opisami. Całość stanęła we wnętrzu namiotowym, co narzuciło lekką, samonośną konstrukcję.",
+      en: "A linear exhibition wall built for a single event. The left section carries the investment narrative — a plant map and a screen; the right organises the product range on shelves: cells, modules and battery packs with captions. It stood inside a marquee, which called for a light, self-supporting structure.",
     },
     fabrication: {
-      pl: "Prototyp + seria 12 zestawów: sklejka lakierowana, aluminiowe ramy, złącza szybkiego montażu, elektryka plug-and-play.",
-      en: "Prototype + a series of 12 kits: lacquered plywood, aluminium frames, quick-fit connectors, plug-and-play electrics.",
+      pl: "Samonośna konstrukcja płytowa lakierowana na biel, półki ekspozycyjne pod produkt, grafiki wielkoformatowe, litery przestrzenne z podświetleniem oraz wbudowany ekran.",
+      en: "A self-supporting panel structure lacquered white, product display shelves, large-format graphics, illuminated dimensional lettering and an integrated screen.",
     },
     materials: {
-      pl: ["Sklejka lakierowana", "Aluminium", "Poliwęglan", "LED"],
-      en: ["Lacquered plywood", "Aluminium", "Polycarbonate", "LED"],
+      pl: ["Płyta lakierowana", "Grafika wielkoformatowa", "Litery przestrzenne", "Półki ekspozycyjne", "Ekran"],
+      en: ["Lacquered panel", "Large-format graphics", "Dimensional lettering", "Display shelving", "Screen"],
     },
-    results: {
-      pl: "38 lokalizacji obsłużonych w jeden sezon; średni czas montażu 5 h 40 min.",
-      en: "38 locations covered in one season; average assembly time 5 h 40 min.",
-    },
-    hero: heroImg("korm", "mavo-korm"),
-    gallery: galleryImgs("korm", "mavo-korm", 3),
+    services: withCore(["Grafika"], ["Graphics"]),
   },
   {
-    slug: "polar-bank-branch",
-    title: "Polar Bank — oddział flagowy",
-    client: "Polar Bank",
-    category: "interior",
-    industry: { pl: "Finanse", en: "Finance" },
-    location: "Kraków, PL",
-    year: "2023",
-    area: "290 m²",
-    excerpt: {
-      pl: "Oddział bankowy nowej generacji: mniej okienek, więcej rozmowy.",
-      en: "A new-generation bank branch: fewer counters, more conversation.",
-    },
-    services: {
-      pl: ["Fit-out", "Meble na wymiar", "Oświetlenie", "Oznakowanie"],
-      en: ["Fit-out", "Custom furniture", "Lighting", "Signage"],
-    },
-    challenge: {
-      pl: "Transformacja tradycyjnego oddziału w przestrzeń doradczą przy zachowaniu wymogów bezpieczeństwa sektora bankowego.",
-      en: "Transforming a traditional branch into an advisory space while meeting banking-sector security requirements.",
-    },
-    solution: {
-      pl: "Otwarta strefa doradcza z meblami lounge, dyskretne boksy rozmów z szybami prywatyzującymi i strefa samoobsługowa 24/7.",
-      en: "An open advisory zone with lounge furniture, discreet meeting boxes with privacy glass and a 24/7 self-service area.",
-    },
-    fabrication: {
-      pl: "Zabudowy z forniru orzechowego, lady z konglomeratu kwarcowego, szkło elektrochromatyczne, sufity akustyczne.",
-      en: "Walnut veneer builds, quartz composite counters, electrochromic glass, acoustic ceilings.",
-    },
-    materials: {
-      pl: ["Fornir orzechowy", "Konglomerat kwarcowy", "Szkło elektrochromatyczne", "Mosiądz"],
-      en: ["Walnut veneer", "Quartz composite", "Electrochromic glass", "Brass"],
-    },
-    results: {
-      pl: "Wzorzec wdrożony następnie w 14 kolejnych oddziałach sieci.",
-      en: "The blueprint was subsequently rolled out to 14 further branches.",
-    },
-    hero: heroImg("polar", "mavo-polar"),
-    gallery: galleryImgs("polar", "mavo-polar", 3),
-  },
-  {
-    slug: "sonar-art-installation",
-    title: "SONAR — instalacja na biennale designu",
-    category: "custom",
-    industry: { pl: "Kultura i sztuka", en: "Culture & Arts" },
-    location: "Mediolan, IT",
-    year: "2025",
-    area: "80 m²",
-    excerpt: {
-      pl: "Chodząca po cienkiej granicy rzeźby i architektury instalacja z 4 200 listew.",
-      en: "An installation of 4,200 slats walking the line between sculpture and architecture.",
-    },
-    services: {
-      pl: ["Inżynieria", "Produkcja CNC", "Montaż", "Logistyka"],
-      en: ["Engineering", "CNC production", "Installation", "Logistics"],
-    },
-    challenge: {
-      pl: "Projekt artysty istniał wyłącznie jako model 3D. Trzeba było go przełożyć na technologię, transport w trzech ciężarówkach i montaż w 48 godzin.",
-      en: "The artist's design existed only as a 3D model. It had to be translated into buildable technology, transport in three trucks and a 48-hour installation.",
-    },
-    solution: {
-      pl: "Dekompozycja formy na 68 prefabrykowanych segmentów z ukrytymi złączami, ponumerowanych i pakowanych w kolejności montażu.",
-      en: "Decomposition of the form into 68 prefabricated segments with hidden joints, numbered and packed in installation order.",
-    },
-    fabrication: {
-      pl: "4 200 listew jesionowych ciętych CNC, gięcie na formach, złącza stalowe toczone, olejowanie ręczne.",
-      en: "4,200 CNC-cut ash slats, form bending, turned steel connectors, hand oiling.",
-    },
-    materials: {
-      pl: ["Jesion", "Stal toczona", "Olej naturalny"],
-      en: ["Ash", "Turned steel", "Natural oil"],
-    },
-    results: {
-      pl: "Instalacja opisana w trzech magazynach wnętrzarskich; obecnie w kolekcji prywatnej.",
-      en: "Featured in three interior design magazines; now in a private collection.",
-    },
-    hero: heroImg("sonar", "mavo-sonar"),
-    gallery: galleryImgs("sonar", "mavo-sonar", 3),
-  },
-  {
-    slug: "helix-pharma-cphi",
-    title: "Helix Pharma — CPHI Barcelona",
-    client: "Helix",
+    key: "technic",
+    slug: "technic",
+    title: "Technic",
+    client: "Technic",
     category: "exhibition",
-    industry: { pl: "Medycyna i farmacja", en: "Medical & Pharma" },
-    location: "Barcelona, ES",
-    year: "2023",
-    area: "120 m²",
+    industry: { pl: "Chemia dla półprzewodników", en: "Semiconductor chemistry" },
     excerpt: {
-      pl: "Spirala DNA z giętego drewna jako centralny punkt stoiska.",
-      en: "A bent-wood DNA helix as the stand's centrepiece.",
+      pl: "Zabudowa narożna z zaokrąglonym fryzem i podświetlaną ścianą treści dla dostawcy chemii procesowej.",
+      en: "A corner build with a curved fascia and a backlit content wall for a process-chemistry supplier.",
     },
-    services: {
-      pl: ["Projekt koncepcyjny", "Produkcja", "Montaż"],
-      en: ["Concept design", "Fabrication", "Installation"],
-    },
-    challenge: {
-      pl: "Wyróżnić firmę kontraktową na targach, gdzie wszyscy konkurenci komunikują to samo: jakość, skalę i zgodność z normami.",
-      en: "Differentiating a contract manufacturer at a fair where every competitor communicates the same: quality, scale and compliance.",
-    },
-    solution: {
-      pl: "Sześciometrowa rzeźba spirali z giętej sklejki zawieszona nad strefą baru — znak firmowy widoczny z każdej alejki sektora.",
-      en: "A six-metre bent-plywood helix sculpture suspended above the bar zone — a landmark visible from every aisle of the sector.",
+    overview: {
+      pl: "Stoisko narożne, w którym zaokrąglony fryz z logotypem prowadzi wzrok wzdłuż obu alejek. Granatowa ściana z listą kompetencji i ekranem robi za tło rozmów, biała lada wysunięta w stronę ruchu obsługuje pierwszy kontakt, a druga ściana niesie grafiki produktowe.",
+      en: "A corner stand where a curved logo fascia carries the eye along both aisles. A navy wall listing capabilities, with a screen, backs the conversations; a white counter pushed toward the traffic handles first contact, and the second wall carries product graphics.",
     },
     fabrication: {
-      pl: "Sklejka gięta na formach próżniowych, cięgna stalowe z atestem, podwieszenie zgodne z regulaminem Fira Barcelona.",
-      en: "Vacuum-formed bent plywood, certified steel tension rods, rigging compliant with Fira Barcelona regulations.",
+      pl: "Fryz gięty na konstrukcji płytowej, lakier granatowy i biały, grafiki wielkoformatowe, wnęki produktowe, oświetlenie punktowe w suficie i taśma LED w cokole lady.",
+      en: "A curved fascia over panel construction, navy and white lacquer, large-format graphics, product niches, ceiling spotlights and LED tape in the counter plinth.",
     },
     materials: {
-      pl: ["Sklejka gięta", "Stal nierdzewna", "Corian"],
-      en: ["Bent plywood", "Stainless steel", "Corian"],
+      pl: ["Płyta lakierowana", "Grafika wielkoformatowa", "Szkło", "Oświetlenie punktowe", "Taśma LED"],
+      en: ["Lacquered panel", "Large-format graphics", "Glass", "Spotlighting", "LED tape"],
     },
-    results: {
-      pl: "Wzrost umówionych spotkań o 64% względem poprzedniej edycji targów.",
-      en: "A 64% increase in booked meetings versus the previous edition.",
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
+  },
+  {
+    key: "sesa-chem",
+    slug: "sesa",
+    title: "SESA",
+    client: "SESA",
+    category: "exhibition",
+    industry: { pl: "Powierzchnie dekoracyjne", en: "Decorative surfaces" },
+    excerpt: {
+      pl: "Rzeźbiarski łuk wejściowy i owalne panele ekspozycyjne prezentujące próbki powierzchni.",
+      en: "A sculptural entrance arch and ovoid display panels presenting surface samples.",
     },
-    hero: heroImg("helix", "mavo-helix"),
-    gallery: galleryImgs("helix", "mavo-helix", 3),
+    overview: {
+      pl: "Zabudowa oparta na jednym geście: wysoki, zaokrąglony łuk z czerwonym wnętrzem znaczy wejście i widoczny jest z głębi alejki. Wewnątrz owalne panele niosą próbki powierzchni w równym rytmie, a otwarta strefa siedząca pozwala oglądać materiał przy stole.",
+      en: "The build rests on a single gesture: a tall rounded arch with a red interior marks the entrance and reads from down the aisle. Inside, ovoid panels carry surface samples in an even rhythm, and an open seating area lets the material be examined at the table.",
+    },
+    fabrication: {
+      pl: "Łuk gięty na frezowanej konstrukcji płytowej z kontrą świetlną, owalne panele z uchwytami na próbki, lakier biały i czerwony, grafiki aplikowane oraz podłoga podniesiona.",
+      en: "A curved arch over CNC-milled panel construction with a lit reveal, ovoid panels with sample holders, white and red lacquer, applied graphics and a raised floor.",
+    },
+    materials: {
+      pl: ["Płyta frezowana CNC", "Lakier biały", "Lakier czerwony", "Uchwyty ekspozycyjne", "Taśma LED"],
+      en: ["CNC-milled panel", "White lacquer", "Red lacquer", "Sample holders", "LED tape"],
+    },
+    services: withCore(["Frezowanie CNC", "Grafika"], ["CNC milling", "Graphics"]),
+  },
+  {
+    key: "allana",
+    slug: "allana",
+    title: "Allana",
+    client: "Allana",
+    category: "exhibition",
+    industry: { pl: "Przetwórstwo spożywcze", en: "Food processing" },
+    excerpt: {
+      pl: "Czerwono-biała zabudowa z podwieszonym pierścieniem i przestrzennym logotypem, z wielojęzyczną komunikacją marki.",
+      en: "A red-and-white build with a suspended ring and dimensional logo, carrying multilingual brand messaging.",
+    },
+    overview: {
+      pl: "Stoisko na dużą, międzynarodową halę spożywczą. Podwieszony czerwony pierścień z logotypem daje widoczność z dystansu, a przestrzenne litery pod nim domykają rozpoznanie z bliska. Wewnątrz koliste grafiki produktowe, lada, strefa siedząca i ściana marek — komunikaty powtórzone w kilku alfabetach.",
+      en: "A stand for a large international food hall. A suspended red ring with the logo gives visibility from a distance, and dimensional lettering beneath it closes recognition up close. Inside are circular product graphics, a counter, a seating zone and a brand wall — messaging repeated across several scripts.",
+    },
+    fabrication: {
+      pl: "Podwieszany pierścień na konstrukcji aluminiowej z napinaną grafiką, przestrzenne litery podświetlane, zabudowa płytowa w lakierze czerwonym i białym, kolisty kaseton oraz wbudowany ekran.",
+      en: "A suspended ring on aluminium structure with tensioned graphics, illuminated dimensional lettering, panel construction in red and white lacquer, a circular lightbox and an integrated screen.",
+    },
+    materials: {
+      pl: ["Konstrukcja aluminiowa", "Grafika napinana", "Litery przestrzenne", "Płyta lakierowana", "Kaseton LED"],
+      en: ["Aluminium structure", "Tensioned graphics", "Dimensional lettering", "Lacquered panel", "LED lightbox"],
+    },
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
+  },
+  {
+    key: "general",
+    slug: "general-goods",
+    title: "General Goods",
+    client: "General Goods",
+    category: "exhibition",
+    industry: { pl: "Napoje i alkohole", en: "Beverages & spirits" },
+    excerpt: {
+      pl: "Ciepła, barowa zabudowa z podświetlanymi wnękami na butelki i ladą degustacyjną.",
+      en: "A warm, bar-like build with illuminated bottle niches and a tasting counter.",
+    },
+    overview: {
+      pl: "Zabudowa czyta się jak bar: granatowe tło, orzechowe drewno i rytm podświetlanych wnęk, w których butelka staje się eksponatem. Lada degustacyjna wysunięta jest w stronę alejki, ekran i półki niosą markę, a wysokie stoliki tworzą miejsce na rozmowę. Ściana z logotypami porządkuje portfolio marek.",
+      en: "The build reads like a bar: a navy ground, walnut timber and a rhythm of illuminated niches in which a bottle becomes an exhibit. The tasting counter sits forward toward the aisle, a screen and shelves carry the brand, and high tables make room to talk. A logo wall organises the brand portfolio.",
+    },
+    fabrication: {
+      pl: "Zabudowa płytowa z okleiną orzechową i lakierem granatowym, frezowane wnęki z taśmą LED, podwieszany fryz z podświetlanym logotypem, lampy wiszące oraz podłoga panelowa.",
+      en: "Panel construction in walnut laminate and navy lacquer, milled niches with LED tape, a suspended fascia with illuminated logo, pendant lighting and panel flooring.",
+    },
+    materials: {
+      pl: ["Okleina orzechowa", "Lakier granatowy", "Taśma LED", "Litery przestrzenne", "Panel podłogowy"],
+      en: ["Walnut laminate", "Navy lacquer", "LED tape", "Dimensional lettering", "Floor panel"],
+    },
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
   },
 ];
+
+export const projects: Project[] = ENTRIES.map(({ key, ...rest }) => {
+  const imgs = photos(key);
+  return { ...rest, hero: imgs[0] ?? "", gallery: imgs.slice(1) };
+}).filter((p) => p.hero);
 
 export const featuredProjects = projects.filter((p) => p.featured);
 
@@ -487,10 +355,5 @@ export function getProject(slug: string) {
 }
 
 export function relatedProjects(slug: string, n = 3) {
-  const current = getProject(slug);
-  if (!current) return projects.slice(0, n);
-  return projects
-    .filter((p) => p.slug !== slug)
-    .sort((a, b) => (b.category === current.category ? 1 : 0) - (a.category === current.category ? 1 : 0))
-    .slice(0, n);
+  return projects.filter((p) => p.slug !== slug).slice(0, n);
 }

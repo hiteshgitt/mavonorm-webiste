@@ -39,17 +39,20 @@ export default async function ProjectPage({
   const project = getProject(slug);
   if (!project) notFound();
 
-  const facts: [string, string][] = [
-    [dict.common.year, project.year],
-    [dict.common.industry, project.industry[locale]],
-    [dict.common.location, project.location],
-    [dict.common.area, project.area],
-  ];
-  if (project.client) facts.unshift([dict.common.client, project.client]);
+  // only the facts we actually hold — year, location and area are absent until
+  // the real figures are supplied, and an empty row reads worse than no row
+  const facts = (
+    [
+      [dict.common.client, project.client],
+      [dict.common.industry, project.industry[locale]],
+      [dict.common.year, project.year],
+      [dict.common.location, project.location],
+      [dict.common.area, project.area],
+    ] as [string, string | undefined][]
+  ).filter((f): f is [string, string] => Boolean(f[1]));
 
   const chapters: { label: string; text: string }[] = [
-    { label: dict.common.challenge, text: project.challenge[locale] },
-    { label: dict.common.solution, text: project.solution[locale] },
+    { label: dict.common.overview, text: project.overview[locale] },
     { label: dict.common.fabrication, text: project.fabrication[locale] },
   ];
 
@@ -117,7 +120,7 @@ export default async function ProjectPage({
             </div>
           ))}
 
-          {/* materials + results */}
+          {/* materials (+ results once we have them) */}
           <div className="grid gap-8 border-t border-line pt-16 md:grid-cols-12">
             <div className="md:col-span-4">
               <h2 className="h-display text-2xl md:text-3xl" data-reveal>
@@ -132,14 +135,16 @@ export default async function ProjectPage({
                 ))}
               </ul>
             </div>
-            <div className="md:col-span-8">
-              <h2 className="h-display text-2xl md:text-3xl" data-reveal>
-                {dict.common.results}
-              </h2>
-              <p className="mt-6 max-w-3xl font-(family-name:--font-display) text-2xl leading-snug md:text-3xl" data-reveal>
-                {project.results[locale]}
-              </p>
-            </div>
+            {project.results && (
+              <div className="md:col-span-8">
+                <h2 className="h-display text-2xl md:text-3xl" data-reveal>
+                  {dict.common.results}
+                </h2>
+                <p className="mt-6 max-w-3xl font-(family-name:--font-display) text-2xl leading-snug md:text-3xl" data-reveal>
+                  {project.results[locale]}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>
