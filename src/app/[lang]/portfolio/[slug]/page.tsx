@@ -147,7 +147,7 @@ export default async function ProjectPage({
       {/* gallery */}
       <section className="bg-grey py-20 md:py-28">
         <div className="mx-auto max-w-350 px-6 md:px-10">
-          <h2 className="h-eyebrow text-blue" data-reveal>
+          <h2 className="h-eyebrow text-copper" data-reveal>
             {dict.common.gallery}
           </h2>
           <div className="mt-10" data-reveal>

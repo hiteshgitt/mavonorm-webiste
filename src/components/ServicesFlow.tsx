@@ -10,7 +10,7 @@ import FlowArt, { FlowSection } from "@/components/ui/story-scroll";
 const PANELS = [
   { bg: "var(--color-ink)", fg: "var(--color-paper)", lead: 0, support: [3] },
   { bg: "var(--color-grey)", fg: "var(--color-ink)", lead: 1, support: [4, 5] },
-  { bg: "var(--color-blue)", fg: "var(--color-paper)", lead: 2, support: [6, 7] },
+  { bg: "var(--color-copper)", fg: "var(--color-paper)", lead: 2, support: [6, 7] },
 ] as const;
 
 export default function ServicesFlow({ lang, dict }: { lang: Locale; dict: Dictionary }) {

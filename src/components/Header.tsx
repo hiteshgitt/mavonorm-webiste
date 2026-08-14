@@ -100,7 +100,7 @@ export default function Header({ lang, dict }: { lang: Locale; dict: Dictionary 
             <MagneticButton strength={0.2}>
               <Link
                 href={`/${lang}/contact`}
-                className={`${chip} block bg-ink !px-5 !py-2.5 text-paper transition-colors hover:bg-blue`}
+                className={`${chip} block bg-ink !px-5 !py-2.5 text-paper transition-colors hover:bg-copper`}
               >
                 {dict.nav.cta}
               </Link>

@@ -9,6 +9,17 @@ interface ScrollExpandMediaProps {
   mediaSrc: string;
   posterSrc?: string;
   bgImageSrc: string;
+  /**
+   * Optional video for the section backdrop, sitting behind the title and the
+   * expanding card. Takes over from `bgImageSrc`, which stays as its poster.
+   */
+  bgVideoSrc?: string;
+  /**
+   * Whether the backdrop video is scrubbed by scroll (scroll position is the
+   * playhead) or just loops ambiently at its own pace. Scrubbing also keeps the
+   * backdrop partly visible at full expansion so the footage is actually seen.
+   */
+  bgVideoScrub?: boolean;
   title?: string;
   /** Explicit halves for the sliding title; fall back to splitting `title` by words. */
   titleLeft?: string;
@@ -44,6 +55,19 @@ const EPSILON = 0.0004;
 const EXPAND_AT = 0.99;
 
 /**
+ * How far the backdrop dims at full expansion. The backdrop used to fade to
+ * nothing, which would hide the end of a scrubbed clip exactly when the booth
+ * is finished — so a video backdrop keeps this floor instead.
+ */
+const BG_FLOOR = 0.35;
+
+/**
+ * Progress over which the card fades up from nothing. At rest the hero is just
+ * the backdrop and the headline; the card is a reveal the first scroll earns.
+ */
+const MEDIA_FADE_IN = 0.25;
+
+/**
  * Scroll-expansion hero: the page stays pinned while the first scroll input
  * drives the media from a small card to (near) fullscreen; the title halves
  * slide apart as it grows. Once fully expanded, normal scrolling resumes.
@@ -67,6 +91,8 @@ const ScrollExpandMedia = ({
   mediaSrc,
   posterSrc,
   bgImageSrc,
+  bgVideoSrc,
+  bgVideoScrub = true,
   title,
   titleLeft: titleLeftProp,
   titleRight: titleRightProp,
@@ -92,7 +118,9 @@ const ScrollExpandMedia = ({
   const lastFrameRef = useRef<number>(-1);
 
   const boxRef = useRef<HTMLDivElement | null>(null);
+  const mediaWrapRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const bgVideoRef = useRef<HTMLVideoElement | null>(null);
   const bgRef = useRef<HTMLDivElement | null>(null);
   const scrimRef = useRef<HTMLDivElement | null>(null);
   const washRef = useRef<HTMLDivElement | null>(null);
@@ -107,16 +135,32 @@ const ScrollExpandMedia = ({
     expandedRef.current = mediaFullyExpanded;
   }, [mediaFullyExpanded]);
 
+  /** The clip scroll drives: the backdrop when there is one, else the card. */
+  const scrubbing = bgVideoSrc ? bgVideoScrub : mediaType === "video";
+  const scrubTarget = useCallback(
+    () => (bgVideoSrc ? bgVideoRef.current : videoRef.current),
+    [bgVideoSrc],
+  );
+
   /** Write one frame of the expansion to the DOM. */
   const applyFrame = useCallback(
     (p: number) => {
       const mobile = isMobileRef.current;
 
+      // the card is absent until the first scroll, then fades up as it grows
+      const reveal = Math.min(p / MEDIA_FADE_IN, 1);
+      if (mediaWrapRef.current) mediaWrapRef.current.style.opacity = `${reveal}`;
+
       if (boxRef.current) {
         boxRef.current.style.width = `${300 + p * (mobile ? 650 : 1250)}px`;
         boxRef.current.style.height = `${400 + p * (mobile ? 200 : 400)}px`;
+        // the drop shadow has to fade with it, or an empty box floats at rest
+        boxRef.current.style.boxShadow = `0px 0px 50px rgba(0, 0, 0, ${0.5 * reveal})`;
       }
-      if (bgRef.current) bgRef.current.style.opacity = `${1 - p}`;
+      // a scrubbed backdrop only dims partway, so the end of the clip is still seen
+      if (bgRef.current) {
+        bgRef.current.style.opacity = `${1 - p * (scrubbing && bgVideoSrc ? 1 - BG_FLOOR : 1)}`;
+      }
 
       const shift = p * (mobile ? 180 : 150);
       if (leftRef.current) leftRef.current.style.transform = `translateX(-${shift}vw)`;
@@ -131,12 +175,14 @@ const ScrollExpandMedia = ({
       if (scrimRef.current) scrimRef.current.style.opacity = `${0.6 - p * 0.32}`;
       if (washRef.current) washRef.current.style.opacity = `${0.55 - p * 0.25}`;
       if (gridRef.current) gridRef.current.style.opacity = `${0.6 - p * 0.3}`;
-      if (imgScrimRef.current) imgScrimRef.current.style.opacity = `${0.7 - p * 0.3}`;
+      // a light tint so the card sits in the banner rather than on top of it,
+      // easing off as it expands and becomes the subject
+      if (imgScrimRef.current) imgScrimRef.current.style.opacity = `${0.4 - p * 0.22}`;
 
       // scroll position is the playhead, until playback takes over
-      const video = videoRef.current;
+      const video = scrubTarget();
       const duration = durationRef.current;
-      if (video && duration && !expandedRef.current) {
+      if (scrubbing && video && duration && !expandedRef.current) {
         const t = Math.min(duration * SCRUB_SPAN * p, duration - 0.05);
         // quantise to source frames — seeking between them is a wasted decode
         const frame = Math.round(t * sourceFps);
@@ -146,7 +192,7 @@ const ScrollExpandMedia = ({
         }
       }
     },
-    [sourceFps],
+    [sourceFps, scrubbing, bgVideoSrc, scrubTarget],
   );
 
   // reduced motion: skip the hijack, land on the expanded state
@@ -285,9 +331,8 @@ const ScrollExpandMedia = ({
 
   // metadata often lands before hydration, so check readyState as well as listening
   useEffect(() => {
-    if (mediaType !== "video") return;
-    const video = videoRef.current;
-    if (!video) return;
+    const video = scrubTarget();
+    if (!scrubbing || !video) return;
 
     const onReady = () => {
       durationRef.current = Number.isFinite(video.duration) ? video.duration : 0;
@@ -304,13 +349,29 @@ const ScrollExpandMedia = ({
     if (video.readyState >= 1) onReady();
     else video.addEventListener("loadedmetadata", onReady);
     return () => video.removeEventListener("loadedmetadata", onReady);
-  }, [mediaType, applyFrame]);
+  }, [scrubbing, scrubTarget, applyFrame]);
+
+  // an ambient backdrop loop would otherwise keep decoding once the hero is
+  // scrolled past — pause it whenever the section leaves the viewport
+  useEffect(() => {
+    const video = bgVideoRef.current;
+    if (!bgVideoSrc || bgVideoScrub || !video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) void video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0 },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [bgVideoSrc, bgVideoScrub]);
 
   // once expanded, playback takes over from where the scrub left off
   useEffect(() => {
-    if (mediaType !== "video") return;
-    const video = videoRef.current;
-    if (!video) return;
+    const video = scrubTarget();
+    if (!scrubbing || !video) return;
     if (mediaFullyExpanded) {
       void video.play().catch(() => {});
     } else {
@@ -319,7 +380,7 @@ const ScrollExpandMedia = ({
       // next seek is not skipped as a no-op
       lastFrameRef.current = -1;
     }
-  }, [mediaFullyExpanded, mediaType]);
+  }, [mediaFullyExpanded, scrubbing, scrubTarget]);
 
   const words = title ? title.split(" ") : [];
   const mid = Math.ceil(words.length / 2);
@@ -331,15 +392,35 @@ const ScrollExpandMedia = ({
       <section className="relative flex min-h-[100dvh] flex-col items-center justify-start">
         <div className="relative flex min-h-[100dvh] w-full flex-col items-center">
           <div ref={bgRef} className="absolute inset-0 z-0 h-full" style={{ opacity: 1 }}>
-            <Image
-              src={bgImageSrc}
-              alt=""
-              width={1920}
-              height={1080}
-              className="duotone h-screen w-screen"
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              priority
-            />
+            {bgVideoSrc ? (
+              <video
+                ref={bgVideoRef}
+                src={bgVideoSrc}
+                poster={bgImageSrc}
+                muted
+                loop={!bgVideoScrub}
+                autoPlay={!bgVideoScrub}
+                playsInline
+                preload="auto"
+                controls={false}
+                disablePictureInPicture
+                disableRemotePlayback
+                // darker than the backdrop image was: moving footage competes with
+                // the card for attention, so it has to sit further back
+                className="h-screen w-screen object-cover"
+                style={{ filter: "grayscale(1) contrast(1.06) brightness(0.62)" }}
+              />
+            ) : (
+              <Image
+                src={bgImageSrc}
+                alt=""
+                width={1920}
+                height={1080}
+                className="duotone h-screen w-screen"
+                style={{ objectFit: "cover", objectPosition: "center" }}
+                priority
+              />
+            )}
             <div className="blueprint-grid absolute inset-0" />
             <div className="absolute inset-0 bg-ink/60" />
           </div>
@@ -354,11 +435,15 @@ const ScrollExpandMedia = ({
                   height: "400px",
                   maxWidth: "95vw",
                   maxHeight: "85vh",
-                  boxShadow: "0px 0px 50px rgba(0, 0, 0, 0.5)",
+                  boxShadow: "0px 0px 50px rgba(0, 0, 0, 0)",
                 }}
               >
                 {mediaType === "video" ? (
-                  <div className="pointer-events-none relative h-full w-full overflow-hidden bg-ink">
+                  <div
+                    ref={mediaWrapRef}
+                    className="pointer-events-none relative h-full w-full overflow-hidden bg-ink"
+                    style={{ opacity: 0 }}
+                  >
                     <video
                       ref={videoRef}
                       src={mediaSrc}
@@ -375,13 +460,13 @@ const ScrollExpandMedia = ({
                     />
                     {/* ink scrim — heavy while the card is small, lifts as it fills the screen */}
                     <div ref={scrimRef} className="absolute inset-0 bg-ink" style={{ opacity: 0.6 }} />
-                    {/* copper/blue wash to tie the footage to the palette */}
+                    {/* copper wash to tie the footage to the palette */}
                     <div
                       ref={washRef}
                       className="absolute inset-0 mix-blend-soft-light"
                       style={{
                         background:
-                          "linear-gradient(130deg, var(--color-blue) 0%, transparent 45%, var(--color-copper) 100%)",
+                          "linear-gradient(130deg, var(--color-copper) 0%, transparent 45%, var(--color-copper) 100%)",
                         opacity: 0.55,
                       }}
                     />
@@ -396,7 +481,7 @@ const ScrollExpandMedia = ({
                     <div className="grain absolute inset-0" />
                   </div>
                 ) : (
-                  <div className="relative h-full w-full">
+                  <div ref={mediaWrapRef} className="relative h-full w-full" style={{ opacity: 0 }}>
                     <Image
                       src={mediaSrc}
                       alt={title || "Media content"}
@@ -405,7 +490,7 @@ const ScrollExpandMedia = ({
                       priority
                       className="h-full w-full object-cover"
                     />
-                    <div ref={imgScrimRef} className="absolute inset-0 bg-ink/50" style={{ opacity: 0.7 }} />
+                    <div ref={imgScrimRef} className="absolute inset-0 bg-ink/50" style={{ opacity: 0.4 }} />
                   </div>
                 )}
 

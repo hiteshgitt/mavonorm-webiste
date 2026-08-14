@@ -49,7 +49,9 @@ export default function SectorsList({ sectors }: { sectors: SectorItem[] }) {
             onMouseEnter={() => setActive(i)}
             onFocus={() => setActive(i)}
           >
-            <span className={`idx text-xs transition-colors ${active === i ? "text-blue" : "text-copper"}`}>
+            {/* copper marks the active row; the rest recede to muted, since the
+                palette no longer has a second accent to switch between */}
+            <span className={`idx text-xs transition-colors ${active === i ? "text-copper" : "text-muted"}`}>
               {String(i + 1).padStart(2, "0")}
             </span>
             <span className="font-(family-name:--font-display) text-lg transition-transform duration-300 group-hover:translate-x-2">

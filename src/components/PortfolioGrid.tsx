@@ -60,7 +60,7 @@ export default function PortfolioGrid({
           <select
             value={industry}
             onChange={(e) => setIndustry(e.target.value)}
-            className="h-eyebrow !tracking-[0.14em] cursor-pointer border border-line bg-transparent px-4 py-2.5 outline-none focus:border-blue"
+            className="h-eyebrow !tracking-[0.14em] cursor-pointer border border-line bg-transparent px-4 py-2.5 outline-none focus:border-copper"
             aria-label={dict.portfolio.industryLabel}
           >
             <option value="all">{dict.portfolio.industryLabel}: {dict.common.all}</option>
@@ -75,7 +75,7 @@ export default function PortfolioGrid({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={dict.common.search}
-            className="w-full border border-line bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-blue sm:w-64"
+            className="w-full border border-line bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted focus:border-copper sm:w-64"
             aria-label={dict.common.search}
           />
         </div>

@@ -16,7 +16,7 @@ export default async function LegalPage({ params }: { params: Promise<{ lang: st
     <>
       <section className="pt-40 pb-16 md:pt-52 md:pb-20">
         <div className="mx-auto max-w-350 px-6 md:px-10">
-          <p className="h-eyebrow text-blue" data-reveal>
+          <p className="h-eyebrow text-copper" data-reveal>
             {dict.legal.hero.eyebrow}
           </p>
           <RevealHeading as="h1" className="mt-6 max-w-4xl text-5xl md:text-7xl" lines={[dict.legal.hero.heading]} />

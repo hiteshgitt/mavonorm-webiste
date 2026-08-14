@@ -7,7 +7,6 @@
   --color-grey: #ececea;
   --color-line: #d8d8d4;
   --color-line-dark: #2c2e32;
-  --color-blue: #2757d6;
   --color-copper: #c2571b;
   --color-muted: #6f7176;
   --color-muted-dark: #9a9ca1;
@@ -42,7 +41,7 @@ body {
 }
 
 ::selection {
-  background: var(--color-blue);
+  background: var(--color-copper);
   color: #fff;
 }
 
@@ -161,8 +160,8 @@ img.duotone {
   .cursor-ring.is-view {
     width: 84px;
     height: 84px;
-    background: var(--color-blue);
-    border-color: var(--color-blue);
+    background: var(--color-copper);
+    border-color: var(--color-copper);
     color: #fff;
     font-family: var(--font-display);
     font-size: 0.65rem;
@@ -205,7 +204,7 @@ img.duotone {
   color: var(--color-paper);
 }
 .btn-dark::before {
-  background: var(--color-blue);
+  background: var(--color-copper);
 }
 .btn-light {
   background: var(--color-paper);

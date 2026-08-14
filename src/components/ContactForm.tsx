@@ -10,14 +10,14 @@ export default function ContactForm({ dict }: { dict: Dictionary }) {
   if (sent) {
     return (
       <div className="flex min-h-80 flex-col items-start justify-center border border-line p-10">
-        <div className="h-eyebrow text-blue">mavoNORM</div>
+        <div className="h-eyebrow text-copper">mavoNORM</div>
         <p className="h-display mt-4 text-3xl">{f.success}</p>
       </div>
     );
   }
 
   const field =
-    "w-full border-b border-line bg-transparent py-3 text-base outline-none transition-colors placeholder:text-muted focus:border-blue";
+    "w-full border-b border-line bg-transparent py-3 text-base outline-none transition-colors placeholder:text-muted focus:border-copper";
 
   return (
     <form

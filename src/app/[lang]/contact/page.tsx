@@ -20,7 +20,7 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
     <>
       <section className="pt-40 pb-16 md:pt-52 md:pb-20">
         <div className="mx-auto max-w-350 px-6 md:px-10">
-          <p className="h-eyebrow text-blue" data-reveal>
+          <p className="h-eyebrow text-copper" data-reveal>
             {c.hero.eyebrow}
           </p>
           <RevealHeading as="h1" className="mt-6 max-w-5xl text-5xl md:text-7xl" lines={split(c.hero.heading)} />

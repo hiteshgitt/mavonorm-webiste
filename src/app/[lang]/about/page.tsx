@@ -23,7 +23,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
       {/* hero */}
       <section className="pt-40 pb-20 md:pt-52 md:pb-28">
         <div className="mx-auto max-w-350 px-6 md:px-10">
-          <p className="h-eyebrow text-blue" data-reveal>
+          <p className="h-eyebrow text-copper" data-reveal>
             {a.hero.eyebrow}
           </p>
           <RevealHeading as="h1" className="mt-6 max-w-5xl text-5xl md:text-7xl" lines={split(a.hero.heading)} />
@@ -81,7 +81,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
         <div className="mx-auto max-w-350 px-6 md:px-10">
           <div className="grid gap-14 md:grid-cols-12">
             <div className="md:col-span-5">
-              <p className="h-eyebrow text-blue" data-reveal>
+              <p className="h-eyebrow text-copper" data-reveal>
                 {a.mission.eyebrow}
               </p>
               <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={split(a.mission.heading)} />
@@ -90,7 +90,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
               </p>
             </div>
             <div className="md:col-span-7">
-              <p className="h-eyebrow text-blue" data-reveal>
+              <p className="h-eyebrow text-copper" data-reveal>
                 {a.values.eyebrow}
               </p>
               <div className="mt-8 grid gap-px border border-line bg-line sm:grid-cols-2">
@@ -116,7 +116,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             </div>
           </div>
           <div>
-            <p className="h-eyebrow text-blue" data-reveal>
+            <p className="h-eyebrow text-copper" data-reveal>
               {a.facilities.eyebrow}
             </p>
             <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={split(a.facilities.heading)} />
@@ -139,7 +139,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
       <section className="py-20 md:py-28">
         <div className="mx-auto grid max-w-350 gap-14 px-6 md:grid-cols-2 md:px-10">
           <div>
-            <p className="h-eyebrow text-blue" data-reveal>
+            <p className="h-eyebrow text-copper" data-reveal>
               {a.certifications.eyebrow}
             </p>
             <RevealHeading className="mt-4 text-3xl md:text-4xl" lines={split(a.certifications.heading)} />
@@ -153,7 +153,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             </ul>
           </div>
           <div>
-            <p className="h-eyebrow text-blue" data-reveal>
+            <p className="h-eyebrow text-copper" data-reveal>
               {a.markets.eyebrow}
             </p>
             <RevealHeading className="mt-4 text-3xl md:text-4xl" lines={split(a.markets.heading)} />

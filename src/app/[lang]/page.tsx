@@ -36,10 +36,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
     <>
       {/* ---------- HERO (scroll-expansion) ---------- */}
       <ScrollExpandMedia
-        mediaType="video"
-        mediaSrc="/video/booth-assembly.mp4"
-        posterSrc="/images/home-hero.png"
-        sourceFps={24}
+        mediaType="image"
+        mediaSrc="/images/home-hero-card.jpg"
+        bgVideoSrc="/video/booth-assembly.mp4"
+        bgVideoScrub={false}
         bgImageSrc={siteImage("home-hero-bg.png", "mavo-hero", 2400, 1500)}
         titleLeft={`${h.hero.line1} ${h.hero.line2}`}
         titleRight={h.hero.line3}
@@ -67,7 +67,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className="relative py-24 md:py-36">
         <div className="mx-auto grid max-w-350 gap-12 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-4">
-            <p className="h-eyebrow text-blue" data-reveal>
+            <p className="h-eyebrow text-copper" data-reveal>
               {h.intro.eyebrow}
             </p>
           </div>
@@ -92,7 +92,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className="overflow-hidden py-24 md:py-32">
         <div className="mx-auto max-w-350 px-6 md:px-10">
           <div data-reveal-group>
-            <p className="h-eyebrow text-blue">{h.featured.eyebrow}</p>
+            <p className="h-eyebrow text-copper">{h.featured.eyebrow}</p>
             <RevealHeading className="mt-4 text-4xl md:text-6xl" lines={splitTwo(h.featured.heading)} />
           </div>
           <div className="mt-16" data-reveal>
@@ -153,7 +153,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <div className="mx-auto max-w-350 px-6 md:px-10">
           <div className="grid gap-16 lg:grid-cols-2">
             <div data-reveal-group>
-              <p className="h-eyebrow text-blue">{h.sectors.eyebrow}</p>
+              <p className="h-eyebrow text-copper">{h.sectors.eyebrow}</p>
               <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={splitTwo(h.sectors.heading)} />
             </div>
             <SectorsList sectors={sectors} />
