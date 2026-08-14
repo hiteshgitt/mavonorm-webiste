@@ -340,7 +340,7 @@ footer:hover .footer-mark {
   text-shadow:
     0 0 24px rgba(194, 87, 27, 0.28),
     0 0 80px rgba(194, 87, 27, 0.18),
-    0 0 160px rgba(39, 87, 214, 0.12);
+    0 0 160px rgba(194, 87, 27, 0.12);
   transform: translateY(-6px);
 }
 @media (prefers-reduced-motion: reduce) {
