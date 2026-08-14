@@ -24,12 +24,18 @@ const CLIENTS: { key: string; name: string }[] = [
   { key: "dji", name: "DJI" },
   { key: "master-lock", name: "Master Lock" },
   { key: "american-orthodontics", name: "American Orthodontics" },
+  // The supplied "natural" set turned out to hold three different stands, each
+  // identifiable from its own branding, so it is split rather than filed under
+  // one client name.
   { key: "natural", name: "Natural" },
+  { key: "botanicall", name: "Botanic'all" },
+  { key: "atelier-emocio", name: "Atelier Emocio" },
   { key: "lg-chem", name: "LG Chem" },
   { key: "technik", name: "Technik" },
   { key: "sesa-chem", name: "Sesa Chem" },
   { key: "allana", name: "Allana" },
-  { key: "general", name: "General" },
+  // `key` is the folder on disk, `name` is what visitors see
+  { key: "general", name: "General Electric" },
 ];
 
 const CLIENT_DIR = path.join(process.cwd(), "public", "images", "client");
