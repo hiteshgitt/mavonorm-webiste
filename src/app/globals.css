@@ -331,16 +331,21 @@ img.duotone {
 }
 
 /* footer watermark — glows when the footer is hovered */
+/* The mark is an inline SVG (currentColor), so the glow is drop-shadow rather
+   than text-shadow. Unlike text-shadow, drop-shadow takes its alpha from the
+   source silhouette — against a mark sitting at a few percent that would come
+   out barely visible, so the shadows are near-opaque and chained: each one
+   filters the result of the last, compounding into a glow that reads. */
 .footer-mark {
-  color: rgba(255, 255, 255, 0.02);
-  transition: color 0.9s ease, text-shadow 0.9s ease, transform 0.9s ease;
+  color: rgba(255, 255, 255, 0.03);
+  transition: color 0.9s ease, filter 0.9s ease, transform 0.9s ease;
 }
 footer:hover .footer-mark {
-  color: rgba(244, 244, 242, 0.09);
-  text-shadow:
-    0 0 24px rgba(194, 87, 27, 0.28),
-    0 0 80px rgba(194, 87, 27, 0.18),
-    0 0 160px rgba(194, 87, 27, 0.12);
+  color: rgba(244, 244, 242, 0.16);
+  filter:
+    drop-shadow(0 0 14px rgba(194, 87, 27, 0.95))
+    drop-shadow(0 0 28px rgba(194, 87, 27, 0.8))
+    drop-shadow(0 0 70px rgba(194, 87, 27, 0.6));
   transform: translateY(-6px);
 }
 @media (prefers-reduced-motion: reduce) {

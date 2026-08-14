@@ -82,11 +82,13 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
           </div>
         </div>
       </div>
+      {/* oversized brand mark bled off the bottom edge; the logo rather than a
+          text wordmark, so it matches the header exactly */}
       <div
         aria-hidden
-        className="footer-mark h-display pointer-events-none absolute -bottom-10 left-0 w-full select-none whitespace-nowrap text-[18vw] leading-none"
+        className="footer-mark pointer-events-none absolute -bottom-[3vw] left-0 w-full select-none px-[2vw]"
       >
-        mavoNORM
+        <Logo className="h-auto w-full" />
       </div>
     </footer>
   );
