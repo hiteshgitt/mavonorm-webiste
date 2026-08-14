@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Full-resolution client stand photos (camera originals, ~95MB). The web-sized
+# .webp siblings are committed and are what the site serves.
+/public/images/client/**/*.jpg

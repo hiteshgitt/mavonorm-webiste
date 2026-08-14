@@ -268,6 +268,13 @@ export const pl = {
     filterLabel: "Kategoria",
     industryLabel: "Branża",
     categories: { all: "Wszystkie", exhibition: "Stoiska targowe", interior: "Wnętrza", cnc: "CNC i produkcja", custom: "Projekty specjalne" },
+    clientWork: {
+      eyebrow: "Galeria realizacji",
+      heading: "Zbudowane dla naszych klientów.",
+      sub: "Zdjęcia z hal targowych — stoiska zaprojektowane, wyprodukowane i zmontowane przez nasz zespół.",
+      // polski ma trzy formy mnogie: 1 zdjęcie, 2–4 zdjęcia, 5+ zdjęć
+      photos: { one: "zdjęcie", few: "zdjęcia", many: "zdjęć", other: "zdjęcia" },
+    },
   },
   contact: {
     hero: { eyebrow: "Kontakt", heading: "Porozmawiajmy o Twoim projekcie.", sub: "Odpowiadamy w ciągu jednego dnia roboczego. Wstępna wycena w 48 godzin." },

@@ -270,6 +270,12 @@ export const en: typeof pl = {
     filterLabel: "Category",
     industryLabel: "Industry",
     categories: { all: "All", exhibition: "Exhibition stands", interior: "Interiors", cnc: "CNC & production", custom: "Special projects" },
+    clientWork: {
+      eyebrow: "Project gallery",
+      heading: "Built for our clients.",
+      sub: "Photographs from the show floor — stands designed, fabricated and installed by our team.",
+      photos: { one: "photo", few: "photos", many: "photos", other: "photos" },
+    },
   },
   contact: {
     hero: { eyebrow: "Contact", heading: "Let's talk about your project.", sub: "We reply within one business day. Preliminary quote within 48 hours." },
