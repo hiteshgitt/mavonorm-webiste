@@ -82,13 +82,18 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
           </div>
         </div>
       </div>
-      {/* oversized brand mark bled off the bottom edge; the logo rather than a
-          text wordmark, so it matches the header exactly */}
+      {/* Oversized brand mark. Two stacked copies: the glow is a blurred
+          duplicate underneath, so the mark on top carries no filter and stays
+          crisp vector — filtering the mark itself rasterises it and, at this
+          size, the browser downsamples the result into visible blocks. */}
       <div
         aria-hidden
-        className="footer-mark pointer-events-none absolute -bottom-[3vw] left-0 w-full select-none px-[2vw]"
+        className="footer-mark pointer-events-none absolute bottom-0 left-0 w-full select-none px-[2vw] pb-[1.5vw]"
       >
-        <Logo className="h-auto w-full" />
+        <div className="relative">
+          <Logo className="footer-mark-glow absolute left-0 top-0 h-auto w-full" />
+          <Logo className="footer-mark-face relative h-auto w-full" />
+        </div>
       </div>
     </footer>
   );

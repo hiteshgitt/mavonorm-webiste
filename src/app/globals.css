@@ -331,25 +331,40 @@ img.duotone {
 }
 
 /* footer watermark — glows when the footer is hovered */
-/* The mark is an inline SVG (currentColor), so the glow is drop-shadow rather
-   than text-shadow. Unlike text-shadow, drop-shadow takes its alpha from the
-   source silhouette — against a mark sitting at a few percent that would come
-   out barely visible, so the shadows are near-opaque and chained: each one
-   filters the result of the last, compounding into a glow that reads. */
+/* Footer wordmark. The glow is a separate blurred copy rather than a filter on
+   the mark: any CSS filter rasterises the element, and at this size (~1800px
+   wide, large blur radii) the browser rasterises well below display resolution
+   and the letterforms break into blocks. Blurring only the copy underneath
+   hides that entirely — it is blur, there is nothing left to look sharp — while
+   the mark on top stays unfiltered and renders as vector. */
 .footer-mark {
-  color: rgba(255, 255, 255, 0.03);
-  transition: color 0.9s ease, filter 0.9s ease, transform 0.9s ease;
+  transition: transform 0.9s ease;
 }
 footer:hover .footer-mark {
-  color: rgba(244, 244, 242, 0.16);
-  filter:
-    drop-shadow(0 0 14px rgba(194, 87, 27, 0.95))
-    drop-shadow(0 0 28px rgba(194, 87, 27, 0.8))
-    drop-shadow(0 0 70px rgba(194, 87, 27, 0.6));
   transform: translateY(-6px);
 }
+
+.footer-mark-face {
+  color: rgba(255, 255, 255, 0.03);
+  transition: color 0.9s ease;
+}
+footer:hover .footer-mark-face {
+  color: rgba(244, 244, 242, 0.16);
+}
+
+.footer-mark-glow {
+  color: var(--color-copper);
+  opacity: 0;
+  filter: blur(26px);
+  transition: opacity 0.9s ease;
+}
+footer:hover .footer-mark-glow {
+  opacity: 0.55;
+}
 @media (prefers-reduced-motion: reduce) {
-  .footer-mark {
+  .footer-mark,
+  .footer-mark-face,
+  .footer-mark-glow {
     transition-duration: 0.2s;
   }
   footer:hover .footer-mark {
