@@ -204,6 +204,19 @@ export const pl = {
       body2:
         "Rozwijamy się organicznie — każda kolejna hala, maszyna i osoba w zespole to odpowiedź na realne potrzeby projektów, nie na slajd w prezentacji. Dzięki temu utrzymujemy to, co w tej branży najtrudniejsze: powtarzalną jakość i dotrzymane terminy.",
     },
+    philosophy: {
+      eyebrow: "Filozofia",
+      heading: "Bez kompromisów.",
+      body1:
+        "mavoNORM Poland to niemiecka precyzja i doświadczenie zdobywane przez lata budowy stoisk w całej Europie.",
+      body2:
+        "Unikanie kompromisów to nasza strategia — szczególnie w kwestii jakości. Niezależnie od tego, jakie stoisko budujemy: najmniejsze czy największe, zawsze przykładamy największą wagę do detali. Jeśli szukasz takiej filozofii — właśnie znalazłeś właściwego partnera.",
+    },
+    clients: {
+      eyebrow: "Klienci",
+      heading: "Marki, dla których budujemy.",
+      sub: "Wybrane stoiska zrealizowane dla klientów w Europie i poza nią.",
+    },
     timeline: {
       eyebrow: "Oś czasu",
       heading: "Kluczowe momenty",

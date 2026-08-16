@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
 import { siteImage } from "@/lib/images";
+import { projects } from "@/lib/projects";
 import RevealHeading from "@/components/RevealHeading";
 import MagneticButton from "@/components/MagneticButton";
+import Timeline from "@/components/Timeline";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -17,6 +19,16 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
   const locale = lang as Locale;
   const dict = getDictionary(lang);
   const a = dict.about;
+
+  // hover previews for "Key moments" — our own workshop and hall, cycled, so no
+  // year is paired with a client stand whose date we cannot verify
+  const momentImgs = [
+    siteImage("about-workshop.png", "mavo-workshop", 800, 600),
+    siteImage("about-hall.png", "mavo-hall", 800, 600),
+    siteImage("about-detail.png", "mavo-detail", 800, 600),
+    siteImage("about-production-hall.png", "mavo-prod", 800, 600),
+  ];
+  const timelineItems = a.timeline.items.map((t, i) => ({ ...t, img: momentImgs[i % momentImgs.length] }));
 
   return (
     <>
@@ -58,6 +70,26 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
         </div>
       </section>
 
+      {/* philosophy */}
+      <section className="border-t border-line py-20 md:py-28">
+        <div className="mx-auto grid max-w-350 gap-14 px-6 md:grid-cols-12 md:px-10">
+          <div className="md:col-span-4">
+            <p className="h-eyebrow text-copper" data-reveal>
+              {a.philosophy.eyebrow}
+            </p>
+            <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={split(a.philosophy.heading)} />
+          </div>
+          <div className="md:col-span-8">
+            <p className="font-(family-name:--font-display) text-2xl leading-snug md:text-3xl" data-reveal>
+              {a.philosophy.body1}
+            </p>
+            <p className="mt-8 max-w-2xl leading-relaxed text-muted" data-reveal>
+              {a.philosophy.body2}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* timeline */}
       <section className="dark-section grain py-20 md:py-28">
         <div className="mx-auto max-w-350 px-6 md:px-10">
@@ -65,14 +97,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             {a.timeline.eyebrow}
           </p>
           <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={[a.timeline.heading]} />
-          <ol className="mt-16">
-            {a.timeline.items.map((t) => (
-              <li key={t.year} className="grid gap-4 border-t border-line-dark py-8 md:grid-cols-12 md:items-baseline" data-reveal>
-                <div className="h-display text-3xl text-copper md:col-span-2 md:text-4xl">{t.year}</div>
-                <p className="max-w-2xl leading-relaxed text-muted-dark md:col-span-10">{t.text}</p>
-              </li>
-            ))}
-          </ol>
+          <Timeline items={timelineItems} />
         </div>
       </section>
 
@@ -106,6 +131,43 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
           </div>
         </div>
       </section>
+
+      {/* clients — real stands, linking through to the project pages */}
+      {projects.length > 0 && (
+        <section className="border-t border-line py-20 md:py-28">
+          <div className="mx-auto max-w-350 px-6 md:px-10">
+            <div data-reveal-group>
+              <p className="h-eyebrow text-copper">{a.clients.eyebrow}</p>
+              <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={split(a.clients.heading)} />
+              <p className="mt-8 max-w-xl text-lg text-muted" data-reveal>
+                {a.clients.sub}
+              </p>
+            </div>
+            <ul className="mt-14 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {projects.map((p, i) => (
+                <li key={p.slug} data-reveal data-delay={`${(i % 3) * 0.08}`}>
+                  <Link href={`/${locale}/portfolio/${p.slug}`} className="group block" data-cursor="view">
+                    <div className="duotone relative aspect-[4/3] overflow-hidden bg-grey">
+                      <Image
+                        src={p.hero}
+                        alt={p.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="mt-4 flex items-baseline gap-3">
+                      <span className="idx text-xs text-copper">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="font-(family-name:--font-display) text-lg">{p.client ?? p.title}</span>
+                    </div>
+                    <div className="mt-1 text-sm text-muted">{p.industry[locale]}</div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* facilities */}
       <section className="border-t border-line bg-grey py-20 md:py-28">

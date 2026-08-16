@@ -206,6 +206,19 @@ export const en: typeof pl = {
       body2:
         "We grow organically — every new hall, machine and team member answers real project needs, not a slide in a deck. That is how we sustain the hardest thing in this industry: repeatable quality and kept deadlines.",
     },
+    philosophy: {
+      eyebrow: "Philosophy",
+      heading: "No compromises.",
+      body1:
+        "mavoNORM Poland stands for German precision and experience, gained during many years of standbuilding across Europe.",
+      body2:
+        "Avoiding compromises is our strategy — especially in terms of quality. No matter what stand we build, the smallest or the biggest one, we always pay most attention to details. If you are searching for such a philosophy, you have just found the right partner.",
+    },
+    clients: {
+      eyebrow: "Clients",
+      heading: "Brands we build for.",
+      sub: "Selected stands delivered for clients across Europe and beyond.",
+    },
     timeline: {
       eyebrow: "Timeline",
       heading: "Key moments",
