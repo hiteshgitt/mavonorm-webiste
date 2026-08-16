@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
-import { siteImage } from "@/lib/images";
+import { clientPhoto, siteImage } from "@/lib/images";
 import { featuredProjects } from "@/lib/projects";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import SectorsList from "@/components/SectorsList";
@@ -25,12 +25,29 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
 
   const clientNames = ["HELION", "NORDICWARE", "VANTUM", "ARCLINE", "GRIDPOWER", "ATLAS", "KORM", "POLAR BANK", "HELIX"];
 
-  // stable keys for sector thumbnails (public/images/sector-<key>.png)
+  /**
+   * Sector hover thumbnails, each a real stand we built for a client in that
+   * sector rather than a stock placeholder. Finance is the one sector with no
+   * matching client yet, so it borrows the most corporate of the stands.
+   */
   const sectorKeys = ["automotive", "technology", "medical", "industrial", "fmcg", "furniture", "energy", "finance"];
-  const sectors = h.sectors.items.map((label, i) => ({
-    label,
-    img: siteImage(`sector-${sectorKeys[i] ?? i}.png`, `mavo-sector-${sectorKeys[i] ?? i}`, 800, 600),
-  }));
+  const sectorPhoto: Record<string, string> = {
+    automotive: clientPhoto("lg-chem", 1), // their wall is Advanced Automotive Battery
+    technology: clientPhoto("dji", 1),
+    medical: clientPhoto("american-orthodontics", 1),
+    industrial: clientPhoto("master-lock", 1),
+    fmcg: clientPhoto("allana", 1),
+    furniture: clientPhoto("sesa-chem", 1), // decorative surfaces and flooring
+    energy: clientPhoto("lg-chem", 2),
+    finance: clientPhoto("technic", 1),
+  };
+  const sectors = h.sectors.items.map((label, i) => {
+    const key = sectorKeys[i] ?? String(i);
+    return {
+      label,
+      img: sectorPhoto[key] || siteImage(`sector-${key}.png`, `mavo-sector-${key}`, 800, 600),
+    };
+  });
 
   return (
     <>
@@ -40,7 +57,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         mediaSrc="/images/home-hero-card.webp"
         bgVideoSrc="/video/booth-assembly.mp4"
         bgVideoScrub={false}
-        bgImageSrc={siteImage("home-hero-bg.png", "mavo-hero", 2400, 1500)}
+        bgImageSrc="/images/mavonorm-stand-front.webp"
         titleLeft={`${h.hero.line1} ${h.hero.line2}`}
         titleRight={h.hero.line3}
         date={h.hero.eyebrow}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
-import { siteImage } from "@/lib/images";
+import { clientPhoto, siteImage } from "@/lib/images";
 import RevealHeading from "@/components/RevealHeading";
 import MagneticButton from "@/components/MagneticButton";
 
@@ -16,6 +16,23 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
   const { lang } = await params;
   const locale = lang as Locale;
   const dict = getDictionary(lang);
+
+  /**
+   * Real stands in place of stock artwork. These illustrate the service and are
+   * captioned only with its title, so a stand photo is honest here — unlike the
+   * contact page, where the image is captioned as our production facility.
+   * CNC and interiors keep their existing artwork: they describe our machinery
+   * and fit-out work, which a finished stand does not show.
+   */
+  const servicePhoto: Record<string, string> = {
+    "exhibition-design": clientPhoto("botanicall", 3),
+    "booth-fabrication": clientPhoto("master-lock", 1),
+    installation: clientPhoto("allana", 1),
+    custom: clientPhoto("atelier-emocio", 2),
+    logistics: clientPhoto("natural", 2), // pallets and a forklift still on the floor
+    storage: clientPhoto("general", 2),
+    maintenance: clientPhoto("american-orthodontics", 4),
+  };
 
   return (
     <>
@@ -62,7 +79,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
                   <div className="mask-reveal duotone relative aspect-[4/3] overflow-hidden bg-line">
                     <div data-parallax data-speed="5" className="absolute inset-[-8%]">
                       <Image
-                        src={siteImage(`service-${s.slug}.png`, `mavo-srv-${s.slug}`, 1400, 1050)}
+                        src={servicePhoto[s.slug] || siteImage(`service-${s.slug}.png`, `mavo-srv-${s.slug}`, 1400, 1050)}
                         alt={s.title}
                         fill
                         sizes="(max-width:768px) 100vw, 50vw"
