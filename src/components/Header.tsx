@@ -91,9 +91,11 @@ export default function Header({ lang, dict }: { lang: Locale; dict: Dictionary 
             className={`${chip} !px-3 ${open ? "text-paper" : "text-ink/60 hover:bg-ink/6 hover:text-ink"}`}
             aria-label={otherLang === "pl" ? "Polska wersja" : "English version"}
           >
-            <span className={lang === "pl" ? "font-bold text-inherit" : ""}>PL</span>
+            {/* copper marks the language you are reading; the other stays muted
+                and is what the link switches to */}
+            <span className={lang === "pl" ? "font-bold text-copper" : ""}>PL</span>
             <span className="mx-1 opacity-40">/</span>
-            <span className={lang === "en" ? "font-bold text-inherit" : ""}>EN</span>
+            <span className={lang === "en" ? "font-bold text-copper" : ""}>EN</span>
           </Link>
 
           <div className="hidden lg:block">
