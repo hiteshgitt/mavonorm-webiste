@@ -481,16 +481,33 @@ const ScrollExpandMedia = ({
                     <div className="grain absolute inset-0" />
                   </div>
                 ) : (
-                  <div ref={mediaWrapRef} className="relative h-full w-full" style={{ opacity: 0 }}>
+                  <div ref={mediaWrapRef} className="relative h-full w-full overflow-hidden" style={{ opacity: 0 }}>
                     <Image
                       src={mediaSrc}
                       alt={title || "Media content"}
-                      width={1280}
-                      height={720}
+                      width={1672}
+                      height={941}
                       priority
+                      sizes="(max-width: 768px) 95vw, 1600px"
                       className="h-full w-full object-cover"
                     />
+                    {/* flat ink tint, easing off as the card becomes the subject */}
                     <div ref={imgScrimRef} className="absolute inset-0 bg-ink/50" style={{ opacity: 0.4 }} />
+                    {/* grounded bottom edge so the card sits in the banner rather than on it */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: "linear-gradient(to top, rgba(20,21,23,0.65) 0%, transparent 45%)",
+                      }}
+                    />
+                    {/* vignette keeps the title legible across the frame */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: "radial-gradient(ellipse at center, transparent 40%, rgba(20,21,23,0.55) 100%)",
+                      }}
+                    />
+                    <div className="grain absolute inset-0" />
                   </div>
                 )}
 

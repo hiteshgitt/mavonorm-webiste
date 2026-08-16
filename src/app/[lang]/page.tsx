@@ -37,7 +37,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       {/* ---------- HERO (scroll-expansion) ---------- */}
       <ScrollExpandMedia
         mediaType="image"
-        mediaSrc="/images/home-hero-card.jpg"
+        mediaSrc="/images/home-hero-card.webp"
         bgVideoSrc="/video/booth-assembly.mp4"
         bgVideoScrub={false}
         bgImageSrc={siteImage("home-hero-bg.png", "mavo-hero", 2400, 1500)}
