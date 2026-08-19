@@ -327,7 +327,7 @@ export const pl = {
     sections: [
       {
         title: "Polityka prywatności",
-        body: "Administratorem danych osobowych przekazywanych za pośrednictwem formularzy na tej stronie jest mavoNORM Sp. z o.o. z siedzibą w Paczkowie k. Poznania. Dane przetwarzamy wyłącznie w celu obsługi zapytań ofertowych i realizacji umów. Nie sprzedajemy danych i nie przekazujemy ich podmiotom trzecim poza zaufanymi podwykonawcami usług IT.",
+        body: "Administratorem danych osobowych przekazywanych za pośrednictwem formularzy na tej stronie jest mavoNORM z siedzibą w Paczkowie k. Poznania. Dane przetwarzamy wyłącznie w celu obsługi zapytań ofertowych i realizacji umów. Nie sprzedajemy danych i nie przekazujemy ich podmiotom trzecim poza zaufanymi podwykonawcami usług IT.",
       },
       {
         title: "RODO",

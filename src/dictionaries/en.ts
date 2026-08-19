@@ -329,7 +329,7 @@ export const en: typeof pl = {
     sections: [
       {
         title: "Privacy Policy",
-        body: "The controller of personal data submitted through forms on this website is mavoNORM Sp. z o.o., registered in Paczkowo near Poznań, Poland. We process data solely to handle enquiries and perform contracts. We do not sell data and do not share it with third parties other than trusted IT service providers.",
+        body: "The controller of personal data submitted through forms on this website is mavoNORM, registered in Paczkowo near Poznań, Poland. We process data solely to handle enquiries and perform contracts. We do not sell data and do not share it with third parties other than trusted IT service providers.",
       },
       {
         title: "GDPR",
