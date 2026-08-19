@@ -224,6 +224,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "lg-chem",
+    location: "Interzum, Cologne",
     slug: "lg-chem",
     title: "LG Chem — ceremonia wmurowania",
     client: "LG Chem",
