@@ -168,7 +168,7 @@ export const pl = {
       slug: "cnc",
       title: "Produkcja CNC",
       short: "Frezowanie 3- i 5-osiowe w drewnie, kompozytach i tworzywach.",
-      body: "Trzy centra obróbcze CNC pozwalają nam wycinać i frezować elementy o wymiarach do 3 200 × 2 100 mm — litery przestrzenne, panele ażurowe, formy 3D i komponenty konstrukcyjne o powtarzalnej, maszynowej precyzji.",
+      body: "Centra obróbcze CNC pozwalają nam wycinać i frezować elementy o wymiarach do 3 200 × 2 100 mm — litery przestrzenne, panele ażurowe, formy 3D i komponenty konstrukcyjne o powtarzalnej, maszynowej precyzji.",
     },
     {
       slug: "custom",
@@ -193,6 +193,18 @@ export const pl = {
       title: "Serwis i utrzymanie",
       short: "Odświeżanie, naprawy i modyfikacje zabudów między sezonami.",
       body: "Wymiana grafik, naprawy lakiernicze, modyfikacje układu — utrzymujemy zabudowy w stanie gotowości przez cały cykl życia projektu.",
+    },
+    {
+      slug: "printing",
+      title: "Druk i logotypy 3D",
+      short: "Druk na wszystkich materiałach oraz litery przestrzenne i logotypy 3D.",
+      body: "Drukujemy na wszystkich materiałach, z których budujemy — foliach, płytach, tkaninach, plexi i kompozytach — oraz wykonujemy litery przestrzenne i logotypy 3D, frezowane, wykańczane i podświetlane u nas, razem z resztą zabudowy.",
+    },
+    {
+      slug: "furniture-rental",
+      title: "Wynajem mebli",
+      short: "Siedziska, stoły, lady i strefy loungowe na czas trwania targów.",
+      body: "Meble wynajmiesz razem z zabudową: hokery, stoły, siedziska, lady, ekspozytory i zestawy loungowe — dostarczone, ustawione i odebrane przez tę samą ekipę, która montuje stoisko.",
     },
   ],
   about: {
@@ -222,11 +234,9 @@ export const pl = {
       heading: "Kluczowe momenty",
       items: [
         { year: "2013", text: "Start jako pracownia stolarska realizująca pierwsze zabudowy targowe w Polsce." },
-        { year: "2016", text: "Pierwsza realizacja zagraniczna — targi ISM w Kolonii. Zakup pierwszego centrum CNC." },
-        { year: "2019", text: "Przeprowadzka do nowej hali produkcyjnej 2 500 m². Własna lakiernia i dział projektowy." },
-        { year: "2021", text: "Rozbudowa zespołu montażowego. Stałe kontrakty z klientami z Niemiec i Skandynawii." },
-        { year: "2023", text: "Rozbudowa zakładu do 4 000 m². Trzecie centrum obróbcze CNC i magazyn zabudów klientów." },
-        { year: "2026", text: "Ponad 850 zrealizowanych projektów w 14 krajach Europy." },
+        { year: "2014", text: "Pierwsza realizacja zagraniczna — targi DMEXCO w Kolonii. Zakup pierwszego centrum CNC." },
+        { year: "2018", text: "Rozbudowa zespołu montażowego. Stałe kontrakty z klientami z Niemiec i Skandynawii." },
+        { year: "2026", text: "Ponad 900 zrealizowanych projektów w 16+ krajach Europy." },
       ],
     },
     mission: {
@@ -246,19 +256,19 @@ export const pl = {
     },
     facilities: {
       eyebrow: "Zaplecze produkcyjne",
-      heading: "4 000 m² możliwości",
-      body: "Hala produkcyjna, stolarnia, lakiernia, trzy centra CNC, dział ślusarski i magazyn wysokiego składowania — wszystko w jednej lokalizacji pod Poznaniem.",
-      items: ["Hala produkcyjna 4 000 m²", "3 centra obróbcze CNC", "Lakiernia natryskowa", "Dział ślusarsko-spawalniczy", "Magazyn zabudów klientów", "Flota transportowa"],
+      heading: "Co potrafimy",
+      body: "Hala produkcyjna, stolarnia, lakiernia, centra CNC, dział ślusarski i magazyn wysokiego składowania — wszystko w jednej lokalizacji w Polsce.",
+      items: ["Produkcja stolarska", "Centra obróbcze CNC", "Lakiernia natryskowa", "Ślusarstwo i spawalnictwo", "Magazyn zabudów klientów", "Flota transportowa", "Wynajem mebli", "Usługi druku (litery 3D, druk na wszystkich materiałach)"],
     },
     certifications: {
       eyebrow: "Certyfikaty i standardy",
       heading: "Zgodność potwierdzona dokumentami",
-      items: ["ISO 9001:2015 — zarządzanie jakością", "Certyfikaty trudnozapalności materiałów (B1)", "Uprawnienia SEP i UDT zespołów montażowych", "Ubezpieczenie OC realizacji do 5 mln EUR"],
+      items: ["Certyfikaty trudnozapalności materiałów (B1)", "Uprawnienia SEP i UDT zespołów montażowych", "Ubezpieczenie OC realizacji do 5 mln EUR"],
     },
     markets: {
       eyebrow: "Rynki",
       heading: "Montujemy w całej Europie",
-      body: "Polska, Niemcy, Francja, Włochy, Hiszpania, Holandia, Belgia, Austria, Szwajcaria, Czechy, Szwecja, Dania, Norwegia, Finlandia.",
+      body: "Polska, Niemcy, Francja, Włochy, Hiszpania, Holandia, Belgia, Austria, Szwajcaria, Czechy, Szwecja, Dania, Norwegia, Finlandia, Wielka Brytania, Węgry, Portugalia.",
     },
   },
   services: {
@@ -302,8 +312,12 @@ export const pl = {
     details: {
       heading: "Dane kontaktowe",
       email: "lena@mavonorm.pl",
+      /** Second enquiry inbox, listed on the contact page only — the header,
+       *  footer and legal text stay on the primary address above. */
+      emailSecondary: "expo@mavonorm.pl",
       phone: "(+48) 504 315 440",
       fax: "(+48) 61 642 72 19",
+      whatsapp: "Napisz do nas na WhatsAppie",
       address: ["ul. Rolna 16", "62-021 Paczkowo k. Poznania", "Polska"],
       hours: "Pon–Pt, 8:00–17:00 CET",
     },

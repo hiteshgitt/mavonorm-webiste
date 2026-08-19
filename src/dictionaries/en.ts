@@ -170,7 +170,7 @@ export const en: typeof pl = {
       slug: "cnc",
       title: "CNC Production",
       short: "3- and 5-axis machining in timber, composites and plastics.",
-      body: "Three CNC machining centres let us cut and mill components up to 3,200 × 2,100 mm — dimensional letters, perforated panels, 3D forms and structural components with repeatable machine precision.",
+      body: "CNC machining centres let us cut and mill components up to 3,200 × 2,100 mm — dimensional letters, perforated panels, 3D forms and structural components with repeatable machine precision.",
     },
     {
       slug: "custom",
@@ -195,6 +195,18 @@ export const en: typeof pl = {
       title: "Maintenance",
       short: "Refurbishment, repairs and modifications between seasons.",
       body: "Graphic replacements, lacquer repairs, layout modifications — we keep builds event-ready throughout the project's life cycle.",
+    },
+    {
+      slug: "printing",
+      title: "Printing & 3D Logos",
+      short: "Printing on all materials, plus dimensional letters and 3D logos.",
+      body: "We print on all the materials we build with — foils, boards, textiles, acrylics and composites — and produce dimensional letters and 3D logos, milled, finished and illuminated in-house alongside the rest of the build.",
+    },
+    {
+      slug: "furniture-rental",
+      title: "Furniture Rental",
+      short: "Seating, tables, counters and lounge sets for the run of the show.",
+      body: "Rent the furniture with the stand: stools, tables, seating, counters, display units and lounge sets, delivered, placed and collected by the same crew that installs the build.",
     },
   ],
   about: {
@@ -224,11 +236,9 @@ export const en: typeof pl = {
       heading: "Key moments",
       items: [
         { year: "2013", text: "Founded as a joinery workshop delivering its first exhibition builds in Poland." },
-        { year: "2016", text: "First international project — ISM Cologne. Purchase of the first CNC machining centre." },
-        { year: "2019", text: "Move to a new 2,500 m² production hall. In-house spray booth and design department." },
-        { year: "2021", text: "Installation team expansion. Ongoing contracts with clients from Germany and Scandinavia." },
-        { year: "2023", text: "Facility expanded to 4,000 m². Third CNC centre and a client build storage warehouse." },
-        { year: "2026", text: "Over 850 projects delivered in 14 European countries." },
+        { year: "2014", text: "First international project — DMEXCO Cologne. Purchase of the first CNC machining centre." },
+        { year: "2018", text: "Installation team expansion. Ongoing contracts with clients from Germany and Scandinavia." },
+        { year: "2026", text: "Over 900 projects delivered in 16+ European countries." },
       ],
     },
     mission: {
@@ -248,19 +258,19 @@ export const en: typeof pl = {
     },
     facilities: {
       eyebrow: "Production facilities",
-      heading: "4,000 m² of capability",
-      body: "Production hall, joinery, spray booth, three CNC centres, metalwork department and high-bay warehouse — all in one location near Poznań, Poland.",
-      items: ["4,000 m² production hall", "3 CNC machining centres", "Spray finishing booth", "Metalwork & welding dept.", "Client build warehouse", "Own transport fleet"],
+      heading: "What we can do",
+      body: "Production hall, joinery, spray booth, CNC centres, metalwork department and high-bay warehouse — all in one location in Poland.",
+      items: ["Carpentry production", "CNC machining centres", "Spray finishing booth", "Metalwork & welding", "Client build warehouse", "Own transport fleet", "Furniture rent", "Printing service (3D letters, print on all materials)"],
     },
     certifications: {
       eyebrow: "Certificates & standards",
       heading: "Compliance, documented",
-      items: ["ISO 9001:2015 — quality management", "Flame-retardant material certificates (B1)", "Certified electrical & rigging crews", "Project liability insurance up to €5M"],
+      items: ["Flame-retardant material certificates (B1)", "Certified electrical & rigging crews", "Project liability insurance up to €5M"],
     },
     markets: {
       eyebrow: "Markets",
       heading: "We install across Europe",
-      body: "Poland, Germany, France, Italy, Spain, the Netherlands, Belgium, Austria, Switzerland, Czechia, Sweden, Denmark, Norway, Finland.",
+      body: "Poland, Germany, France, Italy, Spain, the Netherlands, Belgium, Austria, Switzerland, Czechia, Sweden, Denmark, Norway, Finland, UK, Holland, Hungary, Portugal.",
     },
   },
   services: {
@@ -304,8 +314,12 @@ export const en: typeof pl = {
     details: {
       heading: "Contact details",
       email: "lena@mavonorm.pl",
+      /** Second enquiry inbox, listed on the contact page only — the header,
+       *  footer and legal text stay on the primary address above. */
+      emailSecondary: "expo@mavonorm.pl",
       phone: "(+48) 504 315 440",
       fax: "(+48) 61 642 72 19",
+      whatsapp: "Contact us on WhatsApp",
       address: ["ul. Rolna 16", "62-021 Paczkowo near Poznań", "Poland"],
       hours: "Mon–Fri, 8:00–17:00 CET",
     },
