@@ -91,7 +91,7 @@ export const pl = {
         { value: 4000, suffix: " m²", label: "powierzchni produkcyjnej" },
         { value: 3, suffix: "", label: "centra obróbcze CNC" },
         { value: 120, suffix: "+", label: "montaży rocznie" },
-        { value: 14, suffix: "", label: "krajów realizacji" },
+        { value: 16, suffix: "+", label: "krajów realizacji" },
       ],
     },
     sectors: {
@@ -128,7 +128,7 @@ export const pl = {
       eyebrow: "Liczby",
       items: [
         { value: 12, suffix: "+", label: "lat doświadczenia" },
-        { value: 850, suffix: "+", label: "zrealizowanych projektów" },
+        { value: 900, suffix: "+", label: "zrealizowanych projektów" },
         { value: 98, suffix: "%", label: "klientów wraca" },
         { value: 48, suffix: " h", label: "na wstępną wycenę" },
       ],

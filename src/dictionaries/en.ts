@@ -93,7 +93,7 @@ export const en: typeof pl = {
         { value: 4000, suffix: " m²", label: "of production space" },
         { value: 3, suffix: "", label: "CNC machining centres" },
         { value: 120, suffix: "+", label: "installations per year" },
-        { value: 14, suffix: "", label: "countries delivered" },
+        { value: 16, suffix: "+", label: "countries delivered" },
       ],
     },
     sectors: {
@@ -130,7 +130,7 @@ export const en: typeof pl = {
       eyebrow: "Numbers",
       items: [
         { value: 12, suffix: "+", label: "years of experience" },
-        { value: 850, suffix: "+", label: "projects delivered" },
+        { value: 900, suffix: "+", label: "projects delivered" },
         { value: 98, suffix: "%", label: "clients return" },
         { value: 48, suffix: " h", label: "to a preliminary quote" },
       ],
