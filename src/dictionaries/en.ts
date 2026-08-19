@@ -204,7 +204,7 @@ export const en: typeof pl = {
       body1:
         "mavoNORM grew out of a joinery workshop and the conviction that Polish manufacturing can compete on quality with the best European studios. Today we design and fabricate builds for brands exhibiting at the continent's largest trade fairs.",
       body2:
-        "We grow organically — every new hall, machine and team member answers real project needs, not a slide in a deck. That is how we sustain the hardest thing in this industry: repeatable quality and kept deadlines.",
+        "We grow organically — every machine and team member answers real project needs, not a slide in a deck. That is how we sustain the hardest thing in this industry: repeatable quality and kept deadlines.",
     },
     philosophy: {
       eyebrow: "Philosophy",

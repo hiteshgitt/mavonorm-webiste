@@ -202,7 +202,7 @@ export const pl = {
       body1:
         "mavoNORM powstał z warsztatu stolarskiego i przekonania, że polska produkcja może konkurować jakością z najlepszymi europejskimi pracowniami. Dziś projektujemy i wytwarzamy zabudowy dla marek wystawiających się na największych targach kontynentu.",
       body2:
-        "Rozwijamy się organicznie — każda kolejna hala, maszyna i osoba w zespole to odpowiedź na realne potrzeby projektów, nie na slajd w prezentacji. Dzięki temu utrzymujemy to, co w tej branży najtrudniejsze: powtarzalną jakość i dotrzymane terminy.",
+        "Rozwijamy się organicznie — każda maszyna i osoba w zespole to odpowiedź na realne potrzeby projektów, nie na slajd w prezentacji. Dzięki temu utrzymujemy to, co w tej branży najtrudniejsze: powtarzalną jakość i dotrzymane terminy.",
     },
     philosophy: {
       eyebrow: "Filozofia",
