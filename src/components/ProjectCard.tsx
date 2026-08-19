@@ -34,7 +34,9 @@ export default function ProjectCard({
         <div>
           <h3 className="font-(family-name:--font-display) text-lg font-medium leading-snug">{project.title}</h3>
           <p className="mt-1 text-sm text-muted">
-            {project.industry[lang]} · {project.location}
+            {/* the separator only earns its place when a location follows it */}
+            {project.industry[lang]}
+            {project.location ? ` · ${project.location}` : ""}
           </p>
         </div>
         <span className="idx mt-1 shrink-0 text-xs text-muted">{project.year}</span>

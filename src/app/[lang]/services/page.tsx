@@ -32,6 +32,10 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
     logistics: clientPhoto("natural", 2), // pallets and a forklift still on the floor
     storage: clientPhoto("general", 2),
     maintenance: clientPhoto("american-orthodontics", 4),
+    // the illuminated 3D padlock and the large printed lightbox on one stand
+    printing: clientPhoto("master-lock", 3),
+    // loose stools, bistro table and planters, i.e. the rentable pieces
+    "furniture-rental": clientPhoto("technic", 2),
   };
 
   return (
