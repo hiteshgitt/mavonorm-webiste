@@ -33,11 +33,8 @@ export default function ProjectCard({
       <div className="mt-4 flex items-start justify-between gap-4">
         <div>
           <h3 className="font-(family-name:--font-display) text-lg font-medium leading-snug">{project.title}</h3>
-          <p className="mt-1 text-sm text-muted">
-            {/* the separator only earns its place when a location follows it */}
-            {project.industry[lang]}
-            {project.location ? ` · ${project.location}` : ""}
-          </p>
+          <p className="mt-1 text-sm text-muted">{project.industry[lang]}</p>
+          {project.location && <p className="text-sm text-muted">{project.location}</p>}
         </div>
         <span className="idx mt-1 shrink-0 text-xs text-muted">{project.year}</span>
       </div>

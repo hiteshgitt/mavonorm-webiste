@@ -65,7 +65,7 @@ type Entry = Omit<Project, "hero" | "gallery"> & { key: string };
 const ENTRIES: Entry[] = [
   {
     key: "dji",
-    location: "Intergeo Essen",
+    location: "Intergeo, Essen",
     slug: "dji-enterprise",
     title: "DJI Enterprise",
     client: "DJI / Epotronic",
@@ -92,7 +92,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "master-lock",
-    location: "Eisenwarenmesse Cologne",
+    location: "Eisenwarenmesse, Cologne",
     slug: "master-lock",
     title: "Master Lock — The Vault",
     client: "Master Lock",
@@ -119,7 +119,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "american-orthodontics",
-    location: "EOS Stockholm",
+    location: "EOS, Stockholm",
     slug: "american-orthodontics",
     title: "American Orthodontics",
     client: "American Orthodontics",
@@ -146,7 +146,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "natural",
-    location: "Vitafood Geneve",
+    location: "Vitafood, Geneve",
     slug: "natural-functional-ingredients",
     title: "Natural — Functional Ingredients",
     client: "Natural",
@@ -172,7 +172,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "botanicall",
-    location: "Vitafood Geneve",
+    location: "Vitafood, Geneve",
     slug: "botanicall",
     title: "Botanic'all",
     client: "Botanic'all",
@@ -198,7 +198,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "atelier-emocio",
-    location: "IAAPA Barcelona",
+    location: "IAAPA, Barcelona",
     slug: "atelier-emocio",
     title: "Atelier Emocio",
     client: "Atelier Emocio",
@@ -249,7 +249,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "technic",
-    location: "Semicon Munich",
+    location: "Semicon, Munich",
     slug: "technic",
     title: "Technic",
     client: "Technic",
@@ -275,7 +275,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "sesa-chem",
-    location: "Interzum Cologne",
+    location: "Interzum, Cologne",
     slug: "sesa",
     title: "SESA",
     client: "SESA",
@@ -301,7 +301,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "allana",
-    location: "Anuga Cologne",
+    location: "Anuga, Cologne",
     slug: "allana",
     title: "Allana",
     client: "Allana",
@@ -327,7 +327,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "general",
-    location: "Prowein Dusseldorf",
+    location: "Prowein, Dusseldorf",
     slug: "general-goods",
     title: "General Goods",
     client: "General Goods",
