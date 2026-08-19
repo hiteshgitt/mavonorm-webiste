@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { getDictionary } from "@/lib/i18n";
-import { siteImage } from "@/lib/images";
 import RevealHeading from "@/components/RevealHeading";
 import ContactForm from "@/components/ContactForm";
 
@@ -43,29 +41,33 @@ export default async function ContactPage({ params }: { params: Promise<{ lang: 
                 {c.details.email}
               </a>
               <a
+                href={`mailto:${c.details.emailSecondary}`}
+                className="link-line mt-1 block font-(family-name:--font-display) text-xl text-muted"
+              >
+                {c.details.emailSecondary}
+              </a>
+              <a
                 href={`tel:${c.details.phone.replace(/[^+\d]/g, "")}`}
                 className="link-line mt-2 block font-(family-name:--font-display) text-xl text-muted"
               >
                 {c.details.phone}
               </a>
               <div className="mt-1 font-(family-name:--font-display) text-sm text-muted">FAX {c.details.fax}</div>
+              {/* same mobile number, reached over WhatsApp — wa.me wants bare digits */}
+              <a
+                href={`https://wa.me/${c.details.phone.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-line mt-4 inline-block text-sm text-muted"
+              >
+                {c.details.whatsapp}
+              </a>
               <address className="mt-6 space-y-1 text-sm not-italic leading-relaxed text-muted">
                 {c.details.address.map((l) => (
                   <div key={l}>{l}</div>
                 ))}
                 <div className="pt-2">{c.details.hours}</div>
               </address>
-            </div>
-
-            <div className="mask-reveal duotone relative aspect-[4/3] overflow-hidden bg-grey">
-              <Image
-                src={siteImage("contact-office.png", "mavo-office", 1200, 900)}
-                alt={c.map.label}
-                fill
-                sizes="(max-width:1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-              <div className="absolute bottom-0 left-0 bg-ink px-4 py-3 text-xs text-paper">{c.map.label}</div>
             </div>
 
             <div className="border border-line p-8" data-reveal>
