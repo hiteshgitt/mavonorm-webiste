@@ -78,7 +78,7 @@ export const pl = {
       eyebrow: "Dlaczego mavoNORM",
       heading: "Partner, nie podwykonawca.",
       items: [
-        { title: "Własna produkcja", body: "Ponad 4 000 m² hal produkcyjnych, frezarki CNC, lakiernia i stolarnia. Zero kompromisów jakościowych po drodze." },
+        { title: "Własna produkcja", body: "Własne hale produkcyjne, frezarki CNC, lakiernia i stolarnia. Zero kompromisów jakościowych po drodze." },
         { title: "Jeden zespół, cały proces", body: "Projekt, konstrukcja, produkcja, logistyka i montaż prowadzone przez jeden zespół projektowy — jedna odpowiedzialność." },
         { title: "Europejski standard", body: "Realizujemy montaże na targach w Niemczech, Francji, Skandynawii i całej UE. Terminowo, zgodnie z normami technicznymi hal." },
         { title: "Inżynieria detalu", body: "Każde złącze, fronton i podświetlenie rozrysowane w dokumentacji warsztatowej, zanim trafi na maszyny." },
@@ -88,8 +88,6 @@ export const pl = {
       eyebrow: "Możliwości produkcyjne",
       heading: "Technologia, która daje przewagę.",
       items: [
-        { value: 4000, suffix: " m²", label: "powierzchni produkcyjnej" },
-        { value: 3, suffix: "", label: "centra obróbcze CNC" },
         { value: 120, suffix: "+", label: "montaży rocznie" },
         { value: 16, suffix: "+", label: "krajów realizacji" },
       ],

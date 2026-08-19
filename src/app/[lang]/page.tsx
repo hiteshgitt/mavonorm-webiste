@@ -148,7 +148,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
               {h.capabilities.eyebrow}
             </p>
             <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={splitTwo(h.capabilities.heading)} />
-            <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid gap-10 sm:grid-cols-2">
               {h.capabilities.items.map((s) => (
                 <div key={s.label} data-reveal>
                   <div className="h-display text-5xl md:text-6xl">

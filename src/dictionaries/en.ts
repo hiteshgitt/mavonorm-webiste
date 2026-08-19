@@ -80,7 +80,7 @@ export const en: typeof pl = {
       eyebrow: "Why mavoNORM",
       heading: "A partner, not a subcontractor.",
       items: [
-        { title: "In-house production", body: "Over 4,000 m² of production halls, CNC routers, a spray booth and joinery. No quality compromises along the way." },
+        { title: "In-house production", body: "Our own production halls, CNC routers, a spray booth and joinery. No quality compromises along the way." },
         { title: "One team, whole process", body: "Design, engineering, production, logistics and installation run by a single project team — single accountability." },
         { title: "European standard", body: "We install at trade fairs in Germany, France, Scandinavia and across the EU. On time, compliant with every venue's technical rules." },
         { title: "Engineering of detail", body: "Every joint, fascia and light detail is drawn in workshop documentation before it reaches the machines." },
@@ -90,8 +90,6 @@ export const en: typeof pl = {
       eyebrow: "Manufacturing capabilities",
       heading: "Technology that gives an edge.",
       items: [
-        { value: 4000, suffix: " m²", label: "of production space" },
-        { value: 3, suffix: "", label: "CNC machining centres" },
         { value: 120, suffix: "+", label: "installations per year" },
         { value: 16, suffix: "+", label: "countries delivered" },
       ],
