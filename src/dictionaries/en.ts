@@ -127,7 +127,7 @@ export const en: typeof pl = {
     stats: {
       eyebrow: "Numbers",
       items: [
-        { value: 12, suffix: "+", label: "years of experience" },
+        { value: 13, suffix: "+", label: "years of experience" },
         { value: 900, suffix: "+", label: "projects delivered" },
         { value: 98, suffix: "%", label: "clients return" },
         { value: 48, suffix: " h", label: "to a preliminary quote" },

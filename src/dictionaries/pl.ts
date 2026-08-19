@@ -125,7 +125,7 @@ export const pl = {
     stats: {
       eyebrow: "Liczby",
       items: [
-        { value: 12, suffix: "+", label: "lat doświadczenia" },
+        { value: 13, suffix: "+", label: "lat doświadczenia" },
         { value: 900, suffix: "+", label: "zrealizowanych projektów" },
         { value: 98, suffix: "%", label: "klientów wraca" },
         { value: 48, suffix: " h", label: "na wstępną wycenę" },
