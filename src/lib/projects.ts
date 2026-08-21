@@ -404,6 +404,32 @@ const ENTRIES: Entry[] = [
     },
     services: withCore(["Grafika", "Oświetlenie", "Podwieszenia"], ["Graphics", "Lighting", "Rigging"]),
   },
+  {
+    key: "dji-batimat",
+    location: "Batimat, Paris",
+    slug: "dji-enterprise-batimat",
+    title: "DJI Enterprise — Batimat",
+    client: "DJI / Hexagon",
+    category: "exhibition",
+    industry: { pl: "Technologie i drony", en: "Technology & drones" },
+    excerpt: {
+      pl: "Wspólna zabudowa dwóch marek: para podwieszonych fryzów nad ciemnymi bryłami ekspozycyjnymi i długa wyspa lady.",
+      en: "A build shared by two brands: paired suspended fascias over dark display volumes and a long counter island.",
+    },
+    overview: {
+      pl: "Całą identyfikację biorą na siebie dwa podwieszone fryzy — czarny dla DJI Enterprise i biały dla Hexagona — każdy załamany na dwóch bokach, więc obie marki czytają się z obu alejek naraz. Pod nimi ciemnoszare bryły niosą ekrany i strefę DJI Terra, pokazując technologię bez zamykania stoiska ścianami. Wzdłuż frontu biegnie długa lada z białym blatem, dzięki czemu do alejki otwiera się cała szerokość zabudowy, a nie jedno wejście.",
+      en: "Two suspended fascias carry the whole identity — a black box for DJI Enterprise, a white one for Hexagon — each wrapping two faces so both brands read from either aisle at once. Beneath them, dark grey volumes hold the screens and the DJI Terra zone, putting the technology on show without walling the stand in. A long counter island with a white worktop runs the full front, so the entire width of the build meets the aisle rather than a single entrance.",
+    },
+    fabrication: {
+      pl: "Podwieszane skrzynie fryzowe na podwieszeniach, z literami przestrzennymi i podświetleniem, bryły płytowe w ciemnej szarości z ekranami, zadrukowane panele graficzne, wyspa lady z białym blatem i ciemnymi zadrukowanymi frontami oraz niskie podesty ekspozycyjne.",
+      en: "Suspended fascia boxes on rigging with dimensional, lit lettering, panel volumes in dark grey with mounted screens, printed graphic panels, a counter island with a white worktop and dark printed facings, and low display plinths.",
+    },
+    materials: {
+      pl: ["Skrzynie fryzowe podwieszane", "Litery przestrzenne", "Płyta lakierowana", "Panele graficzne", "Blat biały"],
+      en: ["Suspended fascia boxes", "Dimensional lettering", "Lacquered panel", "Printed graphic panels", "White worktop"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Podwieszenia"], ["Graphics", "Lighting", "Rigging"]),
+  },
 ];
 
 export const projects: Project[] = ENTRIES.map(({ key, ...rest }) => {
