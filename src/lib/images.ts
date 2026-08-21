@@ -38,3 +38,24 @@ export function clientPhoto(key: string, n = 1): string {
   }
   return "";
 }
+
+/**
+ * A photo of one of our builds at a named fair, by fair key and 1-based index.
+ *
+ * Captioned with the fair and city only. The stands belong to our clients and
+ * we do not name them here, so the caption asserts nothing beyond where the
+ * build stood — which is what the photo itself shows.
+ *
+ * Returns "" when the file is absent so callers can drop the tile.
+ */
+export function fairPhoto(key: string, n = 1): string {
+  const name = `${key}-${String(n).padStart(2, "0")}.webp`;
+  try {
+    if (fs.existsSync(path.join(IMG_DIR, "fairs", key, name))) {
+      return `/images/fairs/${key}/${name}`;
+    }
+  } catch {
+    // fs unavailable
+  }
+  return "";
+}

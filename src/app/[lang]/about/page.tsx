@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
-import { siteImage } from "@/lib/images";
+import { fairPhoto, siteImage } from "@/lib/images";
 import { projects } from "@/lib/projects";
 import RevealHeading from "@/components/RevealHeading";
 import MagneticButton from "@/components/MagneticButton";
@@ -29,6 +29,12 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
     siteImage("about-production-hall.png", "mavo-prod", 800, 600),
   ];
   const timelineItems = a.timeline.items.map((t, i) => ({ ...t, img: momentImgs[i % momentImgs.length] }));
+
+  // one photo per fair; a fair without its file on disk drops out rather than
+  // rendering a placeholder that would misrepresent where we have built
+  const fairs = a.fairs.items
+    .map((f) => ({ ...f, img: fairPhoto(f.key, 1) }))
+    .filter((f) => f.img);
 
   return (
     <>
@@ -194,6 +200,32 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      {/* fairs — real builds behind the country list above */}
+      <section className="border-t border-line bg-grey py-20 md:py-28">
+        <div className="mx-auto max-w-350 px-6 md:px-10">
+          <p className="h-eyebrow text-copper" data-reveal>
+            {a.fairs.eyebrow}
+          </p>
+          <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={split(a.fairs.heading)} />
+          <ul className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {fairs.map((f) => (
+              <li key={f.key} data-reveal>
+                <div className="mask-reveal duotone relative aspect-[4/3] overflow-hidden bg-line">
+                  <Image
+                    src={f.img}
+                    alt={f.label}
+                    fill
+                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="mt-3 text-sm text-muted">{f.label}</div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
