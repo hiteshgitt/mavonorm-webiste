@@ -354,6 +354,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "ovobank",
+    location: "ESHRE, Paris",
     slug: "ovobank",
     title: "Ovobank",
     client: "Ovobank",
@@ -379,6 +380,7 @@ const ENTRIES: Entry[] = [
   },
   {
     key: "anthea-pharma",
+    location: "CPHI, Barcelona",
     slug: "anthea-pharma",
     title: "Anthea Pharma",
     client: "Anthea Pharma",
