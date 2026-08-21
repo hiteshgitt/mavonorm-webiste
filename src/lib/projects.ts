@@ -352,6 +352,56 @@ const ENTRIES: Entry[] = [
     },
     services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
   },
+  {
+    key: "ovobank",
+    slug: "ovobank",
+    title: "Ovobank",
+    client: "Ovobank",
+    category: "exhibition",
+    industry: { pl: "Medycyna rozrodu", en: "Reproductive medicine" },
+    excerpt: {
+      pl: "Stoisko w całości utrzymane w magencie, zbudowane wokół giętej lady recepcyjnej i podświetlanego fryzu.",
+      en: "A stand carried entirely by colour, built around a curved reception counter and an illuminated fascia.",
+    },
+    overview: {
+      pl: "Kolor robi tu za architekturę: magentowa posadzka i bryła wyodrębniają stoisko z alejki, zanim czytelny stanie się logotyp. Gięty, podświetlany fryz niesie nazwę ponad ruchem, ściana z pionowych lameli ociepla tło, a panel z okrągłymi modułami produktowymi porządkuje ekspozycję. Gięta lada recepcyjna wysunięta jest do przodu i obstawiona hokerami, więc rozmowa zaczyna się na krawędzi stoiska, nie w jego głębi.",
+      en: "Colour does the work of architecture here: a magenta floor and structure separate the stand from the aisle before the logo is even legible. A curved, internally lit fascia carries the name above the traffic, a wall of vertical slats warms the back of the space, and a panel of circular product modules orders the display. The curved reception counter sits forward, ringed with stools, so the conversation starts at the edge of the stand rather than inside it.",
+    },
+    fabrication: {
+      pl: "Zabudowa płytowa lakierowana na magentę, gięty fryz podświetlany od wewnątrz, zadrukowane fronty lady z oznaczeniami certyfikatów, ściana z lameli drewnianych, podświetlane wnęki ekspozycyjne, kiosk dotykowy i wykładzina.",
+      en: "Panel construction lacquered magenta, a curved fascia lit from within, printed counter facings carrying the certification marks, a timber slat wall, illuminated display niches, a touchscreen kiosk and fitted carpet.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Gięty fryz podświetlany", "Zadrukowane fronty lady", "Lamele drewniane", "Wykładzina"],
+      en: ["Lacquered panel", "Curved illuminated fascia", "Printed counter facings", "Timber slatting", "Fitted carpet"],
+    },
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
+  },
+  {
+    key: "anthea-pharma",
+    slug: "anthea-pharma",
+    title: "Anthea Pharma",
+    client: "Anthea Pharma",
+    category: "exhibition",
+    industry: { pl: "Farmacja", en: "Pharmaceuticals" },
+    excerpt: {
+      pl: "Otwarte stoisko pod podwieszonym pierścieniem, z karbowanymi formami u góry i dwiema podświetlanymi ladami od alejki.",
+      en: "An open stand beneath a suspended ring, with fluted forms overhead and two illuminated counters facing the aisle.",
+    },
+    overview: {
+      pl: "Stoisko bierze swoją tożsamość z góry: podwieszony pierścień niesie logotyp na całym obwodzie, więc marka czyta się z dowolnego miejsca w hali, a wewnątrz niego wiszą karbowane, ciemnoczerwone formy — element rzeźbiarski, nie nośnik treści. Na poziomie posadzki przestrzeń jest strefowana, nie zamknięta ścianami: ściana liczb, panel z wzorem, część spotkaniowa ze stolikami i strefa loungowa. Dwie podświetlane lady wysunięte są do alejki i przejmują pierwszy kontakt.",
+      en: "The stand takes its identity from above: a suspended ring carries the wordmark around its full circumference, so the brand reads from anywhere in the hall, and fluted deep-red forms hang inside it as sculpture rather than signage. At floor level the space is zoned rather than walled — a wall of figures, a patterned panel, a seated meeting area and a lounge. Two illuminated counters sit forward into the aisle and take the first contact.",
+    },
+    fabrication: {
+      pl: "Podwieszony pierścień na kratownicy z giętymi, zadrukowanymi segmentami, karbowane elementy wiszące formowane na CNC, ściany płytowe z grafiką wielkoformatową, lady z podświetlanymi frontami i ekran na ścianie.",
+      en: "A suspended ring on truss with curved printed segments, CNC-formed fluted hanging elements, panel walls with large-format graphics, counters with backlit fronts and a wall-mounted screen.",
+    },
+    materials: {
+      pl: ["Kratownica podwieszana", "Gięte segmenty zadrukowane", "Elementy formowane CNC", "Grafika wielkoformatowa", "Podświetlane fronty lad"],
+      en: ["Suspended ring truss", "Curved printed segments", "CNC-formed elements", "Large-format graphics", "Backlit counter fronts"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Podwieszenia"], ["Graphics", "Lighting", "Rigging"]),
+  },
 ];
 
 export const projects: Project[] = ENTRIES.map(({ key, ...rest }) => {
