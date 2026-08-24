@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
-import { fairPhoto, siteImage } from "@/lib/images";
+import { fairPhotos, siteImage } from "@/lib/images";
 import { projects } from "@/lib/projects";
 import RevealHeading from "@/components/RevealHeading";
 import MagneticButton from "@/components/MagneticButton";
@@ -30,11 +30,10 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
   ];
   const timelineItems = a.timeline.items.map((t, i) => ({ ...t, img: momentImgs[i % momentImgs.length] }));
 
-  // one photo per fair; a fair without its file on disk drops out rather than
-  // rendering a placeholder that would misrepresent where we have built
-  const fairs = a.fairs.items
-    .map((f) => ({ ...f, img: fairPhoto(f.key, 1) }))
-    .filter((f) => f.img);
+  // every photo we hold per fair, one tile each; a fair with no files on disk
+  // drops out rather than rendering a placeholder that would misrepresent
+  // where we have built
+  const fairs = a.fairs.items.flatMap((f) => fairPhotos(f.key).map((img) => ({ ...f, img })));
 
   return (
     <>
@@ -212,7 +211,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
           <RevealHeading className="mt-4 text-3xl md:text-5xl" lines={split(a.fairs.heading)} />
           <ul className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {fairs.map((f) => (
-              <li key={f.key} data-reveal>
+              <li key={f.img} data-reveal>
                 <div className="mask-reveal duotone relative aspect-[4/3] overflow-hidden bg-line">
                   <Image
                     src={f.img}

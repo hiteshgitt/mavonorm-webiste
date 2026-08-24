@@ -60,7 +60,12 @@ const withCore = (pl: string[] = [], en: string[] = []): L<string[]> => ({
   en: [...CORE.en, ...en],
 });
 
-type Entry = Omit<Project, "hero" | "gallery"> & { key: string };
+/**
+ * `key` names a folder under /images/client. Entries whose photography lives in
+ * the fairs folder instead — one stand per photo, sometimes several different
+ * clients inside one fair folder — list their files explicitly via `images`.
+ */
+type Entry = Omit<Project, "hero" | "gallery"> & { key: string; images?: string[] };
 
 const ENTRIES: Entry[] = [
   {
@@ -430,10 +435,318 @@ const ENTRIES: Entry[] = [
     },
     services: withCore(["Grafika", "Oświetlenie", "Podwieszenia"], ["Graphics", "Lighting", "Rigging"]),
   },
+  {
+    key: "ion8",
+    images: ["/images/fairs/ambiente-frankfurt/ambiente-frankfurt-01.webp"],
+    location: "Ambiente, Frankfurt",
+    slug: "ion8",
+    title: "Ion8",
+    client: "Ion8",
+    category: "exhibition",
+    industry: { pl: "Artykuły użytkowe i bidony", en: "Consumer goods & drinkware" },
+    excerpt: {
+      pl: "Ciąg grafitowych wnęk regałowych pod białym sufitem podwieszanym, z wolnostojącym logotypem przestrzennym zamykającym narożnik.",
+      en: "A run of graphite shelving bays under a white suspended ceiling, closed at the corner by freestanding dimensional lettering.",
+    },
+    overview: {
+      pl: "Stoisko zbudowane jako rytm wnęk ekspozycyjnych. Każda wnęka dostaje własny nagłówek linii produktowej i własne półki, więc asortyment czyta się z alejki jak katalog. Biały sufit podwieszany z oprawami wpuszczanymi wyrównuje światło nad całą długością, a wolnostojące białe litery przestrzenne ustawione na czarnej wykładzinie zamykają narożnik i budują rozpoznawalność z drugiego końca hali.",
+      en: "The stand is built as a rhythm of display bays. Each bay takes its own product-line header and its own shelves, so the range reads from the aisle like a catalogue. A white suspended ceiling with recessed downlights evens the light along the whole run, and freestanding white dimensional letters set on black carpet close the corner and carry recognition from the far end of the hall.",
+    },
+    fabrication: {
+      pl: "Płyta lakierowana w grafitowej matowości na białej konstrukcji ramowej, półki wspornikowe z listwami zawieszkowymi, pionowe profile LED między wnękami, sufit podwieszany z oprawami wpuszczanymi, wielkoformatowe grafiki podświetlone oraz litery przestrzenne z płyty lakierowanej na białym cokole.",
+      en: "Matte graphite lacquered panel on a white framed structure, cantilevered shelves with hook rails, vertical LED profiles between the bays, a suspended ceiling with recessed downlights, large-format backlit graphics, and dimensional letters in lacquered panel on a white plinth.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Konstrukcja ramowa", "LED liniowy", "Litery przestrzenne", "Grafika wielkoformatowa"],
+      en: ["Lacquered panel", "Framed structure", "Linear LED", "Dimensional lettering", "Large-format graphics"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Meble ekspozycyjne"], ["Graphics", "Lighting", "Display furniture"]),
+  },
+  {
+    key: "soracom",
+    images: ["/images/fairs/cebit-hannover/cebit-hannover-01.webp"],
+    location: "Cebit, Hannover",
+    slug: "soracom",
+    title: "Soracom",
+    client: "Soracom",
+    category: "exhibition",
+    industry: { pl: "Łączność IoT", en: "IoT connectivity" },
+    excerpt: {
+      pl: "Otwarte stoisko narożne z drewnianą pergolą i żywym drzewem, zestawione z turkusową ścianą partnerów.",
+      en: "An open corner stand with a timber pergola and a living tree, set against a turquoise partner wall.",
+    },
+    overview: {
+      pl: "Stoisko rozegrane jako miejsce spotkań, nie jako witryna. Drewniana pergola wyznacza strefę demo, a rosnące pod nią drzewo i pas sztucznej trawy łamią halową surowość i zatrzymują ruch w alejce. Turkusowa ściana z logotypami partnerów domyka układ od strony przejścia i pełni rolę tła rozmów przy stolikach koktajlowych.",
+      en: "The stand is played as a meeting place rather than a shop window. A timber pergola marks the demo zone, while the tree beneath it and a band of artificial grass break the hall's hard surfaces and slow aisle traffic. A turquoise wall of partner logos closes the layout towards the walkway and backs the conversations at the cocktail tables.",
+    },
+    fabrication: {
+      pl: "Konstrukcja słupowo-ryglowa z drewna konstrukcyjnego, zabudowa płytowa lakierowana na biało, ściana graficzna z nadrukiem, logotyp podświetlany, gablota szklana, skrzynia z desek pod nasadzenie, sztuczna trawa i podłoga podniesiona.",
+      en: "A post-and-beam structure in construction timber, white lacquered panel construction, a printed graphic wall, an illuminated logo, a glass vitrine, a board-built planter box, artificial grass and a raised floor.",
+    },
+    materials: {
+      pl: ["Drewno konstrukcyjne", "Płyta lakierowana", "Grafika wielkoformatowa", "Szkło", "Sztuczna trawa"],
+      en: ["Construction timber", "Lacquered panel", "Large-format graphics", "Glass", "Artificial grass"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Zieleń"], ["Graphics", "Lighting", "Planting"]),
+  },
+  {
+    key: "altitude-digital",
+    images: ["/images/fairs/dmexco-cologne/dmexco-cologne-01.webp"],
+    location: "Dmexco, Cologne",
+    slug: "altitude-digital",
+    title: "Altitude Digital",
+    client: "Altitude Digital",
+    category: "exhibition",
+    industry: { pl: "Reklama cyfrowa", en: "Digital advertising" },
+    excerpt: {
+      pl: "Ciemna bryła z podwieszoną kostką reklamową i zamkniętą salą spotkań, obrysowana ciepłym światłem liniowym.",
+      en: "A dark volume with a suspended banner cube and an enclosed meeting room, outlined in warm linear light.",
+    },
+    overview: {
+      pl: "Zabudowa gra kontrastem: matowa czerń brył i ciepła pomarańcz światła. Podwieszona kostka z komunikatami niesie markę ponad halą, a opadające pod nią świetlne rurki ściągają wzrok do wejścia. Parter zamyka przeszklona sala spotkań, dzięki czemu rozmowy handlowe toczą się na stoisku, a nie poza nim. Ciepły pas światła u podstawy odrywa bryłę od podłogi.",
+      en: "The build works on contrast: matte black volumes against warm orange light. A suspended cube of messaging carries the brand above the hall, and the light tubes dropping beneath it pull the eye down to the entrance. At floor level a glazed meeting room closes the plan, keeping sales conversations on the stand rather than off it. A warm strip of light at the base lifts the volume off the floor.",
+    },
+    fabrication: {
+      pl: "Kostka podwieszana na kratownicy z nadrukiem na wszystkich licach, zabudowa płytowa lakierowana na czerń w macie, logotyp podświetlany na fryzie, przeszklenia satynowane, zwieszane rurki świetlne, oświetlenie liniowe w cokole i reflektory szynowe.",
+      en: "A truss-hung banner cube printed on every face, matte black lacquered panel construction, an illuminated logo on the fascia, satin-finish glazing, suspended light tubes, linear lighting in the plinth and track spotlights.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Kratownica", "Grafika wielkoformatowa", "Szkło satynowane", "LED liniowy"],
+      en: ["Lacquered panel", "Truss", "Large-format graphics", "Satin glass", "Linear LED"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Podwieszenia"], ["Graphics", "Lighting", "Rigging"]),
+  },
+  {
+    key: "e-eye",
+    images: ["/images/fairs/escrs-paris/escrs-paris-01.webp"],
+    location: "ESCRS, Paris",
+    slug: "e-eye",
+    title: "E-Eye",
+    client: "E-Eye",
+    category: "exhibition",
+    industry: { pl: "Okulistyka", en: "Ophthalmology" },
+    excerpt: {
+      pl: "Granatowa bryła o zaokrąglonych narożnikach, obrysowana w całości niebiesko-fioletowym światłem liniowym.",
+      en: "A navy volume with rounded corners, outlined throughout in blue-violet linear light.",
+    },
+    overview: {
+      pl: "Całą zabudowę spina jeden zabieg: każda krawędź bryły dostaje profil świetlny, więc stoisko czyta się jako rysunek konturowy nawet z dużej odległości. Zaokrąglone naroża i miękka biel fryzu zdejmują z granatu ciężar. Wewnątrz układ prowadzi od podświetlonego dysku z nazwą nowości, przez okrągły postument produktowy z pierścieniami światła, do lady recepcyjnej i zaplecza rozmów.",
+      en: "One move ties the whole build together: every edge of the volume takes a light profile, so the stand reads as a contour drawing even from a distance. Rounded corners and the soft white of the fascia take the weight off the navy. Inside, the layout runs from the illuminated disc naming the new product, through a circular product plinth ringed with light, to the reception counter and the conversation area behind.",
+    },
+    fabrication: {
+      pl: "Zabudowa płytowa z frezowanymi narożnikami promieniowymi, profile LED RGB w krawędziach, podświetlany dysk i fryz komunikacyjny, gięta lada lakierowana, cylindryczny postument z pierścieniami LED, wpust dywanowy w kształcie koła i żaluzja pozioma w przeszkleniu.",
+      en: "Panel construction with radiused corners, RGB LED profiles in the edges, an illuminated disc and message fascia, a curved lacquered counter, a cylindrical plinth ringed with LED, a circular carpet inlay and a horizontal blind in the glazing.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Naroża promieniowe", "LED RGB", "Wykładnia dywanowa", "Ekran LCD"],
+      en: ["Lacquered panel", "Radiused corners", "RGB LED", "Carpet inlay", "LCD screen"],
+    },
+    services: withCore(["Grafika", "Oświetlenie"], ["Graphics", "Lighting"]),
+  },
+  {
+    key: "pts",
+    images: ["/images/fairs/semicon-munich/semicon-munich-02.webp"],
+    location: "Semicon, Munich",
+    slug: "pts",
+    title: "PTS",
+    client: "PTS",
+    category: "exhibition",
+    industry: { pl: "Półprzewodniki", en: "Semiconductors" },
+    excerpt: {
+      pl: "Biała zabudowa z niebieskim fryzem i ażurową ścianą z pionowych lameli, filtrującą widok do wnętrza.",
+      en: "A white build with a blue fascia and an open screen of vertical slats filtering the view inside.",
+    },
+    overview: {
+      pl: "Stoisko otwarte z dwóch stron, w którym prywatność załatwia ażur, a nie ściana. Pionowe lamele przepuszczają światło i sylwetki, ale wyciszają tło dla ekranu i plansz technicznych. Niebieski fryz z pasem światła obiega zabudowę i wiąże obie pierzeje, a strefa stolików koktajlowych wychodzi wprost w alejkę. Rabata z trawami odsuwa siedzących od ruchu.",
+      en: "A stand open on two sides, where privacy is handled by an open screen rather than a wall. Vertical slats let light and silhouettes through while quieting the background for the screen and the technical panels. A blue fascia with a strip of light runs around the build and ties both frontages together, and the cocktail-table zone opens straight onto the aisle. A planter of grasses sets the seating back from the traffic.",
+    },
+    fabrication: {
+      pl: "Ściana lamelowa z pionowych profili lakierowanych na biało, fryz obwodowy w niebieskiej lakierowanej płycie z profilem LED i oprawami wpuszczanymi, plansze graficzne w ramach, ekran na wysięgniku, lada z frezowanym licem ryflowanym i donica ekspozycyjna.",
+      en: "A slatted wall of vertical white lacquered profiles, a perimeter fascia in blue lacquered panel with an LED profile and recessed downlights, framed graphic panels, a screen on a bracket, a counter with a ribbed machined face, and a display planter.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Lamele pionowe", "LED liniowy", "Grafika w ramach", "Front ryflowany"],
+      en: ["Lacquered panel", "Vertical slats", "Linear LED", "Framed graphics", "Ribbed facing"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Zieleń"], ["Graphics", "Lighting", "Planting"]),
+  },
+  {
+    key: "eurener-zurich",
+    images: ["/images/fairs/solar-and-store-zurich/solar-and-store-zurich-01.webp"],
+    location: "Solar & Storage, Zurich",
+    slug: "eurener-zurich",
+    title: "Eurener",
+    client: "Eurener",
+    category: "exhibition",
+    industry: { pl: "Energetyka słoneczna", en: "Solar energy" },
+    excerpt: {
+      pl: "Szaro-czarna rama portalowa z podświetlanym logotypem, zbudowana wokół pionowej ekspozycji modułów.",
+      en: "A grey and black portal frame with an illuminated logo, built around an upright display of modules.",
+    },
+    overview: {
+      pl: "Zabudowa portalowa, w której produkt stoi pionowo jak obraz w ramie. Moduły fotowoltaiczne wchodzą we wnęki między słupami i dostają własne karty parametrów, więc porównanie mocy odbywa się bez asysty. Podświetlany logotyp na belce niesie markę ponad alejką, a pomarańczowe akcenty i podświetlona podstawa lady odrywają bryłę od podłogi i wyznaczają punkt rozmowy.",
+      en: "A portal build in which the product stands upright like a picture in a frame. Photovoltaic modules sit in the bays between the posts and take their own spec cards, so comparing outputs needs no assistance. The illuminated logo on the beam carries the brand above the aisle, while orange accents and the lit base of the counter lift the volume off the floor and mark the point of conversation.",
+    },
+    fabrication: {
+      pl: "Rama portalowa z zabudowy płytowej w szarości i czerni, litery przestrzenne podświetlane typu halo na belce, pas LED w podciągu, wnęki ekspozycyjne pod moduły, lada z podświetlanym cokołem, akcenty w pomarańczu i podłoga w okleinie drewnopodobnej.",
+      en: "A portal frame in grey and black panel construction, halo-lit dimensional letters on the beam, an LED strip in the header, display bays for the modules, a counter with an illuminated plinth, orange accent blocks and a wood-effect floor.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Litery przestrzenne", "LED liniowy", "Okleina drewnopodobna", "Grafika wielkoformatowa"],
+      en: ["Lacquered panel", "Dimensional lettering", "Linear LED", "Wood-effect finish", "Large-format graphics"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Ekspozycja produktu"], ["Graphics", "Lighting", "Product display"]),
+  },
+  {
+    key: "eurener-stockholm",
+    images: ["/images/fairs/solar-expo-stockholm/solar-expo-stockholm-01.webp"],
+    location: "Solar Expo, Stockholm",
+    slug: "eurener-stockholm",
+    title: "Eurener",
+    client: "Eurener",
+    category: "exhibition",
+    industry: { pl: "Energetyka słoneczna", en: "Solar energy" },
+    excerpt: {
+      pl: "Jasna, otwarta zabudowa z białym fryzem obwodowym i żółtym akcentem pionowym rozcinającym ścianę.",
+      en: "A light, open build with a white perimeter fascia and a yellow vertical accent splitting the wall.",
+    },
+    overview: {
+      pl: "Wersja jasna tego samego programu: biel zamiast grafitu, żółć zamiast pomarańczu. Fryz obwodowy prowadzi wokół całego narożnika i porządkuje wysokość, a pionowy pas światła rozcina ścianę na dwie strefy — ekspozycję modułów i część spotkań. Moduły stoją pionowo z kartami mocy, a otwarty narożnik pozwala wejść z dwóch alejek bez progu.",
+      en: "The light version of the same programme: white instead of graphite, yellow instead of orange. A perimeter fascia runs the full corner and settles the height, while a vertical band of light splits the wall into two zones — the module display and the meeting area. The modules stand upright with their output cards, and the open corner lets visitors enter from two aisles without a threshold.",
+    },
+    fabrication: {
+      pl: "Fryz obwodowy z płyty lakierowanej na biało z oprawami kierunkowymi, żółty pas świetlny wpuszczony w ścianę, grafika wielkoformatowa na tylnej ścianie, stojaki pod moduły z kartami parametrów, lada z podświetlanym cokołem i wykładzina obiektowa.",
+      en: "A white lacquered perimeter fascia with directional fittings, a yellow light band recessed into the wall, large-format graphics on the back wall, module stands with spec cards, a counter with an illuminated plinth and contract carpet.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "LED liniowy", "Grafika wielkoformatowa", "Wykładzina obiektowa", "Stojaki ekspozycyjne"],
+      en: ["Lacquered panel", "Linear LED", "Large-format graphics", "Contract carpet", "Display stands"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Ekspozycja produktu"], ["Graphics", "Lighting", "Product display"]),
+  },
+  {
+    key: "space-applications-services",
+    images: ["/images/fairs/spacetech-expo-bremen/spacetech-expo-bremen-01.webp"],
+    location: "Spacetech Expo, Bremen",
+    slug: "space-applications-services",
+    title: "Space Applications Services",
+    client: "Space Applications Services",
+    category: "exhibition",
+    industry: { pl: "Technologie kosmiczne", en: "Space technology" },
+    excerpt: {
+      pl: "Wyspa na granatowej wykładzinie, zwieńczona podwieszonym pierścieniem z podświetlanym dnem.",
+      en: "An island on navy carpet, crowned by a suspended ring with an illuminated underside.",
+    },
+    overview: {
+      pl: "Stoisko wyspowe dostępne ze wszystkich stron, zaprojektowane wokół eksponatów sprzętowych. Podwieszony pierścień z nadrukiem obwodowym działa jak znacznik pozycji w hali, a jego podświetlone dno oświetla wyspę bez rzucania cieni na gabloty. Ramię robotyczne i witryny na postumentach stoją w otwartej przestrzeni, więc zwiedzający obchodzą je dookoła. Łukowa lada w pasy zamyka jeden bok i przejmuje pierwszy kontakt.",
+      en: "An island stand approachable from every side, laid out around hardware exhibits. The suspended ring, printed around its circumference, works as a position marker in the hall, and its illuminated underside lights the island without throwing shadows into the vitrines. A robotic arm and plinth-mounted cases stand in open space so visitors can walk right around them. A curved striped counter closes one side and takes the first contact.",
+    },
+    fabrication: {
+      pl: "Pierścień podwieszany na kratownicy z nadrukiem obwodowym i dnem z materiału rozpraszającego, gabloty szklane na postumentach lakierowanych, ściana graficzna wielkoformatowa, łukowa lada z pasami w dwóch kolorach i wykładzina obiektowa na podeście.",
+      en: "A truss-hung ring printed around its circumference with a diffusing underside, glass vitrines on lacquered plinths, a large-format graphic wall, a curved counter banded in two colours and contract carpet on a platform.",
+    },
+    materials: {
+      pl: ["Kratownica", "Grafika wielkoformatowa", "Szkło", "Płyta lakierowana", "Wykładzina obiektowa"],
+      en: ["Truss", "Large-format graphics", "Glass", "Lacquered panel", "Contract carpet"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Podwieszenia", "Gabloty"], ["Graphics", "Lighting", "Rigging", "Vitrines"]),
+  },
+  {
+    key: "spielwarenmesse-toys",
+    images: ["/images/fairs/spielwarenmesse-nuremberg/spielwarenmesse-nuremberg-01.webp"],
+    location: "Spielwarenmesse, Nuremberg",
+    slug: "spielwarenmesse-nuremberg",
+    title: "Spielwarenmesse, Nuremberg",
+    category: "exhibition",
+    industry: { pl: "Zabawki", en: "Toys" },
+    excerpt: {
+      pl: "Zabudowa katalogowa: białe wnęki regałowe pod zielonym fryzem, po jednej linii produktowej na wnękę.",
+      en: "A catalogue build: white shelving bays under a green fascia, one product line per bay.",
+    },
+    overview: {
+      pl: "Stoisko sprzedażowe dla asortymentu o dużej liczbie linii. Każda wnęka dostaje własny nadruk nagłówkowy i własny podział półek, więc kupiec znajduje markę bez pytania o obsługę. Zielony fryz obwodowy spina różnobarwne grafiki w jedną całość, a centralna lada z nadrukiem imitującym skrzynię pełni rolę stołu prezentacyjnego. Stoliki po bokach obsługują rozmowy zakupowe.",
+      en: "A selling stand for a range with a large number of lines. Each bay takes its own printed header and its own shelf spacing, so a buyer finds a brand without asking staff. A green perimeter fascia pulls the many-coloured graphics into one whole, and a central counter printed as a timber crate acts as the presentation table. Tables to either side carry the buying conversations.",
+    },
+    fabrication: {
+      pl: "Wnęki regałowe z płyty lakierowanej na biało z półkami o zmiennym rozstawie, nadruki nagłówkowe na panelach wymiennych, fryz obwodowy w zieleni, lada centralna z nadrukiem, ekran na ścianie i wykładzina obiektowa.",
+      en: "White lacquered shelving bays with variable shelf spacing, printed headers on interchangeable panels, a green perimeter fascia, a printed central counter, a wall-mounted screen and contract carpet.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Panele wymienne", "Grafika wielkoformatowa", "Wykładzina obiektowa", "Oświetlenie punktowe"],
+      en: ["Lacquered panel", "Interchangeable panels", "Large-format graphics", "Contract carpet", "Spot lighting"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Meble ekspozycyjne"], ["Graphics", "Lighting", "Display furniture"]),
+  },
+  {
+    key: "novalac",
+    images: ["/images/fairs/vitafood-geneva/vitafood-geneva-01.webp"],
+    location: "Vitafood, Geneve",
+    slug: "novalac",
+    title: "Novalac",
+    client: "Novalac",
+    category: "exhibition",
+    industry: { pl: "Żywienie niemowląt", en: "Infant nutrition" },
+    excerpt: {
+      pl: "Biało-granatowa rama portalowa z logotypem halo, otwarta na dwie alejki i domknięta ścianą asortymentową.",
+      en: "A white and navy portal frame with halo lettering, open to two aisles and closed by a range wall.",
+    },
+    overview: {
+      pl: "Dwie bramy portalowe ustawione w jednej linii tworzą przejście przez stoisko i wpuszczają ruch z alejki do środka. Granatowe podcięcia w białych ramach dają głębię i porządkują wejścia. Ściana z pełnym asortymentem w układzie tabelarycznym pozwala odczytać ofertę bez rozmowy, a wielkoformatowa fotografia po prawej ustawia ton całości. Gięta lada z podświetlanym licem przejmuje obsługę.",
+      en: "Two portal gates set on one line create a passage through the stand and draw aisle traffic inside. Navy reveals within the white frames give depth and order the entrances. A wall carrying the full range in a tabular layout lets the offer be read without a conversation, and the large-format photography on the right sets the tone. A curved counter with an illuminated face takes the service.",
+    },
+    fabrication: {
+      pl: "Ramy portalowe z zabudowy płytowej lakierowanej na biało z granatowymi podcięciami, litery przestrzenne podświetlane typu halo, profile LED w podciągach, gięta lada z podświetlanym licem, lampy wiszące o formie wielościanu, podświetlane bryły kubiczne i podłoga w okleinie drewnopodobnej.",
+      en: "Portal frames in white lacquered panel construction with navy reveals, halo-lit dimensional letters, LED profiles in the headers, a curved counter with an illuminated face, polyhedral pendant lamps, illuminated cube volumes and a wood-effect floor.",
+    },
+    materials: {
+      pl: ["Płyta lakierowana", "Litery przestrzenne", "LED liniowy", "Grafika wielkoformatowa", "Okleina drewnopodobna"],
+      en: ["Lacquered panel", "Dimensional lettering", "Linear LED", "Large-format graphics", "Wood-effect finish"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Meble ekspozycyjne"], ["Graphics", "Lighting", "Display furniture"]),
+  },
+  {
+    key: "eggnovo",
+    images: ["/images/fairs/vitafood-geneva/vitafood-geneva-02.webp"],
+    location: "Vitafood, Geneve",
+    slug: "eggnovo",
+    title: "Eggnovo",
+    client: "Eggnovo",
+    category: "exhibition",
+    industry: { pl: "Suplementy i składniki funkcjonalne", en: "Supplements & functional ingredients" },
+    excerpt: {
+      pl: "Ciemna rama z pionowych lameli okalająca jasne wnętrze, z podświetlanym logotypem pierścieniowym w narożniku.",
+      en: "A dark frame of vertical slats around a light interior, with an illuminated ring logo at the corner.",
+    },
+    overview: {
+      pl: "Kontrast prowadzi tu cały układ: ciemna, drewnopodobna oprawa z pionowych lameli obejmuje stoisko od zewnątrz, a wnętrze zostaje białe i ciche. Dzięki temu podświetlona plansza produktowa i pierścieniowy logotyp są jedynymi mocnymi punktami. Pionowy podział lameli powtarza się wewnątrz jako ażurowy ekran, który dzieli strefę rozmów od ekspozycji, nie zamykając jej.",
+      en: "Contrast drives the whole layout: a dark, wood-effect surround of vertical slats wraps the stand from outside while the interior stays white and quiet. That leaves the backlit product panel and the ring logo as the only strong notes. The vertical division of the slats returns inside as an open screen that separates the conversation area from the display without closing it off.",
+    },
+    fabrication: {
+      pl: "Oprawa z pionowych lameli w okleinie drewnopodobnej na konstrukcji płytowej, podświetlany pierścień z logotypem, wielkoformatowa plansza podświetlana w ramie, ażurowy ekran lamelowy we wnętrzu, postumenty lakierowane, lampy wiszące i podest z wykładziną.",
+      en: "A surround of vertical slats in wood-effect finish on panel construction, an illuminated ring logo, a large-format backlit panel in a frame, an open slatted screen inside, lacquered plinths, pendant lamps and a carpeted platform.",
+    },
+    materials: {
+      pl: ["Lamele pionowe", "Okleina drewnopodobna", "Plansza podświetlana", "Płyta lakierowana", "Wykładzina obiektowa"],
+      en: ["Vertical slats", "Wood-effect finish", "Backlit panel", "Lacquered panel", "Contract carpet"],
+    },
+    services: withCore(["Grafika", "Oświetlenie", "Meble ekspozycyjne"], ["Graphics", "Lighting", "Display furniture"]),
+  },
 ];
 
-export const projects: Project[] = ENTRIES.map(({ key, ...rest }) => {
-  const imgs = photos(key);
+/** Keep only the paths that are actually on disk, so a missing file drops the
+ *  project rather than rendering a broken tile. */
+function present(paths: string[]): string[] {
+  return paths.filter((rel) => {
+    try {
+      return fs.existsSync(path.join(process.cwd(), "public", rel.replace(/^\//, "")));
+    } catch {
+      return false;
+    }
+  });
+}
+
+export const projects: Project[] = ENTRIES.map(({ key, images, ...rest }) => {
+  const imgs = images ? present(images) : photos(key);
   return { ...rest, hero: imgs[0] ?? "", gallery: imgs.slice(1) };
 }).filter((p) => p.hero);
 

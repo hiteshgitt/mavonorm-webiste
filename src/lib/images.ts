@@ -64,3 +64,23 @@ export function fairPhoto(key: string, n = 1): string {
   }
   return "";
 }
+
+/**
+ * Every photo we hold for a fair, in file order.
+ *
+ * Some fairs are represented by more than one build, so the About grid shows
+ * each photo as its own tile rather than silently dropping all but the first.
+ * Returns [] when the folder is absent so callers can drop the fair entirely.
+ */
+export function fairPhotos(key: string): string[] {
+  try {
+    return fs
+      .readdirSync(path.join(IMG_DIR, "fairs", key))
+      .filter((f) => f.endsWith(".webp"))
+      .sort()
+      .map((f) => `/images/fairs/${key}/${f}`);
+  } catch {
+    // folder absent or fs unavailable
+    return [];
+  }
+}
