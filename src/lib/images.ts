@@ -9,8 +9,13 @@ const IMG_DIR = path.join(process.cwd(), "public", "images");
  * placeholder so not-yet-generated images never 404.
  */
 export function siteImage(name: string, fallbackSeed: string, w = 1600, h = 1000): string {
+  // prefer the .webp sibling: callers still name the .png/.jpg they authored,
+  // but the site always serves the web-sized webp when it has been generated
+  const webp = name.replace(/\.(png|jpe?g)$/i, ".webp");
   try {
-    if (fs.existsSync(path.join(IMG_DIR, name))) return `/images/${name}`;
+    for (const candidate of webp === name ? [name] : [webp, name]) {
+      if (fs.existsSync(path.join(IMG_DIR, candidate))) return `/images/${candidate}`;
+    }
   } catch {
     // fs unavailable — fall through to placeholder
   }
