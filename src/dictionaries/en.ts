@@ -372,6 +372,15 @@ export const en: typeof pl = {
     nav: "Navigation",
     officeLabel: "Facility & office",
     followLabel: "Follow us",
+    verifyLabel: "Verify us",
+    verifyBody:
+      "mavoNORM is a registered Polish business. You can confirm that in CEIDG, the official Polish government register, by searching our NIP:",
+    nipLabel: "NIP",
+    nip: "777 298 17 57",
+    ceidgCta: "Open the CEIDG register",
+    unaffiliatedLabel: "No connection with",
+    unaffiliatedBody:
+      "We are not affiliated with, and have no business connection to, the following websites. They are not operated by mavoNORM:",
     legalLink: "Legal",
     privacyLink: "Privacy policy",
     rights: "All rights reserved.",

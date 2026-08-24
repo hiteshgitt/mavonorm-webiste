@@ -370,6 +370,15 @@ export const pl = {
     nav: "Nawigacja",
     officeLabel: "Zakład i biuro",
     followLabel: "Obserwuj nas",
+    verifyLabel: "Zweryfikuj nas",
+    verifyBody:
+      "mavoNORM jest zarejestrowaną polską firmą. Możesz to potwierdzić w CEIDG, oficjalnym rejestrze rządowym, wyszukując nasz NIP:",
+    nipLabel: "NIP",
+    nip: "777 298 17 57",
+    ceidgCta: "Otwórz rejestr CEIDG",
+    unaffiliatedLabel: "Brak powiązań",
+    unaffiliatedBody:
+      "Nie jesteśmy powiązani z poniższymi stronami ani nie prowadzimy z nimi współpracy. Nie są one prowadzone przez mavoNORM:",
     legalLink: "Informacje prawne",
     privacyLink: "Polityka prywatności",
     rights: "Wszelkie prawa zastrzeżone.",

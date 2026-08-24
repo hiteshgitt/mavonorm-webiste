@@ -68,6 +68,41 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
           </div>
         </div>
 
+        {/* Registration check and lookalike-domain notice. CEIDG has no
+            deep-link for a single NIP — its search form must be filled in — so
+            the number is shown here to copy and the link opens the search page.
+            The unaffiliated domains are deliberately NOT hyperlinked: naming
+            them is the point, sending them traffic and link equity is not. */}
+        <div className="mt-16 grid gap-10 border-t border-line-dark pt-10 md:grid-cols-2">
+          <div>
+            <div className="h-eyebrow text-muted-dark">{dict.footer.verifyLabel}</div>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-dark">{dict.footer.verifyBody}</p>
+            <p className="mt-3 font-(family-name:--font-display) text-lg">
+              <span className="text-muted-dark">{dict.footer.nipLabel}</span> {dict.footer.nip}
+            </p>
+            <a
+              href="https://aplikacja.ceidg.gov.pl/ceidg/ceidg.public.ui/search.aspx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-line mt-3 inline-block text-sm"
+            >
+              {dict.footer.ceidgCta} &#8599;
+            </a>
+          </div>
+
+          <div>
+            <div className="h-eyebrow text-muted-dark">{dict.footer.unaffiliatedLabel}</div>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-dark">{dict.footer.unaffiliatedBody}</p>
+            <ul className="mt-3 space-y-1 text-sm">
+              {["mavonorm-global.de", "ariehinatesphereexhibit.com"].map((d) => (
+                <li key={d} className="break-words text-paper/70">
+                  {d}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         <div className="mt-16 flex flex-col gap-4 border-t border-line-dark pt-8 text-xs text-muted-dark md:flex-row md:items-center md:justify-between">
           <div>
             © {year} mavoNORM. {dict.footer.rights}
