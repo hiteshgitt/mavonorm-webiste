@@ -485,8 +485,8 @@ const ScrollExpandMedia = ({
                     <Image
                       src={mediaSrc}
                       alt={title || "Media content"}
-                      width={1672}
-                      height={941}
+                      width={1681}
+                      height={936}
                       priority
                       sizes="(max-width: 768px) 95vw, 1600px"
                       className="h-full w-full object-cover"

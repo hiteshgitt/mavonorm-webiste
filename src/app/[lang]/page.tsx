@@ -54,7 +54,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       {/* ---------- HERO (scroll-expansion) ---------- */}
       <ScrollExpandMedia
         mediaType="image"
-        mediaSrc="/images/bannerfrontlight.webp"
+        mediaSrc="/images/mavonormnewfront.webp"
         bgVideoSrc="/video/booth-assembly.mp4"
         bgVideoScrub={false}
         bgImageSrc="/images/mavonorm-stand-front.webp"
