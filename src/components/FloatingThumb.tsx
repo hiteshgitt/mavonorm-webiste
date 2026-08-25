@@ -61,7 +61,7 @@ export default function FloatingThumb({
       {items.map((it, i) => (
         // keyed by position, not src — callers may legitimately reuse one image
         // across several rows, which would collide on a src-only key
-        <Image
+        <Image quality={90}
           key={`${it.img}-${i}`}
           src={it.img}
           alt=""

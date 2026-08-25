@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
 import { clientPhoto, siteImage } from "@/lib/images";
-import { featuredProjects } from "@/lib/projects";
+import { featuredProjects, projects } from "@/lib/projects";
 import ScrollExpandMedia from "@/components/ui/scroll-expansion-hero";
 import SectorsList from "@/components/SectorsList";
 import ServicesFlow from "@/components/ServicesFlow";
@@ -23,7 +23,13 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   const dict = getDictionary(lang);
   const h = dict.home;
 
-  const clientNames = ["HELION", "NORDICWARE", "VANTUM", "ARCLINE", "GRIDPOWER", "ATLAS", "KORM", "POLAR BANK", "HELIX"];
+  /**
+   * The client wall, taken from the portfolio itself rather than kept as a
+   * second hand-maintained list — adding a project puts its client here.
+   * Names carrying the agency we worked through ("DJI / Epotronic") are cut
+   * back to the brand, so DJI appears once rather than as two strangers.
+   */
+  const clientNames = [...new Set(projects.map((p) => p.client?.split(" / ")[0]).filter((c): c is string => Boolean(c)))];
 
   /**
    * Sector hover thumbnails, each a real stand we built for a client in that
@@ -180,7 +186,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <div className="marquee mt-24 overflow-hidden border-y border-line py-8" aria-label={h.clients.eyebrow}>
           <div className="marquee-track items-center gap-20 pr-20">
             {[...clientNames, ...clientNames].map((c, i) => (
-              <span key={i} className="h-display shrink-0 text-2xl text-muted/60 md:text-3xl" aria-hidden={i >= clientNames.length}>
+              <span key={i} className="h-display shrink-0 text-2xl uppercase text-muted/60 md:text-3xl" aria-hidden={i >= clientNames.length}>
                 {c}
               </span>
             ))}

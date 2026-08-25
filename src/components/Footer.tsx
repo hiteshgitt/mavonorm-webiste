@@ -2,6 +2,23 @@ import Link from "next/link";
 import type { Dictionary, Locale } from "@/lib/i18n";
 import Logo from "./Logo";
 
+/**
+ * Only the channels we actually publish to. Instagram and Behance were
+ * placeholder rows pointing at "#" and have been dropped rather than left as
+ * dead links.
+ *
+ * The Google Photos address is the resolved share URL, not the goo.gl short
+ * link it was given as — Google has been retiring goo.gl, and a dead shortener
+ * would take the album with it.
+ */
+const socials = [
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/lena-d%C4%99bosz-428071b3" },
+  {
+    name: "Google Photos",
+    href: "https://photos.google.com/share/AF1QipP1g0EQSuip27cqS7kInd4ZjAZlo8dAfF2WXiHAObGSL00E_E94aqR_UBxMZFu15w?key=SVc4dGtLU25ST2FhRVdzRFdlUEFSV0R6UHRUV1RB",
+  },
+];
+
 export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const year = new Date().getFullYear();
   const nav = [
@@ -48,19 +65,35 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
               ))}
               <div className="whitespace-nowrap pt-2 text-muted-dark">{dict.contact.details.phone}</div>
               <div className="whitespace-nowrap text-muted-dark">FAX {dict.contact.details.fax}</div>
-              <a href={`mailto:${dict.contact.details.email}`} className="link-line inline-block pt-2">
-                {dict.contact.details.email}
-              </a>
+              {/* each address needs a block-level wrapper: the anchors are
+                  inline-block for the underline, so on their own they sit side
+                  by side and read as one run-on address */}
+              <div className="pt-2">
+                <a href={`mailto:${dict.contact.details.email}`} className="link-line inline-block">
+                  {dict.contact.details.email}
+                </a>
+              </div>
+              <div>
+                <a href={`mailto:${dict.contact.details.emailSecondary}`} className="link-line inline-block">
+                  {dict.contact.details.emailSecondary}
+                </a>
+              </div>
             </address>
           </div>
 
           <div className="md:col-span-2">
             <div className="h-eyebrow text-muted-dark">{dict.footer.followLabel}</div>
             <ul className="mt-5 space-y-3 text-sm">
-              {["LinkedIn", "Instagram", "Behance"].map((s) => (
-                <li key={s}>
-                  <a href="#" className="link-line" aria-label={s}>
-                    {s}
+              {socials.map((s) => (
+                <li key={s.name}>
+                  <a
+                    href={s.href}
+                    className="link-line"
+                    aria-label={s.name}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {s.name}
                   </a>
                 </li>
               ))}

@@ -29,7 +29,7 @@ export default function Gallery({ images, alt }: { images: string[]; alt: string
             data-cursor="view"
             aria-label={`${alt} ${i + 1}`}
           >
-            <Image
+            <Image quality={90}
               src={src}
               alt={`${alt} — ${i + 1}`}
               fill
@@ -64,7 +64,7 @@ export default function Gallery({ images, alt }: { images: string[]; alt: string
             ←
           </button>
           <div className="relative h-full w-full">
-            <Image src={images[openIdx]} alt={`${alt} — ${openIdx + 1}`} fill className="object-contain" sizes="100vw" />
+            <Image quality={90} src={images[openIdx]} alt={`${alt} — ${openIdx + 1}`} fill className="object-contain" sizes="100vw" />
           </div>
           <button
             className="absolute right-4 top-1/2 z-10 -translate-y-1/2 p-4 text-2xl text-paper/70 hover:text-paper"

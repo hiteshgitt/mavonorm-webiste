@@ -21,7 +21,7 @@ export default function ProjectCard({
       data-cursor="view"
     >
       <div className="pc-img duotone relative aspect-[4/3] bg-grey">
-        <Image
+        <Image quality={90}
           src={project.hero}
           alt={project.title}
           fill

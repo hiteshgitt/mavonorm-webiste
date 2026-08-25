@@ -331,8 +331,8 @@ export const en: typeof pl = {
     details: {
       heading: "Contact details",
       email: "lena@mavonorm.pl",
-      /** Second enquiry inbox, listed on the contact page only — the header,
-       *  footer and legal text stay on the primary address above. */
+      /** Second enquiry inbox, listed on the contact page and in the footer.
+       *  The header and legal text stay on the primary address above. */
       emailSecondary: "expo@mavonorm.pl",
       phone: "(+48) 504 315 440",
       fax: "(+48) 61 642 72 19",

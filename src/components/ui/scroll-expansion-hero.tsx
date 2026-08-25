@@ -411,7 +411,7 @@ const ScrollExpandMedia = ({
                 style={{ filter: "grayscale(1) contrast(1.06) brightness(0.62)" }}
               />
             ) : (
-              <Image
+              <Image quality={90}
                 src={bgImageSrc}
                 alt=""
                 width={1920}
@@ -482,7 +482,7 @@ const ScrollExpandMedia = ({
                   </div>
                 ) : (
                   <div ref={mediaWrapRef} className="relative h-full w-full overflow-hidden" style={{ opacity: 0 }}>
-                    <Image
+                    <Image quality={90}
                       src={mediaSrc}
                       alt={title || "Media content"}
                       width={1681}

@@ -95,7 +95,7 @@ export default function HorizontalSteps({ steps, deliverableLabel }: { steps: St
             className="step-panel relative flex shrink-0 flex-col justify-between overflow-hidden border-b border-line-dark px-6 py-14 md:px-10 lg:h-full lg:w-[38rem] lg:border-b-0 lg:border-r lg:px-14 lg:py-24"
           >
             <div className="step-bg duotone absolute inset-y-0 -left-[12%] -right-[12%]">
-              <Image
+              <Image quality={90}
                 src={s.img}
                 alt=""
                 fill

@@ -65,11 +65,11 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
           <div className="relative">
             <div className="mask-reveal duotone relative aspect-[4/5] overflow-hidden bg-grey">
               <div data-parallax data-speed="5" className="absolute inset-[-8%]">
-                <Image src={siteImage("about-workshop.png", "mavo-workshop", 1200, 1600)} alt="Workshop" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+                <Image quality={90} src={siteImage("about-workshop.png", "mavo-workshop", 1200, 1600)} alt="Workshop" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
               </div>
             </div>
             <div className="mask-reveal duotone absolute -bottom-10 -left-6 hidden aspect-[4/3] w-56 overflow-hidden border-8 border-paper bg-grey md:block">
-              <Image src={siteImage("about-detail.png", "mavo-detail", 800, 600)} alt="" fill sizes="14rem" className="object-cover" />
+              <Image quality={90} src={siteImage("about-detail.png", "mavo-detail", 800, 600)} alt="" fill sizes="14rem" className="object-cover" />
             </div>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
                 <li key={p.slug} data-reveal data-delay={`${(i % 3) * 0.08}`}>
                   <Link href={`/${locale}/portfolio/${p.slug}`} className="group block" data-cursor="view">
                     <div className="duotone relative aspect-[4/3] overflow-hidden bg-grey">
-                      <Image
+                      <Image quality={90}
                         src={p.hero}
                         alt={p.title}
                         fill
@@ -179,7 +179,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
         <div className="mx-auto grid max-w-350 gap-14 px-6 md:grid-cols-2 md:px-10">
           <div className="mask-reveal duotone relative aspect-[4/3] overflow-hidden bg-line">
             <div data-parallax data-speed="5" className="absolute inset-[-8%]">
-              <Image src={siteImage("about-hall.png", "mavo-hall", 1400, 1050)} alt="Production hall" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
+              <Image quality={90} src={siteImage("about-hall.png", "mavo-hall", 1400, 1050)} alt="Production hall" fill sizes="(max-width:768px) 100vw, 50vw" className="object-cover" />
             </div>
           </div>
           <div>
@@ -213,7 +213,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
             {fairs.map((f) => (
               <li key={f.img} data-reveal>
                 <div className="mask-reveal duotone relative aspect-[4/3] overflow-hidden bg-line">
-                  <Image
+                  <Image quality={90}
                     src={f.img}
                     alt={f.label}
                     fill

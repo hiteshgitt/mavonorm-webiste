@@ -82,7 +82,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
                 <div className={even ? "" : "md:order-1"}>
                   <div className="mask-reveal duotone relative aspect-[4/3] overflow-hidden bg-line">
                     <div data-parallax data-speed="5" className="absolute inset-[-8%]">
-                      <Image
+                      <Image quality={90}
                         src={servicePhoto[s.slug] || siteImage(`service-${s.slug}.png`, `mavo-srv-${s.slug}`, 1400, 1050)}
                         alt={s.title}
                         fill

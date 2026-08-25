@@ -62,7 +62,7 @@ export default async function ProjectPage({
       <section className="dark-section relative flex min-h-[85svh] items-end overflow-hidden">
         <div className="absolute inset-0">
           <div data-parallax data-speed="6" className="duotone absolute inset-[-6%]">
-            <Image src={project.hero} alt={project.title} fill priority sizes="100vw" className="object-cover opacity-55" />
+            <Image quality={90} src={project.hero} alt={project.title} fill priority sizes="100vw" className="object-cover opacity-55" />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
         </div>
