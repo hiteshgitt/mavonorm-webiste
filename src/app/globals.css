@@ -129,6 +129,28 @@ img.duotone {
   filter: grayscale(1) contrast(1.06) brightness(0.96);
 }
 
+/* Process panels hold colour photography; the duotone is only a resting
+   state, so hovering a panel returns the frame to full colour and lifts it
+   out from under the gradient. Pointer devices only — there is no hover to
+   leave on a touch screen, and the panel would stay stuck in colour. */
+@media (hover: hover) {
+  .step-panel .step-bg img {
+    transition:
+      filter 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .step-panel:hover .step-bg img {
+    filter: grayscale(0) contrast(1.02) brightness(1);
+    opacity: 0.62;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-panel .step-bg img {
+    transition: none;
+  }
+}
+
 /* ---------- custom cursor ---------- */
 
 @media (pointer: fine) {

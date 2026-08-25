@@ -2,12 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Logo from "./Logo";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 interface Step {
   title: string;
   body: string;
+  /** What the client is left holding at the end of the stage. */
+  brief: string;
   img: string;
 }
 
@@ -16,7 +19,7 @@ interface Step {
  * Each panel carries a duotone background image that parallaxes against the
  * track (via containerAnimation) while a progress bar fills along the bottom.
  */
-export default function HorizontalSteps({ steps }: { steps: Step[] }) {
+export default function HorizontalSteps({ steps, deliverableLabel }: { steps: Step[]; deliverableLabel: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -89,7 +92,7 @@ export default function HorizontalSteps({ steps }: { steps: Step[] }) {
         {steps.map((s, i) => (
           <article
             key={s.title}
-            className="relative flex shrink-0 flex-col justify-between overflow-hidden border-b border-line-dark px-6 py-14 md:px-10 lg:h-full lg:w-[38rem] lg:border-b-0 lg:border-r lg:px-14 lg:py-24"
+            className="step-panel relative flex shrink-0 flex-col justify-between overflow-hidden border-b border-line-dark px-6 py-14 md:px-10 lg:h-full lg:w-[38rem] lg:border-b-0 lg:border-r lg:px-14 lg:py-24"
           >
             <div className="step-bg duotone absolute inset-y-0 -left-[12%] -right-[12%]">
               <Image
@@ -111,11 +114,15 @@ export default function HorizontalSteps({ steps }: { steps: Step[] }) {
             <div className="relative mt-10 lg:mt-0">
               <h3 className="h-display text-3xl md:text-4xl">{s.title}</h3>
               <p className="mt-6 max-w-sm leading-relaxed text-muted-dark">{s.body}</p>
+              <p className="mt-7 h-eyebrow text-copper">{deliverableLabel}</p>
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-paper/75">{s.brief}</p>
             </div>
           </article>
         ))}
+        {/* end-cap: the wordmark closes the track, in the same vector logo the
+            header and footer use rather than the name set as text */}
         <div className="hidden shrink-0 items-center px-24 lg:flex">
-          <div className="h-display whitespace-nowrap text-6xl text-white/10">mavoNORM</div>
+          <Logo className="h-20 w-auto text-white/10" />
         </div>
       </div>
 

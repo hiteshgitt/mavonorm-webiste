@@ -44,3 +44,7 @@ next-env.d.ts
 # .webp siblings are committed and are what the site serves.
 /public/images/client/**/*.jpg
 /public/images/fairs/**/*.jpg
+
+# Delivered process photography (colour JPG masters, ~13MB). The web-sized
+# .webp encodes in /public/images/process are committed and are what ships.
+/public/images/How-We-Work-Process/

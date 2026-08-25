@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
-import { clientPhoto, siteImage } from "@/lib/images";
+import { siteImage } from "@/lib/images";
 import RevealHeading from "@/components/RevealHeading";
 import HorizontalSteps from "@/components/HorizontalSteps";
 import MagneticButton from "@/components/MagneticButton";
@@ -18,19 +18,19 @@ export default async function ProcessPage({ params }: { params: Promise<{ lang: 
   const dict = getDictionary(lang);
 
   /**
-   * One real stand per stage, in place of stock placeholders. The order runs
-   * from stands still going up to finished ones, so the sequence tracks the
-   * process the steps describe. Illustrative — no step claims a specific job.
+   * Photography commissioned for the process itself — one frame per stage,
+   * each showing the work that stage describes rather than a finished stand
+   * standing in for it. Held in colour; the panels apply .duotone in CSS.
    */
   const stepPhotos = [
-    clientPhoto("botanicall", 1), // brief — build still in progress behind
-    clientPhoto("natural", 2),
-    clientPhoto("sesa-chem", 1),
-    clientPhoto("technic", 1),
-    clientPhoto("master-lock", 1),
-    clientPhoto("american-orthodontics", 1),
-    clientPhoto("allana", 1),
-    clientPhoto("dji", 1), // handover — finished and lit
+    "/images/process/brief-discovery.webp",
+    "/images/process/consultation.webp",
+    "/images/process/concept-design.webp",
+    "/images/process/engineering.webp",
+    "/images/process/production.webp",
+    "/images/process/quality-control.webp",
+    "/images/process/installation.webp",
+    "/images/process/support.webp",
   ];
 
   return (
@@ -49,6 +49,7 @@ export default async function ProcessPage({ params }: { params: Promise<{ lang: 
 
       {/* pinned horizontal journey */}
       <HorizontalSteps
+        deliverableLabel={dict.process.deliverableLabel}
         steps={dict.process.steps.map((s, i) => ({
           ...s,
           img: stepPhotos[i] || siteImage(`process-${i + 1}.png`, `mavo-process-${i + 1}`, 1400, 1600),
