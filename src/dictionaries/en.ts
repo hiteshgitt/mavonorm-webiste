@@ -106,29 +106,11 @@ export const en: typeof pl = {
       items: ["Automotive", "Technology", "Medical & Pharma", "Industrial", "FMCG", "Furniture & Design", "Energy", "Finance"],
     },
     clients: { eyebrow: "Trusted by" },
+    /** The quotes themselves live in lib/testimonials.ts — headings only here. */
     testimonials: {
       eyebrow: "Client feedback",
       heading: "What partners say",
-      items: [
-        {
-          quote:
-            "The stand mavoNORM built was the most photographed spot in the hall. The finish quality was a level we had never seen from any previous contractor.",
-          author: "Marketing Director",
-          company: "industrial automation manufacturer",
-        },
-        {
-          quote:
-            "Three trade fairs in three countries within six weeks. Everything delivered, installed and handed over without a single correction. This is what professional fabrication should look like.",
-          author: "Event Manager",
-          company: "international technology group",
-        },
-        {
-          quote:
-            "From concept to dismantling — full control and communication. mavoNORM thinks like a business partner, not an order-taker.",
-          author: "Head of Brand",
-          company: "Scandinavian furniture brand",
-        },
-      ],
+      link: "All client feedback",
     },
     stats: {
       eyebrow: "Numbers",

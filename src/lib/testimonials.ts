@@ -20,6 +20,8 @@ export interface Testimonial {
   company: string;
   /** The show the feedback refers to, when the client named it. */
   event?: string;
+  /** Where the client is based, when that is what they gave us instead of a show. */
+  country?: string;
   /** Portfolio slug, only where we hold that client's build in the portfolio. */
   project?: string;
   kind: "voice" | "reference";
@@ -71,7 +73,7 @@ export const testimonials: Testimonial[] = [
     author: "David López",
     role: "Sales Department, Mechanical Engineer MSc",
     company: "ASTAR S.A.",
-    event: "Spain",
+    country: "Spain",
     kind: "voice",
   },
   {

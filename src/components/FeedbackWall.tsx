@@ -195,6 +195,7 @@ function Cite({ item }: { item: Testimonial }) {
       {item.role && <span className="text-muted-dark">{item.role}</span>}
       <span aria-hidden className="text-line-dark">/</span>
       <span className="text-paper/80">{item.company}</span>
+      {item.country && <span className="text-muted-dark">{item.country}</span>}
       {item.event && <span className="h-eyebrow text-copper">{item.event}</span>}
     </footer>
   );

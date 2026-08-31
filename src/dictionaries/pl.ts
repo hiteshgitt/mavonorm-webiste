@@ -104,29 +104,11 @@ export const pl = {
       items: ["Motoryzacja", "Technologia", "Medycyna i farmacja", "Przemysł", "FMCG", "Meble i design", "Energetyka", "Finanse"],
     },
     clients: { eyebrow: "Zaufali nam" },
+    /** Cytaty pochodzą z lib/testimonials.ts — tu tylko nagłówki sekcji. */
     testimonials: {
       eyebrow: "Opinie klientów",
       heading: "Co mówią o współpracy",
-      items: [
-        {
-          quote:
-            "Stoisko wykonane przez mavoNORM było najczęściej fotografowanym punktem hali. Jakość wykończenia — poziom, którego nie widzieliśmy u żadnego wcześniejszego wykonawcy.",
-          author: "Dyrektor marketingu",
-          company: "producent automatyki przemysłowej",
-        },
-        {
-          quote:
-            "Trzy targi w trzech krajach w ciągu sześciu tygodni. Wszystko dowiezione, zmontowane i odebrane bez jednej poprawki. Tak powinna wyglądać profesjonalna produkcja.",
-          author: "Event Manager",
-          company: "międzynarodowa grupa technologiczna",
-        },
-        {
-          quote:
-            "Od koncepcji po demontaż — pełna kontrola i komunikacja. mavoNORM myśli jak partner biznesowy, nie jak wykonawca zlecenia.",
-          author: "Head of Brand",
-          company: "skandynawska marka meblarska",
-        },
-      ],
+      link: "Wszystkie opinie",
     },
     stats: {
       eyebrow: "Liczby",

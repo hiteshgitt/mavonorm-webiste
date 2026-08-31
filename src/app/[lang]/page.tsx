@@ -201,13 +201,16 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {h.testimonials.eyebrow}
           </p>
           <div className="mt-12 max-w-4xl">
-            <Testimonials dict={dict} />
+            <Testimonials />
           </div>
 
-          <div className="mt-12" data-reveal>
-            <Link href={`/${locale}/feedback`} className="link-line h-eyebrow !tracking-[0.18em] text-paper">
-              {dict.feedback.hero.eyebrow} →
-            </Link>
+          <div className="mt-14" data-reveal>
+            <MagneticButton>
+              <Link href={`/${locale}/feedback`} className="btn btn-outline">
+                {h.testimonials.link}
+                <span aria-hidden>→</span>
+              </Link>
+            </MagneticButton>
           </div>
 
           <div className="mt-24 grid gap-10 border-t border-line-dark pt-16 sm:grid-cols-2 lg:grid-cols-4">
