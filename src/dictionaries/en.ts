@@ -8,6 +8,7 @@ export const en: typeof pl = {
     services: "Services",
     process: "How we work",
     portfolio: "Projects",
+    feedback: "Feedback",
     contact: "Contact",
     cta: "Get a quote",
   },
@@ -47,6 +48,11 @@ export const en: typeof pl = {
     services: { title: "Services & Capabilities — mavoNORM", description: "Stand design, booth fabrication, installation, interiors, CNC, logistics, storage and maintenance." },
     process: { title: "How We Work — mavoNORM", description: "From brief to installation: the eight-stage mavoNORM delivery process." },
     portfolio: { title: "Projects — mavoNORM", description: "Selected exhibition stands, commercial interiors and custom fabrication projects." },
+    feedback: {
+      title: "Client Feedback — mavoNORM",
+      description:
+        "Feedback and references from mavoNORM clients — exhibitors we have built for across Europe and beyond, plus clients happy to be contacted as references.",
+    },
     contact: { title: "Contact — mavoNORM", description: "Let's talk about your project. Preliminary quote within 48 hours." },
     legal: { title: "Legal — mavoNORM", description: "Privacy policy, GDPR, cookie policy and legal notice." },
   },
@@ -342,6 +348,40 @@ export const en: typeof pl = {
     },
     map: { label: "Production facility — Paczkowo near Poznań, Poland" },
     quickCta: { heading: "Need a quick quote?", body: "Send floor plans or a brief to", button: "Write to us" },
+  },
+  feedback: {
+    hero: {
+      eyebrow: "Client feedback",
+      heading: "In our clients' own words.",
+      sub: "Feedback from the exhibitors we have built for — and from clients who agreed to speak directly to anyone considering working with us.",
+    },
+    /** Counts are derived from the list itself, never typed in by hand. */
+    stats: {
+      voices: "clients on the record",
+      references: "clients you can call",
+      companies: "companies who signed their name",
+    },
+    voices: {
+      eyebrow: "In their words",
+      heading: "What partners say",
+      hint: "Scroll to keep reading",
+    },
+    references: {
+      eyebrow: "References on request",
+      heading: "Ask them yourself",
+      body:
+        "These clients agreed to have their contact details shared with anyone considering working with us. Write to us and we will put you in touch.",
+      badge: "Available as a reference",
+      seeProject: "See the project",
+      cta: "Request a reference call",
+    },
+    /** Feedback stays in the language it was given in. */
+    originalNote: "Feedback is published exactly as it was given to us, untranslated.",
+    cta: {
+      heading: "Want to be on this list?",
+      body: "Tell us about the project. Within 48 hours we will prepare an initial concept and quote.",
+      button: "Let's talk",
+    },
   },
   legal: {
     hero: { eyebrow: "Legal", heading: "Privacy and terms." },

@@ -204,6 +204,12 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <Testimonials dict={dict} />
           </div>
 
+          <div className="mt-12" data-reveal>
+            <Link href={`/${locale}/feedback`} className="link-line h-eyebrow !tracking-[0.18em] text-paper">
+              {dict.feedback.hero.eyebrow} →
+            </Link>
+          </div>
+
           <div className="mt-24 grid gap-10 border-t border-line-dark pt-16 sm:grid-cols-2 lg:grid-cols-4">
             {h.stats.items.map((s) => (
               <div key={s.label} data-reveal>

@@ -26,6 +26,7 @@ export default function Footer({ lang, dict }: { lang: Locale; dict: Dictionary 
     { href: `/${lang}/services`, label: dict.nav.services },
     { href: `/${lang}/process`, label: dict.nav.process },
     { href: `/${lang}/portfolio`, label: dict.nav.portfolio },
+    { href: `/${lang}/feedback`, label: dict.nav.feedback },
     { href: `/${lang}/contact`, label: dict.nav.contact },
   ];
 

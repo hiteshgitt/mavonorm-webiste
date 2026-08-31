@@ -6,6 +6,7 @@ export const pl = {
     services: "Usługi",
     process: "Jak pracujemy",
     portfolio: "Realizacje",
+    feedback: "Opinie",
     contact: "Kontakt",
     cta: "Wyceń projekt",
   },
@@ -45,6 +46,11 @@ export const pl = {
     services: { title: "Usługi i możliwości — mavoNORM", description: "Projektowanie stoisk, produkcja zabudowy, montaż, wnętrza, CNC, logistyka, magazynowanie i serwis." },
     process: { title: "Jak pracujemy — mavoNORM", description: "Od briefu do montażu: ośmioetapowy proces realizacji projektów wystawienniczych mavoNORM." },
     portfolio: { title: "Realizacje — mavoNORM", description: "Wybrane realizacje stoisk targowych, wnętrz komercyjnych i produkcji na wymiar." },
+    feedback: {
+      title: "Opinie klientów — mavoNORM",
+      description:
+        "Opinie i referencje klientów mavoNORM — wypowiedzi wystawców z targów w Europie i poza nią, wraz z klientami gotowymi udzielić referencji telefonicznie.",
+    },
     contact: { title: "Kontakt — mavoNORM", description: "Porozmawiajmy o Twoim projekcie. Wycena w 48 godzin." },
     legal: { title: "Informacje prawne — mavoNORM", description: "Polityka prywatności, RODO, polityka cookies i nota prawna." },
   },
@@ -340,6 +346,40 @@ export const pl = {
     },
     map: { label: "Zakład produkcyjny — Paczkowo k. Poznania" },
     quickCta: { heading: "Potrzebujesz szybkiej wyceny?", body: "Wyślij rzuty lub brief na", button: "Napisz do nas" },
+  },
+  feedback: {
+    hero: {
+      eyebrow: "Opinie klientów",
+      heading: "Słowami naszych klientów.",
+      sub: "Wypowiedzi wystawców, dla których budowaliśmy stoiska — oraz klientów, którzy zgodzili się udzielić referencji bezpośrednio osobom rozważającym współpracę z nami.",
+    },
+    /** Liczby wyliczane z listy opinii, nie wpisywane ręcznie. */
+    stats: {
+      voices: "wypowiedzi klientów",
+      references: "klientów na telefon referencyjny",
+      companies: "firm, które podpisały się nazwiskiem",
+    },
+    voices: {
+      eyebrow: "Ich słowami",
+      heading: "Co mówią o współpracy",
+      hint: "Przewiń, aby czytać dalej",
+    },
+    references: {
+      eyebrow: "Referencje na życzenie",
+      heading: "Zapytaj ich bezpośrednio",
+      body:
+        "Ci klienci zgodzili się na przekazanie swoich danych kontaktowych osobom rozważającym współpracę z nami. Napisz do nas, a skontaktujemy Cię z nimi.",
+      badge: "Dostępny jako referencja",
+      seeProject: "Zobacz realizację",
+      cta: "Poproś o kontakt referencyjny",
+    },
+    /** Opinie zebrane w językach, w których zostały udzielone. */
+    originalNote: "Opinie publikujemy w oryginalnym brzmieniu, bez tłumaczenia.",
+    cta: {
+      heading: "Chcesz dołączyć do tej listy?",
+      body: "Opowiedz nam o projekcie. W 48 godzin przygotujemy wstępną koncepcję i wycenę.",
+      button: "Porozmawiajmy",
+    },
   },
   legal: {
     hero: { eyebrow: "Informacje prawne", heading: "Prywatność i zasady." },

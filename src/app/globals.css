@@ -406,6 +406,70 @@ footer:hover .footer-mark-glow {
   justify-content: center;
 }
 
+/* ---------- client feedback ---------- */
+
+/* Pinned quote stage. The quote element is remounted per client, so these
+   run again for every quote without any JS driving them — GSAP only decides
+   which quote is on screen, the entrance is the browser's. */
+@keyframes fb-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(1.2deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fb-word {
+  display: inline-block;
+  opacity: 0;
+  animation: fb-word-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fb-cite-in {
+  from {
+    opacity: 0;
+    transform: translateX(-1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fb-cite {
+  opacity: 0;
+  animation: fb-cite-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Reference rows. The wash rises through the row rather than fading in, so
+   the list reads as a column of doors opening — same gesture as .btn::before. */
+.fb-ref::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-copper) 6%, transparent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.fb-ref:hover::before,
+.fb-ref:focus-within::before {
+  transform: scaleY(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fb-word,
+  .fb-cite {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .fb-ref::before {
+    transition-duration: 0.01ms;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-line > span,
   [data-reveal] {

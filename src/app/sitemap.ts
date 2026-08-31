@@ -5,7 +5,7 @@ import { projects } from "@/lib/projects";
 const BASE = "https://mavonorm.eu";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/about", "/services", "/process", "/portfolio", "/contact", "/legal"];
+  const pages = ["", "/about", "/services", "/process", "/portfolio", "/feedback", "/contact", "/legal"];
   const entries: MetadataRoute.Sitemap = [];
 
   for (const lang of locales) {

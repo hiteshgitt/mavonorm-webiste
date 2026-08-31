@@ -38,6 +38,7 @@ export default function Header({ lang, dict }: { lang: Locale; dict: Dictionary 
     { href: `/${lang}/services`, label: dict.nav.services },
     { href: `/${lang}/process`, label: dict.nav.process },
     { href: `/${lang}/portfolio`, label: dict.nav.portfolio },
+    { href: `/${lang}/feedback`, label: dict.nav.feedback },
     { href: `/${lang}/contact`, label: dict.nav.contact },
   ];
 
@@ -69,7 +70,7 @@ export default function Header({ lang, dict }: { lang: Locale; dict: Dictionary 
           </Link>
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
-            {items.slice(1, 5).map((it) => (
+            {items.slice(1, -1).map((it) => (
               <Link
                 key={it.href}
                 href={it.href}
