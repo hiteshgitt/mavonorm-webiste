@@ -19,12 +19,16 @@ export default async function FeedbackPage({ params }: { params: Promise<{ lang:
   const dict = getDictionary(lang);
   const f = dict.feedback;
 
-  /** Counted off the list itself, so the page can never claim more than it shows. */
-  const companies = new Set(testimonials.map((t) => t.company)).size;
+  /**
+   * Counted off the list itself, so the page can never claim more than it
+   * shows. A client that gave feedback twice is one company, and appears in
+   * the marquee once.
+   */
+  const names = [...new Set(testimonials.map((t) => t.company))];
   const stats = [
     { value: voices.length, label: f.stats.voices },
     { value: references.length, label: f.stats.references },
-    { value: companies, label: f.stats.companies },
+    { value: names.length, label: f.stats.companies },
   ];
 
   return (
@@ -58,13 +62,13 @@ export default async function FeedbackPage({ params }: { params: Promise<{ lang:
       {/* ---------- CLIENT NAMES ---------- */}
       <div className="marquee overflow-hidden border-y border-line py-8" aria-label={f.hero.eyebrow}>
         <div className="marquee-track items-center gap-16 pr-16">
-          {[...testimonials, ...testimonials].map((t, i) => (
+          {[...names, ...names].map((name, i) => (
             <span
               key={i}
-              aria-hidden={i >= testimonials.length}
+              aria-hidden={i >= names.length}
               className="h-display shrink-0 text-2xl uppercase text-muted/60 md:text-3xl"
             >
-              {t.company}
+              {name}
             </span>
           ))}
         </div>

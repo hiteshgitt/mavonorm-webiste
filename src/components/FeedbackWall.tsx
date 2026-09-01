@@ -186,17 +186,20 @@ function Quote({ item }: { item: Testimonial }) {
   );
 }
 
-/** Attribution: who said it, in what role, and about which show. */
+/** Attribution: which client, and about which show. Feedback is credited to
+ * the company, never to the individual — see lib/testimonials.ts. */
 function Cite({ item }: { item: Testimonial }) {
   return (
     <footer className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm md:mt-10">
       <span aria-hidden className="h-px w-8 self-center bg-copper" />
-      <cite className="font-(family-name:--font-display) not-italic text-paper">{item.author}</cite>
-      {item.role && <span className="text-muted-dark">{item.role}</span>}
-      <span aria-hidden className="text-line-dark">/</span>
-      <span className="text-paper/80">{item.company}</span>
+      <cite className="font-(family-name:--font-display) not-italic text-paper">{item.company}</cite>
       {item.country && <span className="text-muted-dark">{item.country}</span>}
-      {item.event && <span className="h-eyebrow text-copper">{item.event}</span>}
+      {item.event && (
+        <>
+          <span aria-hidden className="text-line-dark">/</span>
+          <span className="h-eyebrow text-copper">{item.event}</span>
+        </>
+      )}
     </footer>
   );
 }

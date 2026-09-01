@@ -341,7 +341,7 @@ export const en: typeof pl = {
     stats: {
       voices: "clients on the record",
       references: "clients you can call",
-      companies: "companies who signed their name",
+      companies: "companies who put their name to it",
     },
     voices: {
       eyebrow: "In their words",

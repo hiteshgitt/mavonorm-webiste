@@ -31,21 +31,12 @@ export default function ReferenceList({
 
             <div className="md:col-span-4">
               <h3 className="h-display text-2xl transition-transform duration-500 group-hover:translate-x-2 md:text-3xl">
-                {t.author}
+                {t.company}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                {t.role && (
-                  <>
-                    {t.role}
-                    <br />
-                  </>
-                )}
-                <span className="text-ink">{t.company}</span>
-              </p>
               {t.project && (
                 <Link
                   href={`/${lang}/portfolio/${t.project}`}
-                  className="link-line mt-4 inline-block h-eyebrow !tracking-[0.18em] text-copper"
+                  className="link-line mt-5 inline-block h-eyebrow !tracking-[0.18em] text-copper"
                 >
                   {seeProject} &rarr;
                 </Link>

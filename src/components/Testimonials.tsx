@@ -24,12 +24,14 @@ export default function Testimonials() {
           <span aria-hidden className="text-copper">”</span>
         </p>
         <footer className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm text-muted-dark">
-          <cite className="font-(family-name:--font-display) not-italic text-paper">{t.author}</cite>
-          {t.role && <span>{t.role}</span>}
-          <span aria-hidden className="text-line-dark">/</span>
-          <span className="text-paper/80">{t.company}</span>
+          <cite className="font-(family-name:--font-display) not-italic text-paper">{t.company}</cite>
           {t.country && <span>{t.country}</span>}
-          {t.event && <span className="h-eyebrow text-copper">{t.event}</span>}
+          {t.event && (
+            <>
+              <span aria-hidden className="text-line-dark">/</span>
+              <span className="h-eyebrow text-copper">{t.event}</span>
+            </>
+          )}
         </footer>
       </blockquote>
 
@@ -39,7 +41,7 @@ export default function Testimonials() {
             key={v.id}
             onClick={() => setIdx(i)}
             className={`h-px transition-all duration-500 ${i === idx ? "w-14 bg-copper" : "w-7 bg-line-dark hover:bg-muted-dark"}`}
-            aria-label={v.author}
+            aria-label={v.company}
             aria-current={i === idx}
           />
         ))}

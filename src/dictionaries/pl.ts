@@ -339,7 +339,7 @@ export const pl = {
     stats: {
       voices: "wypowiedzi klientów",
       references: "klientów na telefon referencyjny",
-      companies: "firm, które podpisały się nazwiskiem",
+      companies: "firm, które podpisały się pod opinią",
     },
     voices: {
       eyebrow: "Ich słowami",
