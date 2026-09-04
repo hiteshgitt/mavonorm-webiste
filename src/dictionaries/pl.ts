@@ -346,6 +346,15 @@ export const pl = {
       heading: "Co mówią o współpracy",
       hint: "Przewiń, aby czytać dalej",
     },
+    reviews: {
+      eyebrow: "Opinie publiczne",
+      heading: "Ocenione przez tych, którzy stali na stoisku",
+      body:
+        "Wystawcy oceniają nas również publicznie, pod własnym nazwiskiem, w serwisie z opiniami o stoiskach. To ich opinie, przytoczone słowo w słowo.",
+      role: "Wystawca",
+      stand: "Stoisko",
+      rating: "%s z 5",
+    },
     references: {
       eyebrow: "Referencje na życzenie",
       heading: "Zapytaj ich bezpośrednio",

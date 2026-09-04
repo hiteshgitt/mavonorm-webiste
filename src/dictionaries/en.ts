@@ -348,6 +348,15 @@ export const en: typeof pl = {
       heading: "What partners say",
       hint: "Scroll to keep reading",
     },
+    reviews: {
+      eyebrow: "Public reviews",
+      heading: "Reviewed by the people who stood on the stand",
+      body:
+        "Exhibitors also review us publicly, under their own names, on the stand-review platform. These are their reviews, reproduced word for word.",
+      role: "Exhibitor",
+      stand: "Stand",
+      rating: "%s out of 5",
+    },
     references: {
       eyebrow: "References on request",
       heading: "Ask them yourself",

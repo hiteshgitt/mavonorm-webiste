@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getDictionary, type Locale } from "@/lib/i18n";
-import { references, testimonials, voices } from "@/lib/testimonials";
+import { references, reviews, testimonials, voices } from "@/lib/testimonials";
 import RevealHeading from "@/components/RevealHeading";
 import FeedbackWall from "@/components/FeedbackWall";
 import ReferenceList from "@/components/ReferenceList";
+import ReviewGrid from "@/components/ReviewGrid";
 import MagneticButton from "@/components/MagneticButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -20,13 +21,14 @@ export default async function FeedbackPage({ params }: { params: Promise<{ lang:
   const f = dict.feedback;
 
   /**
-   * Counted off the list itself, so the page can never claim more than it
-   * shows. A client that gave feedback twice is one company, and appears in
-   * the marquee once.
+   * Counted off the lists themselves, so the page can never claim more than
+   * it shows. Written feedback and public reviews are both people on the
+   * record, so they count together. A client that gave feedback twice is one
+   * company, and appears in the marquee once.
    */
   const names = [...new Set(testimonials.map((t) => t.company))];
   const stats = [
-    { value: voices.length, label: f.stats.voices },
+    { value: voices.length + reviews.length, label: f.stats.voices },
     { value: references.length, label: f.stats.references },
     { value: names.length, label: f.stats.companies },
   ];
@@ -89,6 +91,30 @@ export default async function FeedbackPage({ params }: { params: Promise<{ lang:
       </section>
 
       <FeedbackWall items={voices} hint={f.voices.hint} />
+
+      {/* ---------- PUBLIC REVIEWS ---------- */}
+      <section className="py-24 md:py-36">
+        <div className="mx-auto max-w-350 px-6 md:px-10">
+          <div className="grid gap-10 md:grid-cols-12">
+            <div className="md:col-span-6" data-reveal-group>
+              <p className="h-eyebrow text-copper">{f.reviews.eyebrow}</p>
+              <RevealHeading className="mt-4 text-4xl md:text-5xl" lines={split(f.reviews.heading)} />
+            </div>
+            <div className="md:col-span-5 md:col-start-8">
+              <p className="max-w-xl text-lg leading-relaxed text-muted" data-reveal>
+                {f.reviews.body}
+              </p>
+            </div>
+          </div>
+
+          <ReviewGrid
+            items={reviews}
+            role={f.reviews.role}
+            standLabel={f.reviews.stand}
+            ratingLabel={f.reviews.rating}
+          />
+        </div>
+      </section>
 
       {/* ---------- REFERENCES ---------- */}
       <section className="py-24 md:py-36">

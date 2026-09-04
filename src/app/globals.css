@@ -458,6 +458,22 @@ footer:hover .footer-mark-glow {
   transform: scaleY(1);
 }
 
+/* Review cards. Same rising wash as the reference rows, so the two lists on
+   the page read as one family. */
+.fb-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-copper) 6%, transparent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.fb-card:hover::before,
+.fb-card:focus-within::before {
+  transform: scaleY(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fb-word,
   .fb-cite {
@@ -465,7 +481,8 @@ footer:hover .footer-mark-glow {
     opacity: 1;
     transform: none;
   }
-  .fb-ref::before {
+  .fb-ref::before,
+  .fb-card::before {
     transition-duration: 0.01ms;
   }
 }

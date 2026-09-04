@@ -108,3 +108,65 @@ export const testimonials: Testimonial[] = [
 
 export const voices = testimonials.filter((t) => t.kind === "voice");
 export const references = testimonials.filter((t) => t.kind === "reference");
+
+/**
+ * Reviews left on the public stand-review platform, where exhibitors post
+ * under their own name rather than their company's.
+ *
+ * These are a different record from `testimonials` above and are kept apart
+ * from it on purpose. There the client wrote to us and is credited to the
+ * company; here the review was published by a named individual on a public
+ * listing, and the name is part of what was published. Nothing is moved
+ * between the two lists.
+ *
+ * Quotes are reproduced exactly as published, including the reviewer's own
+ * spelling of our name.
+ *
+ * The platform dates each review relative to the day you read it ("4 years
+ * ago"), which is not a fact we can store, so no date is carried here.
+ */
+export interface Review {
+  id: string;
+  quote: string;
+  /** Name the reviewer published under. */
+  name: string;
+  /** City of the stand the review is about, as the listing names it. */
+  city: string;
+  /** Out of five, as given. */
+  stars: number;
+}
+
+export const reviews: Review[] = [
+  {
+    id: "chapman-kopenhagen",
+    quote:
+      "Efficient, reasonable and trustworthy - I 100% will be revisiting their services for future events. Highly recommended!",
+    name: "Charlotte Chapman",
+    city: "Kopenhagen",
+    stars: 5,
+  },
+  {
+    id: "ross-hannover",
+    quote:
+      "Yes we used ManoNorm for Domotex and they were great! So good infact that we are going to re-book them for next year at Domotex, it was by far the best looking stand we have ever had and we have had so many compliments! Many thanks for sending them our way",
+    name: "Bob Ross",
+    city: "Hannover",
+    stars: 5,
+  },
+  {
+    id: "dobie-frankfurt",
+    quote:
+      "We worked with Lena and felt greatly taken care of - she was very responsive and on top of everything every step of the way. The onsite team for install and dismantle was great, and the booth looked amazing.",
+    name: "Sally Dobie",
+    city: "Frankfurt",
+    stars: 5,
+  },
+  {
+    id: "juliane-koeln",
+    quote:
+      "We used mavoNORM at a tradeshow in Germany and were very satisfied. The communication and consultation before the event were excellent, and mostly everything was as expected when we arrived at the booth. There were a few changes and adjustments that had to be made, and mavoNORM pulled through and made it happen on the spot. We'd definitely use them again!",
+    name: "Juliane",
+    city: "Köln",
+    stars: 5,
+  },
+];
